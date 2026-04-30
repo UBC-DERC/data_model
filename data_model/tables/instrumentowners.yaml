@@ -1,0 +1,14 @@
+- instrumentowners:
+  comment: Which person or organization (or both) maintains ownership of this instrument?
+  instrumentid:
+    foreign-key:
+      table: instruments
+      columns: instrumentid
+  contactid:
+    foreign-key:
+      table: people
+      column: personid
+  institutionid:
+    foreign-key:
+      table: institutions
+      column: institutionid

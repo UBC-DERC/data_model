@@ -1,0 +1,12 @@
+# Changes here will be overwritten by Copier
+_src_path: ../derc_copier
+author_formal: Goring
+author_given: Simon
+code_of_conduct_lang: https://www.contributor-covenant.org/version/3/0/code_of_conduct/
+copyright_year: 2026
+license_type: MIT License
+orcid: https://orcid.org/0000-0002-2700-4605
+project_description: 'This project is intended as a repository for the ultimate data
+    model for the DERC Dairy Database: D^3.'
+project_name: data_model
+repository: UBC-AWP

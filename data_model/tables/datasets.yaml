@@ -1,0 +1,38 @@
+- name: datasets
+  schema: dairy
+  comment: |
+    A table to document datasets associated with the UBC Dairy Research Farm.
+    Modeled largely on the work of [Science On Schema](https://github.com/ESIPFed/science-on-schema.org/blob/main/guides/Dataset.md)
+  type: BASE TABLE
+  columns:
+    - name: datasetid
+      type: uuid7
+      comment: A unique internal indentifier for the dataset.
+    - name: datasetname
+      type: text
+      comment: A short name for the dataset used in summarizing its content.
+    - name: datasetdescription
+      type: text
+      comment: A longer form description of the dataset.
+
+- name: datasetidentifiers
+  schema: dairy
+  comment: Links to URLs/DOIs/ARKs for external data resources.
+  type: BASE TABLE
+  columns:
+    - name: datasetid
+      type: uuid7
+      comment: A unique internal indentifier for the dataset.
+    - name: identifier
+      type: text
+      comment: |
+        The external identifier for the dataset object. This may be a DOI, 
+        an ARK or a different data object. Currently the choice is simply 
+        one of the entries in the `externaldatabases` table, but this may 
+        be limited to a subset in the future.
+    - name: externaldatabaseid
+      type: uuid7
+      comment: |
+        A pointer to the `externaldatabase` table. It may be worth adding a constraint that the
+        `identifier` and the `urlmask` should form a valid URL. In this case we should do some
+        proper error/assertion responses to make sure we're getting things right.

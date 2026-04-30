@@ -1,0 +1,16 @@
+- name: instrumentinstance
+  comment: A particular instrument, with a particular location.
+  type: BASE TABLE
+  columns:
+    - name: instrumentid
+      comment: Foreign key referencing the instruments table.
+      nullable: false
+      type: FOREIGN KEY
+      def: FOREIGN KEY (instrumentid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE
+    - name: barn
+    - name: pen
+    - name: location
+      comment: |
+        More specific description of the positioning within the pen/barn. For example, "Halfway down the long side of the pen, 2m height"
+      type: text
+      nullable: true

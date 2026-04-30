@@ -1,0 +1,6 @@
+users:
+    - name: admin
+    - name: readonly
+    - name: readwrite
+    - name: apilanding
+      inherits: readonly
