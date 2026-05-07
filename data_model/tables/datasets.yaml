@@ -14,6 +14,12 @@
     - name: datasetdescription
       type: text
       comment: A longer form description of the dataset.
+    - name: recdatecreated
+      comment: The date this entry was created.
+      type: datetime
+    - name: recdatemodified
+      comment: The date of the most recent record modification.
+      type: datetime
 
 - name: datasetidentifiers
   schema: dairy
@@ -36,3 +42,9 @@
         A pointer to the `externaldatabase` table. It may be worth adding a constraint that the
         `identifier` and the `urlmask` should form a valid URL. In this case we should do some
         proper error/assertion responses to make sure we're getting things right.
+    - name: recdatecreated
+      comment: The date this entry was created.
+      type: datetime
+    - name: recdatemodified
+      comment: The date of the most recent record modification.
+      type: datetime
