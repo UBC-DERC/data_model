@@ -19,12 +19,8 @@
       type: text
       comment: |
         For individuals who have a preferred name that is not the same as their given name.
-    - name: recdatecreated
-      comment: The date this entry was created.
-      type: datetime
-    - name: recdatemodified
-      comment: The date of the most recent record modification.
-      type: datetime
+    - ref: columns/datecreated.yaml
+    - ref: columns/datemodified.yaml
     - name: superceedingrecordid
       comment: In the case a record is replaced with an alternative record (for example an individual changes their name, but the "old" name remains in the publication list).
       type: UUID7

@@ -11,4 +11,6 @@
     - name: externaldatabaseid
       type: uuid7
       comment: A unique internal identifier for an external database reference.
+    - ref: columns/datecreated.yaml
+    - ref: columns/datemodified.yaml
     

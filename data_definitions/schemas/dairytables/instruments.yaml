@@ -30,12 +30,8 @@
       foreign-key:
         table: institutions
         column: institutionid
-    - name: recdatecreated
-      comment: The date this entry was created.
-      type: datetime
-    - name: recdatemodified
-      comment: The date of the most recent record modification.
-      type: datetime
+    - ref: columns/datecreated.yaml
+    - ref: columns/datemodified.yaml
     - name: superceedingrecordid
       comment: In the case a record is replaced with an alternative record (for example a manufacturer is sold to a new company).
       type: UUID7

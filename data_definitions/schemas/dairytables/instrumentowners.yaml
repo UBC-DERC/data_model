@@ -15,3 +15,5 @@
     foreign-key:
       table: institutions
       column: institutionid
+  - ref: columns/datecreated.yaml
+  - ref: columns/datemodified.yaml
