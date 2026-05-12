@@ -1,2 +1,6 @@
 
 .vscode/
+
+src/data_model.egg-info/
+
+src/data_model/__pycache__/
