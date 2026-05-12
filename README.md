@@ -1,4 +1,4 @@
-# data_model
+# Human Readable Data Model
 
 This project is intended as a repository for the ultimate data model for the DERC Dairy Database: D^3. The model is designed to represent and provide documentation for data elements within the DERC Research data system. Primarily this database is intended to store data to be used for research projects. 
 
@@ -6,9 +6,32 @@ This repository is for `yaml` data representations of the actual data model.  Th
 
 ## Repository Structure
 
-### data_model
+### The Database
+
+The database itself is defined by a folder structure, modeled after PostgreSQL database structure: `database` -> `schema` -> `table` -> `column`. Within each folder, we have individually named files for each of the elements within that hierarchy. Individual files can stand alone, or we can use the `#ref` tag to point to other files. For example, for the database definition we can create a `yaml` file with the text:
+
+```yaml
+- name: dairymodel
+  schemas:
+    - name: dairy
+      comment: |
+        The main dairy schema, with all data structures used for the farm.
+    - name: apps
+      comment: |
+        The schema used for application specific tables, views and materialized views.
+```
+
+or we can use references to sub-folders with the `ref` tag, to point to folder content:
+
+```yaml
+- name: dairymodel
+  schemas:
+    - ref: schemas/dairy.yaml
+    - ref: schemas/apps.yaml  
+```
 
 ```bash
+
 |- dairymodel.yaml
 |\- users
   |- users.yaml
