@@ -1,0 +1,26 @@
+table_keys:
+- schema
+- type
+- comment
+- columns
+- constraints
+- indexes
+- name
+column_keys:
+- name
+- comment
+- type
+constraint_keys:
+- name
+- comment
+- type
+- def
+- table
+- referencedTable
+- columns
+index_keys:
+- name
+- comment
+- type
+- def
+- columns

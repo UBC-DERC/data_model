@@ -1,0 +1,50 @@
+name: cows
+type: BASE TABLE
+schema: dairy
+columns:
+  - name: cadid
+    type: text
+    comment: This is the unique identifier given to the cow by the Canadian Government.
+  - name: cowschemeid
+    type: text
+    comment: |  
+      We clearly identify the scheme from which the cow ID is coming from. It is implied 
+      that this is the Canadian data scheme, but if this data is used in synthesis work 
+      it is important to identify the source.
+  - name: localcowid
+    type: integer
+    comment: |
+      Within the UBC dairy the cows are given ear tags with the numbering scheme YNNN
+      where Y is the last number of the year (6 for 2026) and NNN is the birth order of
+      the cow in a given year.
+  - name: gender
+    type: nchar(1)
+    comment: |
+      We record both male and female births in this database.
+  - name: birthweight
+    type: integer
+    comment: The weight of the cow at birth.
+  - name: damid
+    type: text
+    comment: |
+      The cadid identifier for the dam. Should generally be constrained to be a valid identifer.
+  - name: sireid
+    type: text
+    comment: |
+      My guess is that this is actually a pointer to another table, with some extra information.
+constraints:
+  - name: cowuniqueid
+    comment: |
+      The PRIMARY KEY for this table is the unique set of the Canadian ID and the scheme type. In our case
+      all of the identifiers should have 
+    type: PRIMARY KEY
+    def: PRIMARY KEY (cadid, cowschemeid)
+    table: cows
+    referencedTable:
+    - cows
+    columns:
+    - cadid
+    - cowschemeid
+  - name: damidvalid
+    comment: A constraint to ensure that the dam ID is a valid ID based on the Canadian government ID scheme.
+    type: CHECK (damid ~* '^.*$')

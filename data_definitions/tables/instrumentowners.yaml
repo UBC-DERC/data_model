@@ -1,14 +1,17 @@
 - instrumentowners:
+  schema: dairy
+  type: BASE TABLE
   comment: Which person or organization (or both) maintains ownership of this instrument?
-  instrumentid:
+  columns:
+  - name: instrumentid
     foreign-key:
       table: instruments
       columns: instrumentid
-  contactid:
+  - name: contactid
     foreign-key:
       table: people
       column: personid
-  institutionid:
+  - name: institutionid
     foreign-key:
       table: institutions
       column: institutionid
