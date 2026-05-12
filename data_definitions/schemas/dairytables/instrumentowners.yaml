@@ -3,10 +3,7 @@
   type: BASE TABLE
   comment: Which person or organization (or both) maintains ownership of this instrument?
   columns:
-  - name: instrumentid
-    foreign-key:
-      table: instruments
-      columns: instrumentid
+  - ref: columns/instrumentid.yaml
   - name: contactid
     foreign-key:
       table: people

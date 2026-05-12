@@ -1,0 +1,5 @@
+- name: instrumentid
+  type: uuid-7
+  comment: |
+    An internal, unique string to indentify a particular instrument in the general sense. This is as opposed to specific instances of an instrument
+    which would be identified with both the broader instrument, and the specific serial number.

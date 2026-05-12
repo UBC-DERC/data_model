@@ -2,11 +2,7 @@
   comment: A particular instrument, with a particular location.
   type: BASE TABLE
   columns:
-    - name: instrumentid
-      comment: Foreign key referencing the instruments table.
-      nullable: false
-      type: FOREIGN KEY
-      def: FOREIGN KEY (instrumentid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE
+    - ref: columns/instrumentid.yaml
     - name: barn
     - name: pen
     - name: location

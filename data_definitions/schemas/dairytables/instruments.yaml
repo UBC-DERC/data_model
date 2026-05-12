@@ -6,12 +6,7 @@
     measurements to documentation and workflow management. The design of this table and its associated foreign key links is based on the [RDA
     PIDINST v1.0](https://zenodo.org/records/6396467#.YkQxzRBBwlw).
   columns:
-    - name: instrumentid
-      type: uuid-7
-      comment: |
-        An internal, unique string to indentify a particular instrument in the general sense. This is as opposed to specific instances of an instrument
-        which would be identified with both the broader instrument, and the specific serial number.
-      nullable: false
+    - ref: columns/instrumentid.yaml
     - name: description
       type: text
       comment: |
