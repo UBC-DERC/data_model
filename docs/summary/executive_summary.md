@@ -11,6 +11,11 @@ The Data Platform will serve multiple communities:
 * Funding Agencies
 * General Public
 
+## Key Outcomes
+
+The goal of this project is to **establish a data resource to store and manage dairy information** about dairy operations at DERC. This goal is paired with the **development of a toolset to return data** in ways that are useful to different user groups, including researchers, the public and policymakers.
+
+While a data professional may be able to develop this platform, the platform must also **establish community trust**. To do this, it requires some form of [governance](admin/governance), documentation and guidance.
 
 ## Data Value and Governance
 
@@ -57,12 +62,6 @@ flowchart TD
     policy --> community
     publication --> policy
 ```
-
-## Key Outcomes
-
-The goal of this project is to **establish a data resource that to store and manage dairy information** about dairy operations at DERC. This goal is paired with the **development of a toolset to return data** in ways that are useful to different user groups, including researchers, the public and policymakers.
-
-While a data professional may be able to develop this platform, the platform must also **establish community trust**. To do this, it requires some form of governance, documentation and guidance.
 
 ### Project Success Metrics
 

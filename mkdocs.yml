@@ -1,1 +1,34 @@
-site_name: My Docs
+site_name: DERC Data Modelling
+repo_url: https://github.com/UBC-DERC/data_model
+repo: GitHub
+site_description: |
+  Documentation and guidance for the DERC Dairy Database, including technical build information,
+  data model sources and inspirations, and guidance on modifying the model, proposing new data structures
+  and using the system to build new databases.
+site_author: Simon Goring
+copyright: '2026'
+site_url: https://ubc-derc.github.io/data_model
+nav:
+  - Introduction: 'index.md'
+  - Governance and Guidance: 'admin/governance.md'
+  - Project Summary: 'summary/executive_summary.md'
+theme:
+  name: material
+plugins:
+  - mermaid2
+  - search:
+      lang: en
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+        # make exceptions to highlighting of code:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg

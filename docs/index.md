@@ -1,17 +1,25 @@
-# Welcome to MkDocs
+# The DERC Database Model
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+A fully open data model based on best practices across industries and academic fields. This database is intended to support the research activities across the UBC Dairy Education and Research Center in Agassiz, British Columbia.
 
-## Commands
+## Contents
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+* [Governance and Guidance]()
+* [Resources and Concepts]()
+* [Table Structure]()
 
 ## Project layout
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+```
+    main.py    # The main production script to turn the 
+               # various YAML files into code.
+    src/
+        data_model/  # The folder for the `data_model` python package.
+    docs/            # Documentation pages.
+    assets/          # Images and supporting data for documentation and testing.
+    tests/           # PyTest testing modules
+    data_definition/ # Folder with composite YAML files for database definitions.
+    validation.yaml  # Supporting file to define valid fields for db elements.
+    pyproject.toml   # Package infrastructure.
+    mkdocs.yaml      # Documentation metadata.
+```
