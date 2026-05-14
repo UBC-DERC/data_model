@@ -1,12 +1,22 @@
-# Human Readable Data Model
+# Human Readable Data Models for Dairy Database
 
-This project is intended as a repository for the ultimate data model for the DERC Dairy Database: D^3. The model is designed to represent and provide documentation for data elements within the DERC Research data system. Primarily this database is intended to store data to be used for research projects. 
+This project is intended as a repository for the ultimate data model for the DERC Dairy Database: D^3. The model is designed to represent and provide documentation for data elements within the DERC Research data system. Primarily this database is intended to store data to be used for research projects.
 
 This repository is for `yaml` data representations of the actual data model.  The `yaml` formatting follows the example used by [`tabls`](https://github.com/k1Low/tbls) elsewhere, with an added directory structuring to make individual tables easier to process, modify, validate and document.
 
+## Editing/Modifying or Working with the Data Model
+
+We are using version control as our primary method for managing the data model. This (in principle) allows us to create release notes for the model, have discussions and raise issues. Our goal is to manage the model in an inclusive manner that reflects changing user needs, expert knowledge and technical requirements.
+
+Modifications should occur in branches of this repository, they should compile properly with the tools provided, and should contain sufficient annotations that users can understand why these changes have happened and how they support ongoing research.
+
+TODO: Create a "contribution guide".
+
 ## Repository Structure
 
-### The Database
+### File and Folder Structure
+
+Within this repository we will create a named folder, here `dairymodel`. Within the folder we will include a set of `yaml` files. These files will contain the critical information for database, schema, table and column definitions. We create these files to support the work of experts in defining the critical fields and concepts used in the database.
 
 The database itself is defined by a folder structure, modeled after PostgreSQL database structure: `database` -> `schema` -> `table` -> `column`. Within each folder, we have individually named files for each of the elements within that hierarchy. Individual files can stand alone, or we can use the `#ref` tag to point to other files. For example, for the database definition we can create a `yaml` file with the text:
 
@@ -30,16 +40,9 @@ or we can use references to sub-folders with the `ref` tag, to point to folder c
     - ref: schemas/apps.yaml  
 ```
 
-```bash
+Using the `ref` tag also allows us to re-use certain content, for example, columns for understanding data creation dates and data modification dated.
 
-|- dairymodel.yaml
-|\- users
-  |- users.yaml
-|\- tables
-  |\-  cows.yaml
-    |- datasets.yaml
-    |- ...
-```
+### Dairy Model
 
 The `dairymodel.yaml` file defines the main database-level elements required for the D^3 database. This includes pointers to particular configuration settings (page size, etc), database extensions, schema definitions, and other elements that are required to define the database itself. Some of this configuration may also be defined in the database Dockerfile which is defined elsewhere.
 
