@@ -11,5 +11,5 @@ def load_schema(filename:str, validation:dict)->dict:
             if 'ref' in valid_schema.get('tables')[i].keys(): 
                 filename = valid_schema.get('tables')[i].get('ref')
                 valid_schema.get('tables')[i] = load_tables(filename, validation)
-    
+
     return valid_schema

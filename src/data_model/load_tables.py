@@ -12,7 +12,8 @@ def load_tables(filename:str, validation:dict)->dict:
                 for i in range(len(tester.get('columns'))):
                     if 'ref' in tester.get('columns')[i].keys():
                         filename = tester.get('columns')[i].get('ref')
-                        tester.get('columns')[i] = load_columns(filename, validation)   
+                        tester.get('columns')[i] = load_columns(filename, validation)
+            valid_table.append(tester)
     else:
         valid_table = validate_object(validation, ddl_object=tables, ddl_type = 'table')
     return valid_table
