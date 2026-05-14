@@ -1,26 +1,39 @@
-table_keys:
-- schema
-- type
-- comment
-- columns
-- constraints
-- indexes
-- name
-column_keys:
-- name
-- comment
-- type
-constraint_keys:
-- name
-- comment
-- type
-- def
-- table
-- referencedTable
-- columns
-index_keys:
-- name
-- comment
-- type
-- def
-- columns
+database:
+  keys:
+    - schema
+    - name
+schema:
+  keys:
+  - tables
+  - name
+  - comment
+table:
+  keys:
+  - schema
+  - type
+  - comment
+  - columns
+  - constraints
+  - indexes
+  - name
+column:
+  keys:
+  - name
+  - comment
+  - type
+constraint:
+  keys:
+  - name
+  - comment
+  - type
+  - def
+  - table
+  - referencedTable
+  - columns
+index:
+  keys:
+  - name
+  - comment
+  - type
+  - def
+  - columns

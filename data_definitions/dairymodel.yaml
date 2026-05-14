@@ -1,4 +1,4 @@
 - name: dairymodel
-  schemas:
-    - ref: schemas/dairy.yaml 
-    - ref: schemas/apps.yaml
+  schema:
+    - ref: data_definitions/schemas/dairy.yaml 
+    - ref: data_definitions/schemas/apps.yaml

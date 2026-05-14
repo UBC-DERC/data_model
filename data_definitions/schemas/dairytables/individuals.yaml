@@ -19,8 +19,8 @@
       type: text
       comment: |
         For individuals who have a preferred name that is not the same as their given name.
-    - ref: columns/datecreated.yaml
-    - ref: columns/datemodified.yaml
+    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
+    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
     - name: superceedingrecordid
       comment: In the case a record is replaced with an alternative record (for example an individual changes their name, but the "old" name remains in the publication list).
       type: UUID7

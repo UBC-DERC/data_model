@@ -6,7 +6,7 @@
     measurements to documentation and workflow management. The design of this table and its associated foreign key links is based on the [RDA
     PIDINST v1.0](https://zenodo.org/records/6396467#.YkQxzRBBwlw).
   columns:
-    - ref: columns/instrumentid.yaml
+    - ref: data_definitions/schemas/dairytables/columns/instrumentid.yaml
     - name: description
       type: text
       comment: |
@@ -25,8 +25,8 @@
       foreign-key:
         table: institutions
         column: institutionid
-    - ref: columns/datecreated.yaml
-    - ref: columns/datemodified.yaml
+    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
+    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
     - name: superceedingrecordid
       comment: In the case a record is replaced with an alternative record (for example a manufacturer is sold to a new company).
       type: UUID7

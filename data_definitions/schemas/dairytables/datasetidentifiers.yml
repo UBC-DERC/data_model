@@ -4,7 +4,7 @@
   comment: Links to URLs/DOIs/ARKs for external data resources.
   type: BASE TABLE
   columns:
-  - ref: columns/datasetid.yaml
+  - ref: data_definitions/schemas/dairytables/columns/datasetid.yaml
   - name: identifier
     type: text
     comment: |
@@ -18,5 +18,5 @@
       A pointer to the `externaldatabase` table. It may be worth adding a constraint that the
       `identifier` and the `urlmask` should form a valid URL. In this case we should do some
       proper error/assertion responses to make sure we're getting things right.
-  - ref: columns/datecreated.yaml
-  - ref: columns/datemodified.yaml
+  - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
+  - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml

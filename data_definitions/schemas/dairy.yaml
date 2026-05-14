@@ -2,4 +2,4 @@
   comment: |
     The main dairy schema, with all data structures used for the farm.
   tables:
-    ref: ./dairytables/*
+    - ref: data_definitions/schemas/dairytables

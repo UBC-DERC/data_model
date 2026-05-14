@@ -8,8 +8,8 @@
     - name: institutionid
       type: UUID7
       comment: The unique internal identifier for the institution.
-    - ref: columns/datecreated.yaml
-    - ref: columns/datemodified.yaml
+    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
+    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
     - name: superceedingrecord
       comment: In the case a record is replaced with an alternative record (for example a manufacturer is sold to a new company).
       type: UUID7

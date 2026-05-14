@@ -1,24 +1,24 @@
-name: datasets
-schema: dairy
-comment: |
-  A table to document datasets associated with the UBC Dairy Research Farm.
-  Modeled largely on the work of [Science On Schema](https://github.com/ESIPFed/science-on-schema.org/blob/main/guides/Dataset.md)
-type: BASE TABLE
-columns:
-  - ref: columns/datasetid.yaml
-  - name: datasetname
-    type: text
-    comment: A short name for the dataset used in summarizing its content.
-  - name: datasetdescription
-    type: text
-    comment: A longer form description of the dataset.
-  - ref: columns/datecreated.yaml
-  - ref: columns/datemodified.yaml
-constraints:
-- name: datasets_pk
-  type: PRIMARY KEY
-  def: PRIMARY KEY (datasetid)
-  referencedTable: datasets
+- name: datasets
+  schema: dairy
+  comment: |
+    A table to document datasets associated with the UBC Dairy Research Farm.
+    Modeled largely on the work of [Science On Schema](https://github.com/ESIPFed/science-on-schema.org/blob/main/guides/Dataset.md)
+  type: BASE TABLE
   columns:
-  - datasetid
-  
+    - ref: data_definitions/schemas/dairytables/columns/datasetid.yaml
+    - name: datasetname
+      type: text
+      comment: A short name for the dataset used in summarizing its content.
+    - name: datasetdescription
+      type: text
+      comment: A longer form description of the dataset.
+    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
+    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+  constraints:
+  - name: datasets_pk
+    type: PRIMARY KEY
+    def: PRIMARY KEY (datasetid)
+    referencedTable: datasets
+    columns:
+    - datasetid
+    
