@@ -15,7 +15,7 @@ The Data Platform will serve multiple communities:
 
 The goal of this project is to **establish a data resource to store and manage dairy information** about dairy operations at DERC. This goal is paired with the **development of a toolset to return data** in ways that are useful to different user groups, including researchers, the public and policymakers.
 
-While a data professional may be able to develop this platform, the platform must also **establish community trust**. To do this, it requires some form of [governance](admin/governance), documentation and guidance.
+While a data professional may be able to develop this platform, the platform must also **establish community trust**. To do this, it requires some form of [governance](../admin/governance.md), documentation and guidance.
 
 ## Data Value and Governance
 
@@ -83,4 +83,3 @@ The following are tangible goals to be identified as components of project succe
    3. Support data insertion, updates, deletions and data access
    4. Include clear documentation for common research data queries based on existing DERC research
    5. Import data from existing DERC assets
-
