@@ -1,5 +1,5 @@
 site_name: DERC Data Modelling
-repo_url: https://github.com/UBC-DERC/data_model
+repo_url: https://github.com/UBC-DERC/data_model/
 repo: GitHub
 site_description: |
   Documentation and guidance for the DERC Dairy Database, including technical build information,
@@ -7,17 +7,42 @@ site_description: |
   and using the system to build new databases.
 site_author: Simon Goring
 copyright: '2026'
-site_url: https://ubc-derc.github.io/data_model
+site_url: https://ubc-derc.github.io/data_model/
 nav:
   - Introduction: 'index.md'
   - Governance and Guidance: 'admin/governance.md'
   - Project Summary: 'summary/executive_summary.md'
 theme:
   name: material
+  features:
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    - navigation.footer
+    - navigation.indexes
+    # - navigation.instant
+    # - navigation.instant.prefetch
+    # - navigation.instant.progress
+    # - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    # - toc.integrate
 plugins:
   - mermaid2
   - search:
       lang: en
+      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - minify:
+      minify_html: true
 markdown_extensions:
   - attr_list
   - md_in_html
@@ -30,5 +55,10 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:mermaid2.fence_mermaid_custom
   - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: UBC-DERC
+      repo: data_model
