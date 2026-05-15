@@ -4,13 +4,13 @@ A fully open data model based on best practices across industries and academic f
 
 ## Contents
 
-* [Governance and Guidance](summary/executive_summary.md)
+* [Governance and Guidance](admin/governance.md)
 * [Resources and Concepts]()
 * [Table Structure]()
 
 ## Project layout
 
-```
+```bash
     main.py    # The main production script to turn the 
                # various YAML files into code.
     src/

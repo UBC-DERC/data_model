@@ -1,5 +1,5 @@
 site_name: DERC Data Modelling
-repo_url: https://github.com/UBC-DERC/data_model
+repo_url: https://github.com/UBC-DERC/data_model/
 repo: GitHub
 site_description: |
   Documentation and guidance for the DERC Dairy Database, including technical build information,
@@ -7,7 +7,7 @@ site_description: |
   and using the system to build new databases.
 site_author: Simon Goring
 copyright: '2026'
-site_url: https://ubc-derc.github.io/data_model
+site_url: https://ubc-derc.github.io/data_model/
 nav:
   - Introduction: 'index.md'
   - Governance and Guidance: 'admin/governance.md'
@@ -40,7 +40,6 @@ plugins:
   - mermaid2
   - search:
       lang: en
-  - search:
       separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   - minify:
       minify_html: true
