@@ -4,7 +4,7 @@ A fully open data model based on best practices across industries and academic f
 
 ## Contents
 
-* [Governance and Guidance]()
+* [Governance and Guidance](summary/executive_summary.md)
 * [Resources and Concepts]()
 * [Table Structure]()
 
