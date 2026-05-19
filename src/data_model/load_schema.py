@@ -1,6 +1,7 @@
 from .load_files import load_file
 from .load_tables import load_tables
 from .validate import validate_object
+from itertools import chain
 
 def load_schema(filename:str, validation:dict)->dict:
     schema = load_file(filename)
@@ -12,5 +13,5 @@ def load_schema(filename:str, validation:dict)->dict:
                 filename = valid_schema.get('tables')[i].get('ref')
                 # This is where we're getting the list inside the list.
                 valid_schema.get('tables')[i] = load_tables(filename, validation)
-
+        valid_schema['tables'] = list(chain.from_iterable(valid_schema.get('tables')))
     return valid_schema
