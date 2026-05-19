@@ -20,5 +20,4 @@ def load_file(filename:str)->dict:
             output.append(load_file(i))
     else:
         raise FileNotFoundError(f"{filename} is neither a file or directory in the current working directory.")
-
     return output
