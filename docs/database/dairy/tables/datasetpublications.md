@@ -1,13 +1,14 @@
 # datasetpublications
 Description:
+
 **No comment present**
 
 ## Columns
 
-| type|     name    |                               comment                              |
-|-----|-------------|--------------------------------------------------------------------|
-|uuid7|  datasetid  |References the uuid for the dataset metadata stored in the database.|
-|uuid7|publicationid|                A pointer to the publications table.                |
+|                               comment                              |      name     | type|
+|--------------------------------------------------------------------|---------------|-----|
+|References the uuid for the dataset metadata stored in the database.|  *datasetid*  |uuid7|
+|                A pointer to the publications table.                |*publicationid*|uuid7|
 
 ## Constraints
 

@@ -41,7 +41,7 @@ def table_page(table: dict, path:Path):
         path.mkdir()
     fileOutput = []
     fileOutput.append(f"# {table.get('name')}")
-    fileOutput.append(f"Description:\n**{table.get('comment', "No comment present")}**")
+    fileOutput.append(f"Description:\n\n**{table.get('comment', "No comment present")}**")
     fileOutput.append("\n## Columns\n")
     fileOutput.append(columnPrint(table.get('columns')))
     fileOutput.append("\n## Constraints\n")
@@ -63,10 +63,13 @@ def columnFormatter(columns):
 def columnPrint(columns:dict) -> list:
     from py_markdown_table.markdown_table import markdown_table
 
-    keys = ['name', 'type', 'comment']
+    keys = ['comment', 'type', 'name']
     columnPrint = []
     for i in columns:
-        columnPrint.append({k: i.get(k) for k in keys})
+        colorder = {k: i.get(k) for k in keys}
+        colorder['name'] = f'*{colorder.get('name')}*'
+        columnPrint.append(colorder)
+
     try:
         return markdown_table(columnFormatter(columnPrint)).set_params(row_sep = 'markdown', quote=False).get_markdown()
     except:

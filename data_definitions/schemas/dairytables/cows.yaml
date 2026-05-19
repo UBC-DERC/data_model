@@ -7,7 +7,7 @@
       comment: This is the unique identifier given to the cow by the Canadian Government.
     - name: cowschemeid
       type: text
-      comment: >  
+      comment: >
         We clearly identify the scheme from which the cow ID is coming from. It is implied 
         that this is the Canadian data scheme, but if this data is used in synthesis work 
         it is important to identify the source.
