@@ -1,9 +1,7 @@
 - name: individuals
   schema: dairy
   type: BASE TABLE
-  comment: |
-    The primary table for storing records about an individual. We are modeling this table after the [schema:Person](https://schema.org/Person) data model
-    to some degree, for broader compatibility.
+  comment: The primary table for storing records about an individual. We are modeling this table after the [schema:Person](https://schema.org/Person) data model to some degree, for broader compatibility.
   columns:
     - name: individualid
       type: uuid7
@@ -13,12 +11,10 @@
       comment: Full name of an individual, in written order (i.e., as they would write their names)
     - name: formalname
       type: text
-      comment: |
-        This is the last name, family name, or singular name that would lead in a journal citation, or when the individual is formally addressed.
+      comment: This is the last name, family name, or singular name that would lead in a journal citation, or when the individual is formally addressed.
     - name: preferredname
       type: text
-      comment: |
-        For individuals who have a preferred name that is not the same as their given name.
+      comment: For individuals who have a preferred name that is not the same as their given name.
     - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
     - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
     - name: superceedingrecordid

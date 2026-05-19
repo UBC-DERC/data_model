@@ -7,14 +7,14 @@
   - ref: data_definitions/schemas/dairytables/columns/datasetid.yaml
   - name: identifier
     type: text
-    comment: |
+    comment: >
       The external identifier for the dataset object. This may be a DOI, 
       an ARK or a different data object. Currently the choice is simply 
       one of the entries in the `externaldatabases` table, but this may 
       be limited to a subset in the future.
   - name: externaldatabaseid
     type: uuid7
-    comment: |
+    comment: >
       A pointer to the `externaldatabase` table. It may be worth adding a constraint that the
       `identifier` and the `urlmask` should form a valid URL. In this case we should do some
       proper error/assertion responses to make sure we're getting things right.

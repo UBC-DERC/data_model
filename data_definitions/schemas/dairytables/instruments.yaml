@@ -1,7 +1,7 @@
 - name: instruments
   schema: dairy
   type: BASE TABLE
-  comment: |
+  comment: >
     A table for managing scientific and technical instruments used within the research system. This table is intended to help with connecting 
     measurements to documentation and workflow management. The design of this table and its associated foreign key links is based on the [RDA
     PIDINST v1.0](https://zenodo.org/records/6396467#.YkQxzRBBwlw).
@@ -9,8 +9,9 @@
     - ref: data_definitions/schemas/dairytables/columns/instrumentid.yaml
     - name: description
       type: text
-      comment: |
-        A general description for the particular instrument that can be used to easily identify the instrument. Should include a technical description of the device and its capabilities.
+      comment: >
+        A general description for the particular instrument that can be used to easily 
+        identify the instrument. Should include a technical description of the device and its capabilities.
     - name: instrumentname
       comment: The proper name by which the instrument is identified. The instrument may have other colloquial names.
       type: text
@@ -32,7 +33,7 @@
       type: UUID7
   constraints:
   - name: instrument_pkey
-    comment: |
+    comment: >
       The PRIMARY KEY for this table is a UUID7, which is unordered and globally unique. This is not the same as the UPC or serial number, and should be used only for internal reference.
     type: PRIMARY KEY
     def: PRIMARY KEY (instrumentid)

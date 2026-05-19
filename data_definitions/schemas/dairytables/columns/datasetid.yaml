@@ -1,6 +1,6 @@
 - name: datasetid
   type: uuid7
-  comment: | 
+  comment: >
     A unique internal indentifier for the dataset. This dataset id is used to link to records and objects internally within the database.
     We use a uuid7 data type for these records so that the identifier can be located across all data tables (as opposed to an integer,
     which may be duplicated across multiple tables).

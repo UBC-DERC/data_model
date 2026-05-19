@@ -17,7 +17,7 @@
       comment: A web address for this resource, a primary location.
     - name: urlmask
       type: url
-      comment: |
+      comment: >
         The url mask is intended to show how the identifers should be used. 
         The mask will be based on the resource itself. For example, ORCID indicates 
         that its identifiers should be written as `https://orcid.org/0000-0000-0000-0000`, 

@@ -1,5 +1,5 @@
-  - name: datecreated
-    comment: | 
-      The date this entry was created. This field is used for the purposes of tracking changes across the database, and supporting
-      reproducibility of data and data models, by allowing users to "roll back" or search for the impacts of new changes or data additions.
-    type: datetime
+- name: datecreated
+  comment: >
+    The date this entry was created. This field is used for the purposes of tracking changes across the database, and supporting
+    reproducibility of data and data models, by allowing users to "roll back" or search for the impacts of new changes or data additions.
+  type: datetime
