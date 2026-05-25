@@ -2,6 +2,9 @@ database:
   keys:
     - schema
     - name
+    - owner
+    - encoding
+    - locale
 schema:
   keys:
   - tables
