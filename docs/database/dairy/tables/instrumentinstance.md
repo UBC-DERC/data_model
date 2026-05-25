@@ -8,8 +8,6 @@ Description:
 |                                                                                                                                                               comment                                                                                                                                                              |     name     |  type  |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|--------|
 |                                             An internal, unique string to indentify a particular instrument in the general sense. This is as opposed to specific instances of an instrument which would be identified with both the broader instrument, and the specific serial number.                                            |*instrumentid*| uuid-7 |
-|                                                                                                                                                                None                                                                                                                                                                |    *barn*    |  None  |
-|                                                                                                                                                                None                                                                                                                                                                |     *pen*    |  None  |
 |                                                                                                 More specific description of the positioning within the pen/barn. For example, "Halfway down the long side of the pen, 2m height"
                                                                                                  |  *location*  |  text  |
 |                                 The date this entry was created. This field is used for the purposes of tracking changes across the database, and supporting reproducibility of data and data models, by allowing users to "roll back" or search for the impacts of new changes or data additions.
@@ -19,10 +17,14 @@ Description:
 
 ## Constraints
 
-This table has no constraints
+|         name        |    type   |                                                def                                                |comment|
+|---------------------|-----------|---------------------------------------------------------------------------------------------------|-------|
+|instrumantinstance_pk|PRIMARY KEY|                                PRIMARY KEY (instrumentid,location)                                |  None |
+|   instrumentid_fk   |FOREIGN KEY|FOREIGN KEY (instrumentid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE|  None |
 
 ## Indexes
 
+This table has no index
 
 ## Relationships
 

@@ -20,6 +20,7 @@ Description:
 
 ## Indexes
 
+This table has no index
 
 ## Relationships
 

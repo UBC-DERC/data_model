@@ -26,6 +26,7 @@ This table has no constraints
 
 ## Indexes
 
+This table has no index
 
 ## Relationships
 

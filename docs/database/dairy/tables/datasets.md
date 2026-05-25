@@ -25,6 +25,7 @@ Modeled largely on the work of [Science On Schema](https://github.com/ESIPFed/sc
 
 ## Indexes
 
+This table has no index
 
 ## Relationships
 

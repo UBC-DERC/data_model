@@ -18,10 +18,13 @@ intended to link to collaboration institutions, manufacturers, suppliers and res
 
 ## Constraints
 
-This table has no constraints
+|      name      |    type   |            def           |                           comment                           |
+|----------------|-----------|--------------------------|-------------------------------------------------------------|
+|institutionid_pk|PRIMARY KEY|PRIMARY KEY(institutionid)|Primary key for the institutions table (expects to be unique)|
 
 ## Indexes
 
+This table has no index
 
 ## Relationships
 
