@@ -68,18 +68,18 @@ flowchart TD
 The following are tangible goals to be identified as components of project success:
 
 1. **[This Repository](https://github.com/UBC_DERC/data_model)** Data Model Development: The data model will be written in "plain text" YAML, with clear field comments, to be applied to a Postgres database. The data fields will:
-   1. Have clear contribution guidelines, to support expert engagement
-   2. Be clearly commented
-   3. Be linked to established concepts in animal science/dairy sciences or external concepts and standards (such as FOAF, schema.org or DarwinCore)
-   4. Identify data constraints and assertions about the data that can be used to detect data issues
-   5. Be open and available for comment
+    1. Have clear contribution guidelines, to support expert engagement
+    2. Be clearly commented
+    3. Be linked to established concepts in animal science/dairy sciences or external concepts and standards (such as FOAF, schema.org or DarwinCore)
+    4. Identify data constraints and assertions about the data that can be used to detect data issues
+    5. Be open and available for comment
 2. **[DDL Builder](https://github.com/UBC_DERC/ddl_builder)** Database Construction: The data model must be able to be integrated into a functioning (PostgreSQL) database. This component will:
-   1. Be clearly documented
-   2. Produce the database itself in a reproducible manner across platforms (Cloud, Mac, Windows, Linux, etc.)
-   3. Be faithful to the data model
+    1. Be clearly documented
+    2. Produce the database itself in a reproducible manner across platforms (Cloud, Mac, Windows, Linux, etc.)
+    3. Be faithful to the data model
 3. **[Data Retrieval](https://github.com/UBC-DERC/data_population)** Database Population: The initial entries into the database, particularly from external sources (journals, data resources, drug manufacturers) should use the input/output processes that will be used for other services. The Data Retrieval process should be able to create these input/output pathways and use them successfully. The system should:
-   1. Provide public documentation for data access
-   2. Support authentication for sensitive data
-   3. Support data insertion, updates, deletions and data access
-   4. Include clear documentation for common research data queries based on existing DERC research
-   5. Import data from existing DERC assets
+    1. Provide public documentation for data access
+    2. Support authentication for sensitive data
+    3. Support data insertion, updates, deletions and data access
+    4. Include clear documentation for common research data queries based on existing DERC research
+    5. Import data from existing DERC assets

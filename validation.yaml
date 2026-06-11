@@ -5,6 +5,7 @@ database:
     - owner
     - encoding
     - locale
+    - extensions
 schema:
   keys:
   - tables

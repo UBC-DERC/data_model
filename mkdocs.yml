@@ -41,6 +41,8 @@ theme:
     - search.suggest
     - toc.follow
     - toc.integrate
+extra_css:
+  - stylesheets/extra.css
 plugins:
   - mermaid2
   - include_dir_to_nav
