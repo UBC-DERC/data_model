@@ -1,6 +1,6 @@
 - name: datasets
   schema: dairy
-  comment: |
+  comment: >-
     A table to document datasets associated with the UBC Dairy Research Farm.
     Modeled largely on the work of [Science On Schema](https://github.com/ESIPFed/science-on-schema.org/blob/main/guides/Dataset.md)
   type: BASE TABLE

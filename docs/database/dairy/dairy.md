@@ -1,9 +1,8 @@
 # dairy
 Description:
-**The main dairy schema, with all data structures used for the farm.
-**
+**The main dairy schema, with all data structures used for the farm.**
 
-## Tables
+## Schema Tables
 
 * [individuals](tables/individuals.md)
 * [instruments](tables/instruments.md)

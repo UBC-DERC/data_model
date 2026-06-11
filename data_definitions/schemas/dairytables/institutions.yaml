@@ -1,6 +1,6 @@
 - name: institutions
   schema: dairy
-  comment: |
+  comment: >-
     A table for institutions and organizations. This table is modeled after the [Research Organization Registry](https://ror.org/) and is
     intended to link to collaboration institutions, manufacturers, suppliers and research or operational dairy farms.
   type: BASE TABLE
