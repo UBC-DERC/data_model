@@ -4,13 +4,13 @@ Description:
 
 ## Schema Tables
 
-* [individuals](tables/individuals.md)
-* [instruments](tables/instruments.md)
-* [individualidentifiers](tables/individualidentifiers.md)
-* [instrumentinstance](tables/instrumentinstance.md)
 * [cows](tables/cows.md)
+* [instrumentinstance](tables/instrumentinstance.md)
 * [instrumentowners](tables/instrumentowners.md)
-* [datasets](tables/datasets.md)
-* [externaldatabases](tables/externaldatabases.md)
-* [institutions](tables/institutions.md)
 * [datasetpublications](tables/datasetpublications.md)
+* [datasets](tables/datasets.md)
+* [individuals](tables/individuals.md)
+* [externaldatabases](tables/externaldatabases.md)
+* [instruments](tables/instruments.md)
+* [institutions](tables/institutions.md)
+* [individualidentifiers](tables/individualidentifiers.md)

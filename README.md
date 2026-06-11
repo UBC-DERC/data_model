@@ -4,6 +4,12 @@ This project is intended as a repository for the ultimate data model for the DER
 
 This repository is for `yaml` data representations of the actual data model.  The `yaml` formatting follows the example used by [`tabls`](https://github.com/k1Low/tbls) elsewhere, with an added directory structuring to make individual tables easier to process, modify, validate and document.
 
+```mermaid
+User Consultation --> Data Model
+Data Model --> Validation 
+Data Model --> Database DDL
+```
+
 ## Editing/Modifying or Working with the Data Model
 
 We are using version control as our primary method for managing the data model. This (in principle) allows us to create release notes for the model, have discussions and raise issues. Our goal is to manage the model in an inclusive manner that reflects changing user needs, expert knowledge and technical requirements.
