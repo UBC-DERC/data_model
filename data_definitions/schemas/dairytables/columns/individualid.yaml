@@ -1,0 +1,4 @@
+- name: individualid
+  type: uuid7
+  comment: >- 
+    An internal and unique identifier for an individual to support identification within the database.

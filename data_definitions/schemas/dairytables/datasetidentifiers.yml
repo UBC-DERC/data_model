@@ -1,7 +1,7 @@
 
 - name: datasetidentifiers
   schema: dairy
-  comment: Links to URLs/DOIs/ARKs for external data resources.
+  comment: Links datasets to URLs/DOIs/ARKs for external data resources.
   type: BASE TABLE
   columns:
   - ref: data_definitions/schemas/dairytables/columns/datasetid.yaml

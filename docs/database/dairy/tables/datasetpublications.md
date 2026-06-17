@@ -1,14 +1,14 @@
 # datasetpublications
 Description:
 
-**No comment present**
+**Links DERC related datasets to publications in the literature.**
 
 ## Columns
 
-| type|      name     |                               comment                              |
-|-----|---------------|--------------------------------------------------------------------|
-|uuid7|  *datasetid*  |References the uuid for the dataset metadata stored in the database.|
-|uuid7|*publicationid*|                A pointer to the publications table.                |
+|      name     | type|                               comment                              |
+|---------------|-----|--------------------------------------------------------------------|
+|  *datasetid*  |uuid7|References the uuid for the dataset metadata stored in the database.|
+|*publicationid*|uuid7|                A pointer to the publications table.                |
 
 ## Constraints
 

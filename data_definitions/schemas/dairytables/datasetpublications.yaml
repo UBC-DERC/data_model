@@ -1,6 +1,7 @@
 - name: datasetpublications
   type: BASE TABLE
   schema: dairy
+  comment: Links DERC related datasets to publications in the literature.
   columns:
     - name: datasetid
       type: uuid7

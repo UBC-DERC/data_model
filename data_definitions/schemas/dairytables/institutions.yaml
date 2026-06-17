@@ -5,9 +5,7 @@
     intended to link to collaboration institutions, manufacturers, suppliers and research or operational dairy farms.
   type: BASE TABLE
   columns:
-  - name: institutionid
-    type: UUID7
-    comment: The unique internal identifier for the institution.
+  - ref: data_definitions/schemas/dairytables/columns/institutionid.yaml
   - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
   - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
   - name: superceedingrecord
