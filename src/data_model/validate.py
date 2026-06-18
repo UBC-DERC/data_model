@@ -1,5 +1,3 @@
-from yaml import safe_load
-from pathlib import Path
 from .load_files import load_file
 
 def validate_object(schema:dict, ddl_object:dict, ddl_type:str="table")->dict:

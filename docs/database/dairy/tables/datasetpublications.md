@@ -5,10 +5,10 @@ Description:
 
 ## Columns
 
-|      name     | type|                               comment                              |
-|---------------|-----|--------------------------------------------------------------------|
-|  *datasetid*  |uuid7|References the uuid for the dataset metadata stored in the database.|
-|*publicationid*|uuid7|                A pointer to the publications table.                |
+|                               comment                              | type|      name     |
+|--------------------------------------------------------------------|-----|---------------|
+|References the uuid for the dataset metadata stored in the database.|uuid7|  *datasetid*  |
+|                A pointer to the publications table.                |uuid7|*publicationid*|
 
 ## Constraints
 

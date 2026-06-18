@@ -81,7 +81,7 @@ def columnPrint(columns:dict) -> list:
                                                                      quote=False,
                                                                      ).get_markdown()
         return mt
-    except:
+    except Exception:
         print("This table is broken")
 
 def constraintPrint(constraints:dict)->list:
@@ -94,7 +94,7 @@ def constraintPrint(constraints:dict)->list:
         constraintPrint.append({k: i.get(k) for k in keys})
     try:
         return markdown_table(constraintPrint).set_params(row_sep = 'markdown', quote=False).get_markdown()
-    except:
+    except Exception:
         print(constraints)
 
 def indexPrint(indices:dict)->list:
@@ -107,5 +107,5 @@ def indexPrint(indices:dict)->list:
         indexPrint.append({k: i.get(k) for k in keys})
     try:
         return markdown_table(indexPrint).set_params(row_sep = 'markdown', quote=False).get_markdown()
-    except:
+    except Exception:
         print(indices)

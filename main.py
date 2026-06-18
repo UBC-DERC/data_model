@@ -3,7 +3,6 @@ def main():
     import data_model as dm
     import pathlib as pt
     from yaml import safe_load, safe_dump
-    from json import dumps
     
     with open(pt.Path("validation.yaml"), 'r') as schemaFile:
         validation = safe_load(schemaFile)
