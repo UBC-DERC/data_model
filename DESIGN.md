@@ -6,12 +6,32 @@
 > to be done. Sections are marked **[Implemented]**, **[Partial]**, or
 > **[Planned]** so the document doubles as a status board.
 
+- [DESIGN — DERC Dairy Database Data Model (D³)](#design--derc-dairy-database-data-model-d)
+  - [1. Purpose and Scope](#1-purpose-and-scope)
+    - [Non-goals](#non-goals)
+  - [2. Stakeholders and Governance](#2-stakeholders-and-governance)
+  - [3. System Context](#3-system-context)
+  - [4. Data Model Representation](#4-data-model-representation)
+    - [4.1 Conventions](#41-conventions)
+    - [4.2 On-disk layout **\[Implemented\]**](#42-on-disk-layout-implemented)
+    - [4.3 Entity shapes (validated keys)](#43-entity-shapes-validated-keys)
+  - [5. Software Architecture](#5-software-architecture)
+    - [5.1 Public API](#51-public-api)
+    - [5.2 Validation strategy **\[Partial\]**](#52-validation-strategy-partial)
+    - [5.3 Documentation rendering **\[Implemented\]**](#53-documentation-rendering-implemented)
+  - [6. Documentation Site](#6-documentation-site)
+  - [7. Build, CI/CD, and Tooling](#7-build-cicd-and-tooling)
+  - [8. Testing Strategy](#8-testing-strategy)
+  - [9. Known Issues \& Technical Debt](#9-known-issues--technical-debt)
+  - [10. Roadmap](#10-roadmap)
+  - [11. Glossary](#11-glossary)
+
 ---
 
 ## 1. Purpose and Scope
 
-The DERC Dairy Database (**D³**) is the canonical, human-readable data model for
-the UBC Dairy Education and Research Centre (Agassiz, BC). It exists to:
+The Data Model (this repository) is the canonical, human-readable data model for
+the DERC Dairy Database (**D³**), used to manage data from the UBC Dairy Education and Research Centre (Agassiz, BC). It exists to:
 
 - **Represent** the structure of the research database (databases, schemas,
   tables, columns, constraints, indexes) in a form that domain experts can read
@@ -24,9 +44,7 @@ the UBC Dairy Education and Research Centre (Agassiz, BC). It exists to:
   (a separate `ddl_builder` package).
 
 This repository owns the **model and its documentation only**. It deliberately
-does *not* build or run the live database — that is the job of `ddl_builder`
-and the deployment tooling. The contract between them is the validated YAML /
-serialized model described in §4.
+does *not* build or run the live database — that is the job of the [`ddl_builder`](https://github.com/UBC-DERC/ddl_builder) and the deployment tooling. The contract between them is the validated YAML / serialized model described in the [Data Model Representation](#4-data-model-representation) section.
 
 ### Non-goals
 - No data storage or ETL of actual research data.
@@ -43,9 +61,12 @@ serialized model described in §4.
 | Expert Review | M. von Keyserlingk, D. Weary, L. Guan, R. Cerri | Validate entities, fields, relationships |
 
 Governance is intentionally lightweight and **version-control–driven**:
-changes happen on branches, must compile with the provided tooling, and must
-carry annotations explaining *why* the change supports ongoing research. The
-goal is an inclusive process that balances user needs, expert knowledge, and
+
+* Proposed changes happen on branches, 
+* Changes must compile with the provided tooling (running `uv run main.py`)
+* Changes must carry annotations explaining *why* the change supports ongoing research.
+ 
+The goal is an inclusive process that balances user needs, expert knowledge, and
 technical requirements.
 
 > **[Planned]** A formal `CONTRIBUTING`/contribution guide expanding the branch
@@ -60,17 +81,14 @@ flowchart TD
     consult[User & Expert Consultation] --> model[data_model<br/>YAML definitions]
     model --> validate[Validation<br/>validate_object]
     model --> docs[Documentation<br/>mkdocs site]
-    model --> ddl[ddl_builder<br/>SQL DDL + Docker image]
+    model --> ddl[ddl_builder<br/>SQL DDL]
     ddl --> db[(PostgreSQL D³)]
     docs --> site[GitHub Pages]
 ```
 
 - **This repo (`data_model`)** produces a validated, serialized model and a
   documentation site.
-- **`ddl_builder`** (separate package) consumes the model and emits PostgreSQL
-  DDL, packaged as a Docker image.
-- Some database-level configuration (extensions, locale) is declared here and
-  may also appear in the database Dockerfile maintained elsewhere.
+- **[`ddl_builder`](https://github.com/UBC-DERC/ddl_builder)** (separate package) consumes the model and emits PostgreSQL DDL, including database-level configuration (extensions, locale) declared here.
 
 ---
 
@@ -123,7 +141,7 @@ Defined centrally in `validation.yaml`:
 > **[Risk / Planned]** Key-name drift exists between layers — `validation.yaml`
 > and the data use `definition`/`indexes`/`reference`, while the documentation
 > renderer reads `def`/`index`. These must be reconciled on one vocabulary
-> (see §8).
+> (see the [Testing Strategy](#8-testing-strategy) section).
 
 ---
 
@@ -192,7 +210,6 @@ Constraints, Indexes, Relationships sections). Tables are rendered with
 | Concern | Tooling | Status |
 |---------|---------|--------|
 | Packaging / env | `uv` + `uv_build` (`pyproject.toml`), Python ≥ 3.12 | [Implemented] |
-| Project scaffolding | Copier (`.copier-answers.yml`, `derc_copier` template) | [Implemented] |
 | Lint | Ruff (`.ruff_cache` present) | [Partial] |
 | Tests | Pytest (`tests/`, `pythonpath=src`) | [Partial] |
 | Docs deploy | GitHub Actions → `mkdocs gh-deploy` on push to `main` | [Implemented] |
