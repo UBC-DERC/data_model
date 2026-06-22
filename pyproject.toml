@@ -23,7 +23,7 @@ dependencies = [
     "pyyaml>=6.0.3",
 ]
 license = "MIT"
-license-files = "LICENSE.md"
+license-files = ["LICENSE.md"]
 keywords = ["data model", "database", "postgres", "data governance", "documentation"]
 classifiers=[
     "Development Status :: 3 - Alpha",
