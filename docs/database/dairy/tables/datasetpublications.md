@@ -1,3 +1,8 @@
+---
+title: "datasetpublications table"
+description: "Links DERC related datasets to publications in the literature."
+---
+
 # datasetpublications
 Description:
 

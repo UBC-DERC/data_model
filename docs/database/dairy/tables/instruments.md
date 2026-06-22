@@ -1,3 +1,8 @@
+---
+title: "instruments table"
+description: "A table for managing scientific and technical instruments used within the research system. This table is intended to help with connecting measurements to doc..."
+---
+
 # instruments
 Description:
 

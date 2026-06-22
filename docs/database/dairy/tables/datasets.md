@@ -1,3 +1,8 @@
+---
+title: "datasets table"
+description: "A table to document datasets associated with the UBC Dairy Research Farm. Modeled largely on the work of [Science On Schema](https://github.com/ESIPFed/scien..."
+---
+
 # datasets
 Description:
 

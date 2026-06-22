@@ -1,3 +1,8 @@
+---
+title: "externaldatabases table"
+description: "A table to manage and record pointers to various external resources. These resources include data management tools such as DOIs and ARKs, product identifiers..."
+---
+
 # externaldatabases
 Description:
 

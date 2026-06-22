@@ -1,3 +1,8 @@
+---
+title: "cows table"
+description: "The primary table for cow-related identification. This table should tie to any information about cows, their locations, movement, treatments and, ultimately,..."
+---
+
 # cows
 Description:
 

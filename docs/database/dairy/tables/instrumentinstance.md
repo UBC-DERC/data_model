@@ -1,3 +1,8 @@
+---
+title: "instrumentinstance table"
+description: "A particular instrument, with a particular location."
+---
+
 # instrumentinstance
 Description:
 

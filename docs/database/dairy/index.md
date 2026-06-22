@@ -1,8 +1,13 @@
-# dairy
+---
+title: "The dairy schema"
+description: "The main dairy schema, with all data structures used for the farm."
+---
+
+# `dairy` Schema
 Description:
 **The main dairy schema, with all data structures used for the farm.**
 
-## Schema Tables
+## Tables
 
 * [cows](tables/cows.md)
 * [instrumentinstance](tables/instrumentinstance.md)

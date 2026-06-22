@@ -1,3 +1,8 @@
+---
+title: "individualidentifiers table"
+description: "Linking individuals to external identifiers, such as websites, or ORCIDs."
+---
+
 # individualidentifiers
 Description:
 

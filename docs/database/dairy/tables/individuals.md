@@ -1,3 +1,8 @@
+---
+title: "individuals table"
+description: "The primary table for storing records about an individual. We are modeling this table after the [schema:Person](https://schema.org/Person) data model to some..."
+---
+
 # individuals
 Description:
 

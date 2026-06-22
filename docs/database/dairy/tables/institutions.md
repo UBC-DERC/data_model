@@ -1,3 +1,8 @@
+---
+title: "institutions table"
+description: "A table for institutions and organizations. This table is modeled after the [Research Organization Registry](https://ror.org/) and is intended to link to col..."
+---
+
 # institutions
 Description:
 
