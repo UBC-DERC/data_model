@@ -1,5 +1,5 @@
 [project]
-name = "derc-data-model"
+name = "data-model"
 version = "0.1.0"
 description = "Manage YAML representations of PostgreSQL database definitions, including tables, schema, indices and constraints."
 readme = {file="README.md", content-type = "text/markdown"}
