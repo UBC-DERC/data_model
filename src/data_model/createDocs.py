@@ -99,6 +99,25 @@ def indexPrint(indices)->str:
 
 
 # --------------------------------------------------------------------------- #
+# Page metadata
+# --------------------------------------------------------------------------- #
+def _front_matter(title: str, description: str) -> str:
+    """Build a YAML front-matter block with a page title and meta description.
+
+    The description is whitespace-collapsed, truncated to a search-engine
+    friendly length (~160 chars), and double-quotes are escaped so the YAML
+    stays valid. MkDocs/Material expose these via ``page.title`` and
+    ``page.meta.description`` (used for per-page ``<meta>`` and Open Graph tags).
+    """
+    text = " ".join((description or NO_COMMENT).split())
+    if len(text) > 160:
+        text = text[:157].rstrip() + "..."
+    title = title.replace('"', '\\"')
+    text = text.replace('"', '\\"')
+    return f'---\ntitle: "{title}"\ndescription: "{text}"\n---\n'
+
+
+# --------------------------------------------------------------------------- #
 # Page writers
 # --------------------------------------------------------------------------- #
 def document_database(database: dict, path:Path='docs') -> None:
@@ -116,6 +135,9 @@ def document_database(database: dict, path:Path='docs') -> None:
 
 def database_page(database: dict, path: Path) -> None:
     lines = [
+        _front_matter(
+            f"{database['name']} database", database.get("comment", NO_COMMENT)
+        ),
         f"# {database['name']}",
         f"Description:\n**{database.get('comment', NO_COMMENT)}**",
         "\n## Schemas",
@@ -123,7 +145,7 @@ def database_page(database: dict, path: Path) -> None:
     for schema in database.get("schema"):
         name = schema.get("name")
         comment = schema.get("comment", NO_COMMENT).strip()
-        lines.append(f"* **[{name}](./{name}/{name}.md)**: *{comment}*")
+        lines.append(f"* **[{name}](./{name}/index.md)**: *{comment}*")
         schema_page(schema, path / name)
     _write_page(path / "index.md", lines)
 
@@ -137,9 +159,10 @@ def schema_page(schema: dict, path: Path) -> None:
     """    
     name = schema.get("name")
     lines = [
-        f"# {name}",
+        _front_matter(f"The {name} schema", schema.get("comment", NO_COMMENT)),
+        f"# `{name}` Schema",
         f"Description:\n**{schema.get('comment', NO_COMMENT).strip()}**",
-        "\n## Schema Tables\n",
+        "\n## Tables\n",
     ]
     for table in schema.get("tables"):
         if isinstance(table, list):
@@ -147,12 +170,16 @@ def schema_page(schema: dict, path: Path) -> None:
         else:
             lines.append(f"* [{table.get('name')}](tables/{table.get('name')}.md)")
             table_page(table, path / "tables")
-    _write_page(path / f"{name}.md", lines)
+    # Write the schema page as the folder's index page so MkDocs (with the
+    # navigation.indexes feature) collapses the "<schema>/" section and its
+    # landing page into a single nav entry instead of a folder + child page.
+    _write_page(path / "index.md", lines)
 
 
 def table_page(table: dict, path: Path) -> None:
     name = table.get("name")
     lines = [
+        _front_matter(f"{name} table", table.get("comment", NO_COMMENT)),
         f"# {name}",
         f"Description:\n\n**{table.get('comment', NO_COMMENT)}**",
         "\n## Columns\n",

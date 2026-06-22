@@ -25,6 +25,7 @@ nav:
 
 theme:
   name: material
+  custom_dir: overrides
   language: en
   palette:
     # Light mode (follows the OS preference by default).
@@ -72,6 +73,7 @@ extra_css:
 plugins:
   - mermaid2
   - include_dir_to_nav:
+      flat: false
   - mkdocstrings:
       default_handler: python
       handlers:

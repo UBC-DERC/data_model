@@ -110,10 +110,11 @@ def test_schema_page_writes_schema_and_tables(tmp_path):
         "tables": [_sample_table()],
     }
     schema_page(schema, tmp_path / "dairy")
-    schema_md = tmp_path / "dairy" / "dairy.md"
+    # Schema page is written as the folder's index page (collapses the nav).
+    schema_md = tmp_path / "dairy" / "index.md"
     assert schema_md.is_file()
     text = schema_md.read_text()
-    assert "# dairy" in text
+    assert "`dairy` Schema" in text
     assert "[cows](tables/cows.md)" in text
     # The per-table page was generated too.
     assert (tmp_path / "dairy" / "tables" / "cows.md").is_file()
@@ -132,8 +133,8 @@ def test_database_page_writes_index_and_schemas(tmp_path):
     assert index.is_file()
     text = index.read_text()
     assert "# dairymodel" in text
-    assert "[dairy](./dairy/dairy.md)" in text
-    assert (tmp_path / "database" / "dairy" / "dairy.md").is_file()
+    assert "[dairy](./dairy/index.md)" in text
+    assert (tmp_path / "database" / "dairy" / "index.md").is_file()
 
 
 def test_document_database_uses_path(tmp_path, monkeypatch):
