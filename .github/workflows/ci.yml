@@ -1,12 +1,39 @@
-name: ci 
+name: ci
 on:
   push:
     branches:
       - main
+      - develop
+  pull_request:
 permissions:
   contents: write
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
+  # Runs on every push to main/develop and on pull requests.
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository.
+        uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          enable-cache: true
+      - run: uv sync
+      - name: Lint (ruff)
+        run: uv run ruff check .
+      - name: Tests (pytest)
+        run: uv run pytest -q
+      - name: Docs build (strict)
+        run: uv run mkdocs build --strict
+
+  # Deploys the docs to GitHub Pages, but only on main and only after the
+  # checks job has passed.
   deploy:
+    needs: checks
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository.
@@ -15,18 +42,16 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-      - uses: actions/setup-python@v6
-        with:
-          python-version: 3.x
       - name: Install uv
         uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
-      - run: uv sync
-      - run: pip install mkdocs-material mkdocs-mermaid2-plugin mkdocs-minify-plugin
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
+        with:
+          enable-cache: true
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
       - uses: actions/cache@v4
         with:
           key: mkdocs-material-${{ env.cache_id }}
-          path: ~/.cache 
+          path: ~/.cache
           restore-keys: |
             mkdocs-material-
-      - run: mkdocs gh-deploy --force
+      - run: uv sync
+      - run: uv run mkdocs gh-deploy --force
