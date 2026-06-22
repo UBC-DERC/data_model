@@ -117,12 +117,19 @@ def database_page(database: dict, path: Path) -> None:
     ]
     for schema in database.get("schema"):
         name = schema.get("name")
-        lines.append(f"* [{name}](./{name}/{name}.md)")
+        comment = schema.get("comment", NO_COMMENT).strip()
+        lines.append(f"* **[{name}](./{name}/{name}.md)**: *{comment}*")
         schema_page(schema, path / name)
     _write_page(path / "index.md", lines)
 
 
 def schema_page(schema: dict, path: Path) -> None:
+    """_Generate the list that renders the `schemas` page._
+
+    Args:
+        schema (dict): _The dict object describing the schema._
+        path (Path): _The location to which the schema will be sent._
+    """    
     name = schema.get("name")
     lines = [
         f"# {name}",
