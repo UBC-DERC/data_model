@@ -60,38 +60,38 @@ def _write_page(path: Path, lines: list) -> None:
     path.write_text("\n".join(lines) + "\n")
 
 
-def columnPrint(columns:dict)->list:
+def columnPrint(columns:dict)->str:
     """_Provide determininistic column ordering for Markdown._
 
     Args:
         columns (_dict_): _Taken from the YAML input, a description of the columns (name, type, comment)._
 
     Returns:
-        _list_: _The `columns` section of the markdown page for a table._
+        _str_: _The `columns` section of the markdown page for a table._
     """
     return _render_table(columns, ["name", "type", "comment"], "", emphasise="name")
 
 
-def constraintPrint(constraints):
+def constraintPrint(constraints)->str:
     """_Print the `constraints` section of the Markdown pages._
 
     Args:
         constraints (_dict_): _The dict rendering of the YAML input_
 
     Returns:
-        _list_: _The `constrinats` section, with deterministic ordering._
+        _str_: _The `constraints` section, with deterministic ordering._
     """    
     return _render_table(
         constraints, ["name", "type", "def", "comment"], "This table has no constraints"
     )
 
 
-def indexPrint(indices):
+def indexPrint(indices)->str:
     """_Print the `indexes` section of the Markdown pages._
     Args:
         indices (_dict_): _The dict rendering of the YAML input_
     Returns:
-        _list_: _The `indexes` section, with deterministic ordering._
+        _str_: _The `indexes` section, with deterministic ordering._
     """
     return _render_table(
         indices, ["name", "type", "def", "comment"], "This table has no index"
