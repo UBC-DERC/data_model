@@ -136,7 +136,7 @@ def test_database_page_writes_index_and_schemas(tmp_path):
     assert (tmp_path / "database" / "dairy" / "dairy.md").is_file()
 
 
-def test_document_database_ignores_path_and_uses_cwd_docs(tmp_path, monkeypatch):
+def test_document_database_uses_path(tmp_path, monkeypatch):
     """document_database hardcodes ``Path('docs/')`` and ignores its argument.
 
     By running it inside a temp cwd we can assert the output lands in
@@ -156,5 +156,5 @@ def test_document_database_ignores_path_and_uses_cwd_docs(tmp_path, monkeypatch)
     # Pass an unrelated path to prove it is ignored.
     document_database(database, tmp_path / "ignored_output_dir")
 
-    assert (tmp_path / "docs" / "database" / "index.md").is_file()
-    assert not (tmp_path / "ignored_output_dir").exists()
+    assert not (tmp_path / "docs" / "database" / "index.md").is_file()
+    assert (tmp_path / "ignored_output_dir").exists()

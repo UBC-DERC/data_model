@@ -186,9 +186,6 @@ Currently `validate_object` only checks for *extra* (unknown) keys and merges
 Constraints, Indexes, Relationships sections). Tables are rendered with
 `py-markdown-table`. Output is deterministic (explicit column ordering).
 
-> **[Known issue]** `document_database` ignores its `path` argument and always
-> writes to `./docs`; the Relationships section is a placeholder.
-
 ---
 
 ## 6. Documentation Site
@@ -229,8 +226,7 @@ pieces:
   edge cases (only first list element returned; `.yml` files skipped by glob).
 - `test_validate.py` — clean pass-through, unknown-key rejection, `ref` merge,
   and the missing-required-key gap.
-- `test_create_docs.py` — table/section renderers and page writers, plus the
-  hardcoded-output-path behaviour.
+- `test_create_docs.py` — table/section renderers and page writers
 
 **[Planned]** Next tiers:
 1. End-to-end integration test over the real `data_definitions/` tree (every
@@ -250,9 +246,8 @@ pieces:
 | 2 | `load_file` globs `*.yaml` only | `datasetidentifiers.yml` never loaded | load_files |
 | 3 | `load_file` returns only `safe_load(...)[0]` | Multi-document files truncated | load_files |
 | 4 | `validate_object` checks only extra keys | Missing/invalid fields pass silently | validate |
-| 5 | `document_database` ignores `path` arg; needs pre-existing `docs/` | Inflexible, fragile | createDocs |
-| 6 | Duplicate CI workflows; no test CI | Wasted runs, no automated test gate | CI |
-| 7 | Relationships section is a placeholder | Incomplete docs | createDocs |
+| 5 | Duplicate CI workflows; no test CI | Wasted runs, no automated test gate | CI |
+| 6 | Relationships section is a placeholder | Incomplete docs | createDocs |
 
 ---
 

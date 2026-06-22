@@ -101,12 +101,17 @@ def indexPrint(indices)->str:
 # --------------------------------------------------------------------------- #
 # Page writers
 # --------------------------------------------------------------------------- #
-def document_database(database: dict, path: Path) -> None:
-    """Render the full database model as Markdown under ``docs/database``.
+def document_database(database: dict, path:Path='docs') -> None:
+    """_Renders the documentation from YAML dictionary._
 
-    Note: ``path`` is currently ignored; output always goes to ``./docs``.
-    """
-    return database_page(database, Path("docs") / "database")
+    Args:
+        database (dict): _A dict from the composite YAML file._
+        path (Path, optional): _Where should the markdown documentation be written?_. Defaults to 'docs'.
+
+    Returns:
+        _None_: _Renders the documentation (no object output)._
+    """    
+    return database_page(database, Path(path) / "database")
 
 
 def database_page(database: dict, path: Path) -> None:
