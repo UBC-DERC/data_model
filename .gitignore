@@ -8,3 +8,5 @@ src/data_model/__pycache__/
 uv.lock
 
 site/
+
+tests/__pycache__/

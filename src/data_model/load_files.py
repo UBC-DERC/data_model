@@ -16,7 +16,7 @@ def load_file(filename:str)->dict:
             output = yaml.safe_load(file)[0]
     elif filePath.is_dir():
         output = []
-        for i in filePath.glob('*.yaml'):
+        for i in filePath.glob('*.y[a]*ml'):
             output.append(load_file(i))
     else:
         raise FileNotFoundError(f"{filename} is neither a file or directory in the current working directory.")
