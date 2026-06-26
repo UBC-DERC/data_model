@@ -1,6 +1,6 @@
 database:
   keys:
-  - schema
+  - schemas
   - name
   - owner
   - encoding

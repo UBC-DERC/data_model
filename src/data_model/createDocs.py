@@ -33,7 +33,7 @@ def _render_table(rows:dict, keys:list, empty_message:str, emphasise:str=None)->
 
     formatted = []
     for row in rows:
-        ordered = {key: row.get(key) for key in keys}
+        ordered = {key: getattr(row, key) for key in keys}
         if emphasise is not None:
             ordered[emphasise] = f"*{ordered.get(emphasise)}*"
         formatted.append(ordered)
@@ -82,7 +82,7 @@ def constraintPrint(constraints)->str:
         _str_: _The `constraints` section, with deterministic ordering._
     """    
     return _render_table(
-        constraints, ["name", "type", "def", "comment"], "This table has no constraints"
+        constraints, ["name", "type", "ddl", "comment"], "This table has no constraints"
     )
 
 
@@ -136,15 +136,15 @@ def document_database(database: dict, path:Path='docs') -> None:
 def database_page(database: dict, path: Path) -> None:
     lines = [
         _front_matter(
-            f"{database['name']} database", database.get("comment", NO_COMMENT)
+            f"{database.name} database", database.comment
         ),
-        f"# {database['name']}",
-        f"Description:\n**{database.get('comment', NO_COMMENT)}**",
+        f"# {database.name}",
+        f"Description:\n**{database.comment}**",
         "\n## Schemas",
     ]
-    for schema in database.get("schema"):
-        name = schema.get("name")
-        comment = schema.get("comment", NO_COMMENT).strip()
+    for schema in database.schemas:
+        name = schema.name
+        comment = schema.comment.strip()
         lines.append(f"* **[{name}](./{name}/index.md)**: *{comment}*")
         schema_page(schema, path / name)
     _write_page(path / "index.md", lines)
@@ -157,18 +157,18 @@ def schema_page(schema: dict, path: Path) -> None:
         schema (dict): _The dict object describing the schema._
         path (Path): _The location to which the schema will be sent._
     """    
-    name = schema.get("name")
+    name = schema.name
     lines = [
-        _front_matter(f"The {name} schema", schema.get("comment", NO_COMMENT)),
+        _front_matter(f"The {name} schema", schema.comment),
         f"# `{name}` Schema",
-        f"Description:\n**{schema.get('comment', NO_COMMENT).strip()}**",
+        f"Description:\n**{schema.comment.strip()}**",
         "\n## Tables\n",
     ]
-    for table in schema.get("tables"):
+    for table in schema.tables:
         if isinstance(table, list):
             lines.append("This schema contains no tables.")
         else:
-            lines.append(f"* [{table.get('name')}](tables/{table.get('name')}.md)")
+            lines.append(f"* [{table.name}](tables/{table.name}.md)")
             table_page(table, path / "tables")
     # Write the schema page as the folder's index page so MkDocs (with the
     # navigation.indexes feature) collapses the "<schema>/" section and its
@@ -177,17 +177,17 @@ def schema_page(schema: dict, path: Path) -> None:
 
 
 def table_page(table: dict, path: Path) -> None:
-    name = table.get("name")
+    name = table.name
     lines = [
-        _front_matter(f"{name} table", table.get("comment", NO_COMMENT)),
+        _front_matter(f"{name} table", table.comment),
         f"# {name}",
-        f"Description:\n\n**{table.get('comment', NO_COMMENT)}**",
+        f"Description:\n\n**{table.comment}**",
         "\n## Columns\n",
-        columnPrint(table.get("columns")),
+        columnPrint(table.columns),
         "\n## Constraints\n",
-        constraintPrint(table.get("constraints", [])),
+        constraintPrint(table.constraints),
         "\n## Indexes\n",
-        indexPrint(table.get("index", [])),
+        indexPrint(table.indexes),
         "\n## Relationships\n",
     ]
     _write_page(path / f"{name}.md", lines)

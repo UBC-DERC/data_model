@@ -9,7 +9,7 @@ def main():
     cows = dm.load_database("data_definitions/dairymodel.yaml", validation = validation)
     dm.document_database(cows, 'docs')
     with open('output.yaml', 'w') as file:
-        safe_dump(cows, file)
+        safe_dump(cows.model_dump(), file)
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,7 @@
 from .load_files import load_file
 from .load_schema import load_schema
 from .validate import validate_object
+from .object_classes import DDL_Dict
 
 def load_database(filename:str, validation:dict)->dict:
     """_Recursively load the database model from an existing YAML file._
@@ -16,8 +17,8 @@ def load_database(filename:str, validation:dict)->dict:
     validate_object(validation, ddl_object = db, ddl_type = 'database')
     print('Database object okay!')
 
-    if 'schema' in db.keys():
-        for i in range(len(db.get('schema'))):
-            filename = db.get('schema')[i].get('ref')
-            db.get('schema')[i] = load_schema(filename, validation)
-    return db
+    if 'schemas' in db.keys():
+        for i in range(len(db.get('schemas'))):
+            filename = db.get('schemas')[i].get('ref')
+            db.get('schemas')[i] = load_schema(filename, validation)
+    return DDL_Dict(**db)
