@@ -24,12 +24,12 @@ Description:
 
 ## Constraints
 
-|       name      |    type   |                                                    def                                                    |                                                                                       comment                                                                                      |
+|       name      |    type   |                                                    ddl                                                    |                                                                                       comment                                                                                      |
 |-----------------|-----------|-----------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | instrument_pkey |PRIMARY KEY|                                         PRIMARY KEY (instrumentid)                                        |The PRIMARY KEY for this table is a UUID7, which is unordered and globally unique. This is not the same as the UPC or serial number, and should be used only for internal reference.|
 |superceeding_fkey|FOREIGN KEY|FOREIGN KEY (superceedingrecordid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE|                     In the event an instrument is re-defined somehow -- when a value is overwritten -- this hierarchical key will point to the new information.                    |
-|manufacturer_fkey|FOREIGN KEY|           FOREIGN KEY (manufacturerid) REFERENCES institutions(institutionid) ON UPDATE CASCADE           |                                                                                        None                                                                                        |
-|  supplier_fkey  |FOREIGN KEY|             FOREIGN KEY (supplierid) REFERENCES institutions(institutionid) ON UPDATE CASCADE             |                                                                                        None                                                                                        |
+|manufacturer_fkey|FOREIGN KEY|           FOREIGN KEY (manufacturerid) REFERENCES institutions(institutionid) ON UPDATE CASCADE           |                                                                                No comment provided.                                                                                |
+|  supplier_fkey  |FOREIGN KEY|             FOREIGN KEY (supplierid) REFERENCES institutions(institutionid) ON UPDATE CASCADE             |                                                                                No comment provided.                                                                                |
 
 ## Indexes
 

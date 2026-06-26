@@ -1,11 +1,11 @@
 ---
 title: "dairymodel database"
-description: "No comment present"
+description: "No comment provided."
 ---
 
 # dairymodel
 Description:
-**No comment present**
+**No comment provided.**
 
 ## Schemas
 * **[dairy](./dairy/index.md)**: *The main dairy schema, with all data structures used for the farm.*

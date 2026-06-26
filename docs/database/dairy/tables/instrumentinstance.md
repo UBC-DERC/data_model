@@ -19,10 +19,10 @@ Description:
 
 ## Constraints
 
-|         name        |    type   |                                                def                                                |comment|
-|---------------------|-----------|---------------------------------------------------------------------------------------------------|-------|
-|instrumantinstance_pk|PRIMARY KEY|                                PRIMARY KEY (instrumentid,location)                                |  None |
-|   instrumentid_fk   |FOREIGN KEY|FOREIGN KEY (instrumentid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE|  None |
+|         name        |    type   |                                                ddl                                                |       comment      |
+|---------------------|-----------|---------------------------------------------------------------------------------------------------|--------------------|
+|instrumantinstance_pk|PRIMARY KEY|                                PRIMARY KEY (instrumentid,location)                                |No comment provided.|
+|   instrumentid_fk   |FOREIGN KEY|FOREIGN KEY (instrumentid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE|No comment provided.|
 
 ## Indexes
 

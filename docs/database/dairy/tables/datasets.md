@@ -20,9 +20,9 @@ Description:
 
 ## Constraints
 
-|    name   |    type   |          def          |comment|
-|-----------|-----------|-----------------------|-------|
-|datasets_pk|PRIMARY KEY|PRIMARY KEY (datasetid)|  None |
+|    name   |    type   |          ddl          |       comment      |
+|-----------|-----------|-----------------------|--------------------|
+|datasets_pk|PRIMARY KEY|PRIMARY KEY (datasetid)|No comment provided.|
 
 ## Indexes
 

@@ -22,7 +22,7 @@ Description:
 
 ## Constraints
 
-|     name    |    type   |           def           |                           comment                          |
+|     name    |    type   |           ddl           |                           comment                          |
 |-------------|-----------|-------------------------|------------------------------------------------------------|
 |individual_pk|PRIMARY KEY|PRIMARY KEY(individualid)|The primary key for the table (comes with indexing as well).|
 
