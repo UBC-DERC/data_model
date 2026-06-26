@@ -44,8 +44,7 @@
         The PRIMARY KEY for this table is the unique set of the Canadian ID and the scheme type. In our case
         all of the identifiers should have 
       type: PRIMARY KEY
-      definition: PRIMARY KEY (cadid, cowschemeid)
-      table: cows
+      ddl: PRIMARY KEY (cadid, cowschemeid)
       reference:
       - table: cows
         columns:

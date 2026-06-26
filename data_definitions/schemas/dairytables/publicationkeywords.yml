@@ -10,7 +10,7 @@
   constraints:
   - name: publication_fkey
     type: FOREIGN KEY
-    def: FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE
+    ddl: FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE
     table: publicationkeywords
     reference:
     - table: publications
@@ -18,7 +18,7 @@
         - publicationid
   - name: keyword_fkey
     type: FOREIGN KEY
-    def: FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE
+    ddl: FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE
     table: publicationkeywords
     reference:
     - table: keywords

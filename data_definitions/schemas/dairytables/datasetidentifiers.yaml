@@ -20,3 +20,25 @@
       proper error/assertion responses to make sure we're getting things right.
   - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
   - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+  constraints:
+  - name: datasetidentifiers_pk
+    type: PRIMARY KEY
+    comment: >-
+      Primary key to ensure unique entries. Joint key, since we need all the information to provide a unique key.
+    ddl: PRIMARY KEY (datasetid, identifier, externaldatabaseid)
+  - name: datasetidentifiers_dsid_fk
+    type: FOREIGN KEY
+    comment: A foreign key to point to the dataset id.
+    reference:
+      - table: datasets
+        columns:
+        - datasetid
+    ddl: FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE ON DELETE CASCADE
+  - name: datasetidentifiers_externaldbid_fk
+    type: FOREIGN KEY
+    ddl: FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(externaldatabaseid) ON UPDATE CASCADE ON DELETE CASCADE
+    comment: Foreign key reference to external databases or resources.
+    reference:
+      - table: externaldatabases
+        columns:
+        - externaldatabaseid

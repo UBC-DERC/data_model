@@ -13,14 +13,14 @@
   constraints:
   - name: instrumantinstance_pk
     type: PRIMARY KEY
-    def: PRIMARY KEY (instrumentid,location)
+    ddl: PRIMARY KEY (instrumentid,location)
     referencedTable: instrumentinstance
     columns:
     - instrumentid
     - location
   - name: instrumentid_fk
     type: FOREIGN KEY
-    def: FOREIGN KEY (instrumentid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE
+    ddl: FOREIGN KEY (instrumentid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE
     referencedTable: instruments
     columns:
     - instrumentid

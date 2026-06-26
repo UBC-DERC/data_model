@@ -31,7 +31,7 @@
   constraints:
   - name: publication_pk
     type: PRIMARY KEY
-    def: PRIMARY KEY (publicationid)
+    ddl: PRIMARY KEY (publicationid)
     referencedTable: publications
     columns:
     - publicationid
