@@ -1,0 +1,4 @@
+- name: publicationid
+  comment: >-
+    A unique internal identifer for a keyword/source pair in the database.
+  type: uuid7

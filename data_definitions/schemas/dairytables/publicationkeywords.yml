@@ -1,0 +1,26 @@
+- name: publicationkeywords
+  type: BASE TABLE
+  comment: Linking publications to associated keywords.
+  columns:
+    - ref: data_definitions/schemas/dairytables/columns/publicationid.yaml
+    - ref: data_definitions/schemas/dairytables/columns/keywordid.yaml
+    - ref: data_definitions/schemas/dairytables/columns/sourceid.yaml
+    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
+    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+  constraints:
+  - name: publication_fkey
+    type: FOREIGN KEY
+    def: FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE
+    table: publicationkeywords
+    reference:
+    - table: publications
+      columns:
+        - publicationid
+  - name: keyword_fkey
+    type: FOREIGN KEY
+    def: FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE
+    table: publicationkeywords
+    reference:
+    - table: keywords
+      columns:
+        - keywordid
