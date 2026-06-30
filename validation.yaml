@@ -1,7 +1,7 @@
 database:
   keys:
-    - schema
-    - name
+    - schemas
+    - dbname
     - owner
     - encoding
     - locale

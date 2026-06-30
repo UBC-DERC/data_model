@@ -136,13 +136,13 @@ def document_database(database: dict, path:Path='docs') -> None:
 def database_page(database: dict, path: Path) -> None:
     lines = [
         _front_matter(
-            f"{database['name']} database", database.get("comment", NO_COMMENT)
+            f"{database['dbname']} database", database.get("comment", NO_COMMENT)
         ),
-        f"# {database['name']}",
+        f"# {database['dbname']}",
         f"Description:\n**{database.get('comment', NO_COMMENT)}**",
         "\n## Schemas",
     ]
-    for schema in database.get("schema"):
+    for schema in database.get("schemas"):
         name = schema.get("name")
         comment = schema.get("comment", NO_COMMENT).strip()
         lines.append(f"* **[{name}](./{name}/index.md)**: *{comment}*")
