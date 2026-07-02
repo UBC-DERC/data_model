@@ -94,7 +94,7 @@ def indexPrint(indices)->str:
         _str_: _The `indexes` section, with deterministic ordering._
     """
     return _render_table(
-        indices, ["name", "type", "def", "comment"], "This table has no index"
+        indices, ["name", "type", "ddl", "comment"], "This table has no index"
     )
 
 

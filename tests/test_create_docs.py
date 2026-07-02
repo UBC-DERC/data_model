@@ -1,16 +1,10 @@
 """Tests for data_model.createDocs (Markdown generation).
 
-These cover the small formatting helpers (``columnPrint`` / ``constraintPrint``
-/ ``indexPrint`` / ``columnFormatter``) and the page writers
-(``table_page`` / ``schema_page`` / ``database_page`` / ``document_database``).
-
-A few tests pin down known quirks:
-  * ``columnFormatter`` mutates its input list in place;
-  * ``constraintPrint``/``indexPrint`` read the ``def`` key, while the data and
-    validation.yaml use ``definition``;
-  * ``table_page`` reads ``table['index']`` while the schema key is ``indexes``;
-  * ``document_database`` ignores its ``path`` argument and always writes to
-    ``./docs/``.
+The renderers consume the pydantic model objects produced by the loader
+(``table_dict``/``schema_dict``/``DDL_Dict`` etc.), reading attributes such as
+``.name`` and ``.columns``. These tests build those objects and assert the
+current behaviour: constraints/indexes render their ``ddl``, and the page
+writers honour the ``path`` they are given.
 """
 from data_model import document_database
 from data_model.createDocs import (
@@ -21,6 +15,14 @@ from data_model.createDocs import (
     schema_page,
     table_page,
 )
+from data_model.object_classes import (
+    column_dict,
+    constraint_dict,
+    index_dict,
+    table_dict,
+    schema_dict,
+    DDL_Dict,
+)
 
 
 # --------------------------------------------------------------------------- #
@@ -28,11 +30,10 @@ from data_model.createDocs import (
 # --------------------------------------------------------------------------- #
 def test_column_print_renders_all_columns():
     cols = [
-        {"name": "cadid", "type": "text", "comment": "id"},
-        {"name": "gender", "type": "nchar(1)", "comment": "g"},
+        column_dict(name="cadid", type="text", comment="id"),
+        column_dict(name="gender", type="nchar(1)", comment="g"),
     ]
     out = columnPrint(cols)
-    # Names are emphasised with surrounding asterisks.
     assert "*cadid*" in out
     assert "*gender*" in out
     assert "text" in out
@@ -47,38 +48,35 @@ def test_index_print_empty():
     assert indexPrint([]) == "This table has no index"
 
 
-def test_constraint_print_reads_def_key():
-    """constraintPrint reads 'def' (not 'definition')."""
-    rendered = constraintPrint(
-        [{"name": "pk", "type": "PRIMARY KEY", "def": "PRIMARY KEY (cadid)", "comment": "c"}]
-    )
+def test_constraint_print_renders_ddl():
+    rendered = constraintPrint([
+        constraint_dict(name="pk", type="PRIMARY KEY", ddl="PRIMARY KEY (cadid)",
+                        comment="c", columns=["cadid"])
+    ])
     assert "PRIMARY KEY (cadid)" in rendered
 
 
-def test_constraint_print_ignores_definition_key():
-    """Known mismatch: data uses 'definition', renderer reads 'def'.
-
-    The definition text is therefore dropped from the output. Update this
-    test once the renderer/schema are reconciled on a single key name.
-    """
-    rendered = constraintPrint(
-        [{"name": "pk", "type": "PRIMARY KEY", "definition": "PRIMARY KEY (cadid)"}]
-    )
-    assert "PRIMARY KEY (cadid)" not in rendered
+def test_index_print_renders_ddl():
+    rendered = indexPrint([
+        index_dict(name="cadid_idx", type="btree",
+                   ddl="CREATE INDEX cadid_idx ON cows (cadid)", columns=["cadid"])
+    ])
+    assert "CREATE INDEX cadid_idx ON cows (cadid)" in rendered
 
 
 # --------------------------------------------------------------------------- #
 # Page writers
 # --------------------------------------------------------------------------- #
 def _sample_table():
-    return {
-        "name": "cows",
-        "comment": "cow table",
-        "columns": [{"name": "cadid", "type": "text", "comment": "id"}],
-        "constraints": [
-            {"name": "pk", "type": "PRIMARY KEY", "def": "PRIMARY KEY (cadid)", "comment": "c"}
+    return table_dict(
+        name="cows",
+        comment="cow table",
+        columns=[column_dict(name="cadid", type="text", comment="id")],
+        constraints=[
+            constraint_dict(name="pk", type="PRIMARY KEY", ddl="PRIMARY KEY (cadid)",
+                            comment="c", columns=["cadid"])
         ],
-    }
+    )
 
 
 def test_table_page_writes_markdown(tmp_path):
@@ -96,7 +94,8 @@ def test_table_page_writes_markdown(tmp_path):
 
 
 def test_table_page_falls_back_when_no_constraints(tmp_path):
-    table = {"name": "bare", "comment": "x", "columns": [{"name": "c", "type": "text", "comment": ""}]}
+    table = table_dict(name="bare", comment="x",
+                       columns=[column_dict(name="c", type="text", comment="")])
     table_page(table, tmp_path / "tables")
     text = (tmp_path / "tables" / "bare.md").read_text()
     assert "This table has no constraints" in text
@@ -104,30 +103,21 @@ def test_table_page_falls_back_when_no_constraints(tmp_path):
 
 
 def test_schema_page_writes_schema_and_tables(tmp_path):
-    schema = {
-        "name": "dairy",
-        "comment": "the dairy schema",
-        "tables": [_sample_table()],
-    }
+    schema = schema_dict(name="dairy", comment="the dairy schema", tables=[_sample_table()])
     schema_page(schema, tmp_path / "dairy")
-    # Schema page is written as the folder's index page (collapses the nav).
     schema_md = tmp_path / "dairy" / "index.md"
     assert schema_md.is_file()
     text = schema_md.read_text()
     assert "`dairy` Schema" in text
     assert "[cows](tables/cows.md)" in text
-    # The per-table page was generated too.
     assert (tmp_path / "dairy" / "tables" / "cows.md").is_file()
 
 
 def test_database_page_writes_index_and_schemas(tmp_path):
-    database = {
-        "name": "dairymodel",
-        "comment": "the whole db",
-        "schema": [
-            {"name": "dairy", "comment": "dairy schema", "tables": [_sample_table()]},
-        ],
-    }
+    database = DDL_Dict(
+        name="dairymodel", comment="the whole db",
+        schemas=[schema_dict(name="dairy", comment="dairy schema", tables=[_sample_table()])],
+    )
     database_page(database, tmp_path / "database")
     index = tmp_path / "database" / "index.md"
     assert index.is_file()
@@ -137,25 +127,11 @@ def test_database_page_writes_index_and_schemas(tmp_path):
     assert (tmp_path / "database" / "dairy" / "index.md").is_file()
 
 
-def test_document_database_uses_path(tmp_path, monkeypatch):
-    """document_database hardcodes ``Path('docs/')`` and ignores its argument.
-
-    By running it inside a temp cwd we can assert the output lands in
-    ``<cwd>/docs/database`` regardless of the path we pass in.
-
-    Note: the page writers use ``path.mkdir()`` without ``parents=True``,
-    so ``docs/`` must already exist (as it does in the real repo). We
-    create it here to mirror that precondition.
-    """
-    monkeypatch.chdir(tmp_path)
-    (tmp_path / "docs").mkdir()
-    database = {
-        "name": "dairymodel",
-        "comment": "db",
-        "schema": [{"name": "dairy", "comment": "s", "tables": [_sample_table()]}],
-    }
-    # Pass an unrelated path to prove it is ignored.
-    document_database(database, tmp_path / "ignored_output_dir")
-
-    assert not (tmp_path / "docs" / "database" / "index.md").is_file()
-    assert (tmp_path / "ignored_output_dir").exists()
+def test_document_database_respects_path(tmp_path):
+    """document_database writes under the path it is given (no hardcoded 'docs/')."""
+    database = DDL_Dict(
+        name="dairymodel", comment="db",
+        schemas=[schema_dict(name="dairy", comment="s", tables=[_sample_table()])],
+    )
+    document_database(database, tmp_path / "out")
+    assert (tmp_path / "out" / "database" / "index.md").is_file()
