@@ -83,14 +83,21 @@ never raising on the first failure.
 Drop the unused foreign `reference` field; keep local `columns` only. No index
 definitions exist yet, so there is no migration.
 
-### YAML migration
+### YAML data migration is out of scope (owned by the maintainer)
 
-Rework the existing constraint blocks:
+The `data_definitions/` YAML files are maintained by hand. This work touches
+**Python and `validation.yaml` only**; it does not modify any data YAML. The
+maintainer migrates the constraint blocks manually to the new shape:
 
-- PK / CHECK: remove the fabricated `reference`; add proper local `columns`.
-- FK: set local `columns`, plus a `references` whose `columns` are the
-  *referenced* columns extracted from the `ddl` string
-  (e.g. `supplier_fkey → columns: [supplierid], references: {table: institutions, columns: [institutionid]}`).
+- PK / CHECK: no `references`; local `columns` listed.
+- FK: local `columns`, plus a `references` whose `columns` are the *referenced*
+  columns (e.g. `supplier_fkey → columns: [supplierid], references: {table: institutions, columns: [institutionid]}`).
+
+Until the data YAML is migrated, loading the real model is expected to fail:
+phase 1 (pydantic `extra='forbid'` + the constraint validator) rejects the old
+`referencedTable` / `referencedColumns` / list-style `reference` keys, and
+phase 2 reports any unresolved references. That surfacing of errors is the
+intended behaviour, not a regression.
 
 ## Testing
 
@@ -105,6 +112,7 @@ Rework the existing constraint blocks:
 
 ## Out of scope
 
+- Modifying any `data_definitions/` YAML file (maintainer-owned, migrated by hand).
 - Validating or generating the `ddl` string.
 - Referential actions (`ON UPDATE` / `ON DELETE`) in the structured model.
 - New constraint types beyond PK / FK / UNIQUE / CHECK.

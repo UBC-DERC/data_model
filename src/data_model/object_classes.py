@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 
 class column_dict(BaseModel):
     name:str
@@ -7,7 +7,13 @@ class column_dict(BaseModel):
     nullable:bool = True
 
 class reference_dict(BaseModel):
-    table:str
+    # ``schema`` shadows BaseModel.schema(), so store it as ``schema_`` while
+    # keeping the YAML/serialised key as ``schema`` via an alias. schema/table
+    # are optional and are filled from the owning table's context during the
+    # resolution pass (see check_references.resolve_references).
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
+    schema_:str | None = Field(default=None, alias="schema")
+    table:str | None = None
     columns:list[str]
 
 class constraint_dict(BaseModel):
