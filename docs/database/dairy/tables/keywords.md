@@ -12,7 +12,7 @@ Description:
 
 |        name        |  type  |                                                                                                                                                              comment                                                                                                                                                              |
 |--------------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|   *publicationid*  |  uuid7 |                                                                                                                               A unique internal identifer for a keyword/source pair in the database.                                                                                                                              |
+|     *keywordid*    |  uuid7 |                                                                                                                               A unique internal identifer for a keyword/source pair in the database.                                                                                                                              |
 |      *keyword*     |  text  |                                                                                                                                        A keyword used to describe a thing in the database.                                                                                                                                        |
 |     *sourceid*     |  uuid7 |                                                                               A unique internal indentifier for an external source for subjects or keywords. This may include sources such as WikiData, or the Library of Congress subject catalog.                                                                               |
 |    *datecreated*   |datetime|                                 The date this entry was created. This field is used for the purposes of tracking changes across the database, and supporting reproducibility of data and data models, by allowing users to "roll back" or search for the impacts of new changes or data additions.                                |
@@ -21,9 +21,10 @@ Description:
 
 ## Constraints
 
-|    name    |    type   |               ddl              |                         comment                         |
-|------------|-----------|--------------------------------|---------------------------------------------------------|
-|keywordid_pk|PRIMARY KEY|PRIMARY KEY(keywordid, sourceid)|Primary key for the keywords table (expects to be unique)|
+|      name      |    type   |                              ddl                              |                         comment                         |
+|----------------|-----------|---------------------------------------------------------------|---------------------------------------------------------|
+|  keywordid_pk  |PRIMARY KEY|                PRIMARY KEY(keywordid, sourceid)               |Primary key for the keywords table (expects to be unique)|
+|keywordsource_fk|FOREIGN KEY|FOREIGN KEY (sourceid) REFERENCES externaldatabases(databaseid)|                   No comment provided.                  |
 
 ## Indexes
 

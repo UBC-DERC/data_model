@@ -11,16 +11,14 @@
   - name: publication_fkey
     type: FOREIGN KEY
     ddl: FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE
-    table: publicationkeywords
-    reference:
-    - table: publications
+    references:
+      table: publications
       columns:
         - publicationid
   - name: keyword_fkey
     type: FOREIGN KEY
     ddl: FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE
-    table: publicationkeywords
-    reference:
-    - table: keywords
+    references:
+      table: keywords
       columns:
         - keywordid

@@ -24,10 +24,10 @@ Description:
 
 ## Constraints
 
-|    name   |          type         |               ddl              |                                                                 comment                                                                |
-|-----------|-----------------------|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-|cowuniqueid|      PRIMARY KEY      |PRIMARY KEY (cadid, cowschemeid)|The PRIMARY KEY for this table is the unique set of the Canadian ID and the scheme type. In our case all of the identifiers should have |
-| damidvalid|CHECK (damid ~* '^.*$')|              None              |                    A constraint to ensure that the dam ID is a valid ID based on the Canadian government ID scheme.                    |
+|    name   |    type   |               ddl              |                                                                 comment                                                                |
+|-----------|-----------|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+|cowuniqueid|PRIMARY KEY|PRIMARY KEY (cadid, cowschemeid)|The PRIMARY KEY for this table is the unique set of the Canadian ID and the scheme type. In our case all of the identifiers should have |
+| damidvalid|   CHECK   |     CHECK (damid ~* '^.*$')    |                    A constraint to ensure that the dam ID is a valid ID based on the Canadian government ID scheme.                    |
 
 ## Indexes
 

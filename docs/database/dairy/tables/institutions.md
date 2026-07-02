@@ -19,9 +19,10 @@ Description:
 
 ## Constraints
 
-|      name      |    type   |            ddl           |                           comment                           |
-|----------------|-----------|--------------------------|-------------------------------------------------------------|
-|institutionid_pk|PRIMARY KEY|PRIMARY KEY(institutionid)|Primary key for the institutions table (expects to be unique)|
+|            name           |    type   |                                  ddl                                  |                             comment                             |
+|---------------------------|-----------|-----------------------------------------------------------------------|-----------------------------------------------------------------|
+|      institutionid_pk     |PRIMARY KEY|                       PRIMARY KEY(institutionid)                      |  Primary key for the institutions table (expects to be unique)  |
+|institution_superceeding_fk|FOREIGN KEY|FOREIGN KEY (superceedingrecord) REFERENCES institutions(institutionid)|Allows for institutions to be renamed, or get switched over time.|
 
 ## Indexes
 

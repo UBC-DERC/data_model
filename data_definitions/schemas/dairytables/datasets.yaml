@@ -18,7 +18,6 @@
   - name: datasets_pk
     type: PRIMARY KEY
     ddl: PRIMARY KEY (datasetid)
-    referencedTable: datasets
     columns:
     - datasetid
     

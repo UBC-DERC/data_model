@@ -29,16 +29,16 @@
   - name: datasetidentifiers_dsid_fk
     type: FOREIGN KEY
     comment: A foreign key to point to the dataset id.
-    reference:
-      - table: datasets
-        columns:
-        - datasetid
+    references:
+      table: datasets
+      columns:
+      - datasetid
     ddl: FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE ON DELETE CASCADE
   - name: datasetidentifiers_externaldbid_fk
     type: FOREIGN KEY
     ddl: FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(externaldatabaseid) ON UPDATE CASCADE ON DELETE CASCADE
     comment: Foreign key reference to external databases or resources.
-    reference:
-      - table: externaldatabases
-        columns:
-        - externaldatabaseid
+    references:
+      table: externaldatabases
+      columns:
+      - databaseid

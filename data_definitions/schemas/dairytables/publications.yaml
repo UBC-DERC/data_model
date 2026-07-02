@@ -32,7 +32,6 @@
   - name: publication_pk
     type: PRIMARY KEY
     ddl: PRIMARY KEY (publicationid)
-    referencedTable: publications
     columns:
     - publicationid
     

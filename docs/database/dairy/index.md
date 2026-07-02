@@ -17,6 +17,7 @@ Description:
 * [cows](tables/cows.md)
 * [instrumentowners](tables/instrumentowners.md)
 * [datasets](tables/datasets.md)
+* [publicationkeywords](tables/publicationkeywords.md)
 * [datasetidentifiers](tables/datasetidentifiers.md)
 * [keywords](tables/keywords.md)
 * [externaldatabases](tables/externaldatabases.md)

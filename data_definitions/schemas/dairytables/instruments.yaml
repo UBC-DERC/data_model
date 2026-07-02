@@ -37,36 +37,29 @@
       The PRIMARY KEY for this table is a UUID7, which is unordered and globally unique. This is not the same as the UPC or serial number, and should be used only for internal reference.
     type: PRIMARY KEY
     ddl: PRIMARY KEY (instrumentid)
-    table: instruments
-    referencedTable:
-    - instruments
     columns:
     - instrumentid
   - name: superceeding_fkey
     comment: In the event an instrument is re-defined somehow -- when a value is overwritten -- this hierarchical key will point to the new information.
     type: FOREIGN KEY
     ddl: FOREIGN KEY (superceedingrecordid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE
-    table: instruments
-    referencedTable:
-    - instruments
+    references:
+      table: instruments
+      columns:
+      - instrumentid
     columns:
-    - superceedingrecordid
-    referencedColumns:
     - instrumentid
   - name: manufacturer_fkey
     type: FOREIGN KEY
     ddl: FOREIGN KEY (manufacturerid) REFERENCES institutions(institutionid) ON UPDATE CASCADE
-    table: instruments
-    referencedTable: institutions
-    columns:
-      -manufacturerid
-    referencedColumns:
+    references:
+      table: institutions
+      columns:
       - institutionid
   - name: supplier_fkey
     type: FOREIGN KEY
     ddl: FOREIGN KEY (supplierid) REFERENCES institutions(institutionid) ON UPDATE CASCADE
-    table: instruments
-    reference:
-    - table: institutions
+    references:
+      table: institutions
       columns:
-        - supplierid
+        - institutionid

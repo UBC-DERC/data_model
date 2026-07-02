@@ -23,7 +23,5 @@
     comment: The primary key for the table (comes with indexing as well).
     type: PRIMARY KEY
     ddl: PRIMARY KEY(individualid)
-    table: individuals
-    referencedTable: individuals
     columns:
-    - individualid
+      - individualid

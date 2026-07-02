@@ -19,9 +19,13 @@
     comment: Primary key for the keywords table (expects to be unique)
     type: PRIMARY KEY
     ddl: PRIMARY KEY(keywordid, sourceid)
-    table: keywords
-    referencedTable: keywords
     columns:
     - keywordid
     - sourceid
- 
+  - name: keywordsource_fk
+    type: FOREIGN KEY
+    ddl: FOREIGN KEY (sourceid) REFERENCES externaldatabases(databaseid)
+    references:
+      table: externaldatabases
+      columns:
+        - databaseid
