@@ -54,8 +54,8 @@ def build_tables(table_dicts: list[dict]) -> list[table_dict]:
     """Build ``table_dict`` models from validated dicts, or report all problems.
 
     Args:
-        table_dicts (list[dict]): _Per-table dicts whose keys were already
-            checked by :func:`validate_object`._
+        table_dicts (list[dict]): _Per-table dicts, with any ``ref:`` targets
+            already merged._
 
     Returns:
         list[table_dict]: _The built models, in input order._
