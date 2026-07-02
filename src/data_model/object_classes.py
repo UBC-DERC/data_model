@@ -39,11 +39,14 @@ class constraint_dict(BaseModel):
         return self
 
 class index_dict(BaseModel):
+    # Indexes are always defined on their owning table, so they carry only
+    # local ``columns`` — there is no cross-table reference to validate.
+    model_config = ConfigDict(extra="forbid")
     name:str
     type:str | None = None
     comment:str = "No comment provided."
     ddl:str
-    reference:list[reference_dict] = []
+    columns:list[str] = []
 
 class table_dict(BaseModel):
     name:str
