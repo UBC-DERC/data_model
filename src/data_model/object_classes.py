@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 class column_dict(BaseModel):
     name:str
@@ -17,11 +17,26 @@ class reference_dict(BaseModel):
     columns:list[str]
 
 class constraint_dict(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     name:str
     type:str | None = None
     comment:str = "No comment provided."
     ddl:str | None = None
-    reference: list[reference_dict] = []
+    # ``columns`` are the constraint's own/local columns (the key columns of a
+    # PRIMARY KEY/UNIQUE, the local side of a FOREIGN KEY, or the columns a
+    # CHECK touches). ``references`` is the optional foreign target and is only
+    # valid on FOREIGN KEY constraints.
+    columns:list[str] = []
+    references: reference_dict | None = None
+
+    @model_validator(mode="after")
+    def _references_only_on_foreign_keys(self):
+        if self.references is not None and self.type != "FOREIGN KEY":
+            raise ValueError(
+                f"constraint '{self.name}' has a references block but is type "
+                f"{self.type!r}; only FOREIGN KEY may reference another table."
+            )
+        return self
 
 class index_dict(BaseModel):
     name:str
