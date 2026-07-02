@@ -1,6 +1,7 @@
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 class column_dict(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     name:str
     type:str
     comment:str = "No comment provided."
@@ -49,7 +50,12 @@ class index_dict(BaseModel):
     columns:list[str] = []
 
 class table_dict(BaseModel):
+    # ``schema`` is advisory only; a table's owning schema is authoritative via
+    # its folder placement and membership in a schema_dict. Stored as
+    # ``schema_`` (aliased to ``schema``) to avoid shadowing BaseModel.schema().
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
     name:str
+    schema_:str | None = Field(default=None, alias="schema")
     type:str = 'BASE TABLE'
     comment:str = "No comment provided."
     columns:list[column_dict]
@@ -57,14 +63,17 @@ class table_dict(BaseModel):
     indexes:list[index_dict] = []
 
 class schema_dict(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     name:str
     comment:str = "No comment provided."
     tables:list[table_dict]
 
 class DDL_Dict(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     encoding:str = 'UTF8'
     locale:str = 'en_CA'
     name:str
+    owner:str | None = None
     comment:str = "No comment provided."
     extensions:list[str] = []
     schemas:list[schema_dict]

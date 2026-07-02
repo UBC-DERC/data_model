@@ -7,7 +7,31 @@ target that only FOREIGN KEY constraints may carry.
 import pytest
 from pydantic import ValidationError
 
-from data_model.object_classes import reference_dict, constraint_dict, index_dict
+from data_model.object_classes import (
+    reference_dict, constraint_dict, index_dict, table_dict, column_dict,
+    DDL_Dict, schema_dict,
+)
+
+
+def test_table_accepts_schema_key_and_forbids_unknown():
+    t = table_dict(name="cows", schema="dairy", columns=[column_dict(name="id", type="text")])
+    assert t.schema_ == "dairy"
+    with pytest.raises(ValidationError):
+        table_dict(name="cows", columns=[column_dict(name="id", type="text")], bogus=1)
+
+
+def test_column_forbids_unknown_keys():
+    with pytest.raises(ValidationError):
+        column_dict(name="id", type="text", bogus=1)
+
+
+def test_database_accepts_owner_and_forbids_unknown():
+    db = DDL_Dict(name="d", owner="postgres",
+                  schemas=[schema_dict(name="dairy", tables=[table_dict(
+                      name="cows", columns=[column_dict(name="id", type="text")])])])
+    assert db.owner == "postgres"
+    with pytest.raises(ValidationError):
+        DDL_Dict(name="d", schemas=[], nonsense=1)
 
 
 def test_reference_defaults_schema_and_table_to_none():
