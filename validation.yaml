@@ -30,14 +30,13 @@ constraint:
   - name
   - comment
   - type
-  - definition
-  - table
-  - reference
+  - ddl
   - columns
+  - references
 index:
   keys:
   - name
   - comment
   - type
-  - definition
-  - reference
+  - ddl
+  - columns
