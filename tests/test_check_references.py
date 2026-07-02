@@ -193,3 +193,9 @@ def test_check_references_raises_with_all_problems():
 def test_check_references_returns_db_when_clean():
     db = _db(schema_dict(name="dairy", tables=[_table("cows")]))
     assert check_references(db) is db
+
+
+def test_real_example_model_loads_and_checks():
+    import data_model as dm
+    db = dm.load_database("data_definitions/dairymodel.yaml")
+    assert [s.name for s in db.schemas] == ["dairy", "apps"]

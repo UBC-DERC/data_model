@@ -1,24 +1,25 @@
-from .load_files import load_file
+from .load_files import load_file, resolve_ref
 from .load_schema import load_schema
-from .validate import validate_object
 from .object_classes import DDL_Dict
+from .check_references import check_references
 
-def load_database(filename:str, validation:dict)->dict:
-    """_Recursively load the database model from an existing YAML file._
+
+def load_database(filename:str)->DDL_Dict:
+    """_Recursively load and validate the database model from a YAML entry file._
+
+    The model is assembled from the entry file and its ``ref:`` targets, built
+    into pydantic models (structural validation), then checked for unresolved
+    references across all schemas and tables.
 
     Args:
-        filename (str): _A valid filename pointing to a YAML database definition file._
-        validation (dict): _A dict object that defines the allowed fields for any type of object to assist with rendering._
+        filename (str): _Path to the database entry YAML file._
 
     Returns:
-        dict: _A dict object (that can be serialized to YAML) representing the fully described database model._
+        DDL_Dict: _The validated, reference-checked database model._
     """
-    db = load_file(filename)
-    validate_object(validation, ddl_object = db, ddl_type = 'database')
-    print('Database object okay!')
-
-    if 'schemas' in db.keys():
-        for i in range(len(db.get('schemas'))):
-            filename = db.get('schemas')[i].get('ref')
-            db.get('schemas')[i] = load_schema(filename, validation)
-    return DDL_Dict(**db)
+    db = resolve_ref(load_file(filename))
+    if "schemas" in db:
+        db["schemas"] = [load_schema(s["ref"]) for s in db["schemas"]]
+    database = DDL_Dict(**db)
+    check_references(database)
+    return database
