@@ -122,9 +122,32 @@ python -m pip install .
 
 ## How to Use this Repository
 
-<!--
-A short description of how this repository is expected to be used.
--->
+Once installed, the `data-model` command validates a model and writes both the
+composite YAML artifact and the MkDocs documentation:
+
+```bash
+data-model <path/to/entry.yaml> --docs <docs-output-dir> --output <composite.yaml>
+```
+
+For the example model bundled in this repository:
+
+```bash
+data-model data_definitions/dairymodel.yaml --docs docs --output output.yaml
+```
+
+The `data_definitions/` folder is **example input** — point the tool at the
+entry file of any directory of definitions.
+
+The command validates before writing anything. Validation runs in two phases:
+structural checks on each definition (unknown keys, malformed constraints), and
+cross-reference checks across the assembled model (every referenced table and
+column must exist). If either phase fails, the command prints **all** problems
+at once to stderr, writes **no** output, and exits with a non-zero status —
+suitable for gating a deployment pipeline before DDL generation.
+
+The composite `--output` YAML is the fully-resolved model (all `ref:` targets
+merged, reference schemas/tables filled in) intended for the downstream DDL
+generation stage.
 
 ## Funding Statement
 
