@@ -21,10 +21,10 @@ Description:
 
 ## Constraints
 
-|      name      |    type   |                              ddl                              |                         comment                         |
-|----------------|-----------|---------------------------------------------------------------|---------------------------------------------------------|
-|  keywordid_pk  |PRIMARY KEY|                PRIMARY KEY(keywordid, sourceid)               |Primary key for the keywords table (expects to be unique)|
-|keywordsource_fk|FOREIGN KEY|FOREIGN KEY (sourceid) REFERENCES externaldatabases(databaseid)|                   No comment provided.                  |
+|      name      |    type   |                              ddl                              |                       reference                      |                         comment                         |
+|----------------|-----------|---------------------------------------------------------------|------------------------------------------------------|---------------------------------------------------------|
+|  keywordid_pk  |PRIMARY KEY|                PRIMARY KEY(keywordid, sourceid)               |                                                      |Primary key for the keywords table (expects to be unique)|
+|keywordsource_fk|FOREIGN KEY|FOREIGN KEY (sourceid) REFERENCES externaldatabases(databaseid)|[externaldatabases](externaldatabases.md) (databaseid)|                   No comment provided.                  |
 
 ## Indexes
 
@@ -32,3 +32,10 @@ This table has no index
 
 ## Relationships
 
+**References**
+
+*  → [externaldatabases](externaldatabases.md) (`databaseid`)
+
+**Referenced By**
+
+* [publicationkeywords](publicationkeywords.md) () → `keywordid`

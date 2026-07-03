@@ -19,10 +19,10 @@ Description:
 
 ## Constraints
 
-|            name           |    type   |                                  ddl                                  |                             comment                             |
-|---------------------------|-----------|-----------------------------------------------------------------------|-----------------------------------------------------------------|
-|      institutionid_pk     |PRIMARY KEY|                       PRIMARY KEY(institutionid)                      |  Primary key for the institutions table (expects to be unique)  |
-|institution_superceeding_fk|FOREIGN KEY|FOREIGN KEY (superceedingrecord) REFERENCES institutions(institutionid)|Allows for institutions to be renamed, or get switched over time.|
+|            name           |    type   |                                  ddl                                  |                   reference                   |                             comment                             |
+|---------------------------|-----------|-----------------------------------------------------------------------|-----------------------------------------------|-----------------------------------------------------------------|
+|      institutionid_pk     |PRIMARY KEY|                       PRIMARY KEY(institutionid)                      |                                               |  Primary key for the institutions table (expects to be unique)  |
+|institution_superceeding_fk|FOREIGN KEY|FOREIGN KEY (superceedingrecord) REFERENCES institutions(institutionid)|[institutions](institutions.md) (institutionid)|Allows for institutions to be renamed, or get switched over time.|
 
 ## Indexes
 
@@ -30,3 +30,12 @@ This table has no index
 
 ## Relationships
 
+**References**
+
+* `superceedingrecord` → [institutions](institutions.md) (`institutionid`)
+
+**Referenced By**
+
+* [instruments](instruments.md) (`manufacturerid`) → `institutionid`
+* [instruments](instruments.md) (`supplierid`) → `institutionid`
+* [institutions](institutions.md) (`superceedingrecord`) → `institutionid`

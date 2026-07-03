@@ -20,11 +20,11 @@ Description:
 
 ## Constraints
 
-|               name               |    type   |                                                         ddl                                                         |                                                  comment                                                  |
-|----------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-|       datasetidentifiers_pk      |PRIMARY KEY|                               PRIMARY KEY (datasetid, identifier, externaldatabaseid)                               |Primary key to ensure unique entries. Joint key, since we need all the information to provide a unique key.|
-|    datasetidentifiers_dsid_fk    |FOREIGN KEY|              FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE ON DELETE CASCADE             |                                 A foreign key to point to the dataset id.                                 |
-|datasetidentifiers_externaldbid_fk|FOREIGN KEY|FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(externaldatabaseid) ON UPDATE CASCADE ON DELETE CASCADE|                         Foreign key reference to external databases or resources.                         |
+|               name               |    type   |                                                         ddl                                                         |                       reference                      |                                                  comment                                                  |
+|----------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+|       datasetidentifiers_pk      |PRIMARY KEY|                               PRIMARY KEY (datasetid, identifier, externaldatabaseid)                               |                                                      |Primary key to ensure unique entries. Joint key, since we need all the information to provide a unique key.|
+|    datasetidentifiers_dsid_fk    |FOREIGN KEY|              FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE ON DELETE CASCADE             |          [datasets](datasets.md) (datasetid)         |                                 A foreign key to point to the dataset id.                                 |
+|datasetidentifiers_externaldbid_fk|FOREIGN KEY|FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(externaldatabaseid) ON UPDATE CASCADE ON DELETE CASCADE|[externaldatabases](externaldatabases.md) (databaseid)|                         Foreign key reference to external databases or resources.                         |
 
 ## Indexes
 
@@ -32,3 +32,11 @@ This table has no index
 
 ## Relationships
 
+**References**
+
+*  → [datasets](datasets.md) (`datasetid`)
+*  → [externaldatabases](externaldatabases.md) (`databaseid`)
+
+**Referenced By**
+
+None.

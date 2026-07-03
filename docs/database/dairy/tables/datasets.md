@@ -20,9 +20,9 @@ Description:
 
 ## Constraints
 
-|    name   |    type   |          ddl          |       comment      |
-|-----------|-----------|-----------------------|--------------------|
-|datasets_pk|PRIMARY KEY|PRIMARY KEY (datasetid)|No comment provided.|
+|    name   |    type   |          ddl          |reference|       comment      |
+|-----------|-----------|-----------------------|---------|--------------------|
+|datasets_pk|PRIMARY KEY|PRIMARY KEY (datasetid)|         |No comment provided.|
 
 ## Indexes
 
@@ -30,3 +30,11 @@ This table has no index
 
 ## Relationships
 
+**References**
+
+None.
+
+**Referenced By**
+
+* [datasetidentifiers](datasetidentifiers.md) () → `datasetid`
+* [datasetpublications](datasetpublications.md) () → `datasetid`

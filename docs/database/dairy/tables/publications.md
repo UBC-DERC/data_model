@@ -23,9 +23,9 @@ Description:
 
 ## Constraints
 
-|     name     |    type   |            ddl            |       comment      |
-|--------------|-----------|---------------------------|--------------------|
-|publication_pk|PRIMARY KEY|PRIMARY KEY (publicationid)|No comment provided.|
+|     name     |    type   |            ddl            |reference|       comment      |
+|--------------|-----------|---------------------------|---------|--------------------|
+|publication_pk|PRIMARY KEY|PRIMARY KEY (publicationid)|         |No comment provided.|
 
 ## Indexes
 
@@ -33,3 +33,11 @@ This table has no index
 
 ## Relationships
 
+**References**
+
+None.
+
+**Referenced By**
+
+* [publicationkeywords](publicationkeywords.md) () → `publicationid`
+* [datasetpublications](datasetpublications.md) () → `publicationid`

@@ -29,3 +29,11 @@ This table has no index
 
 ## Relationships
 
+**References**
+
+None.
+
+**Referenced By**
+
+* [datasetidentifiers](datasetidentifiers.md) () → `databaseid`
+* [keywords](keywords.md) () → `databaseid`

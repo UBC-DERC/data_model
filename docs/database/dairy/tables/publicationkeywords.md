@@ -20,10 +20,10 @@ Description:
 
 ## Constraints
 
-|      name      |    type   |                                         ddl                                        |       comment      |
-|----------------|-----------|------------------------------------------------------------------------------------|--------------------|
-|publication_fkey|FOREIGN KEY|FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE|No comment provided.|
-|  keyword_fkey  |FOREIGN KEY|      FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE      |No comment provided.|
+|      name      |    type   |                                         ddl                                        |                   reference                   |       comment      |
+|----------------|-----------|------------------------------------------------------------------------------------|-----------------------------------------------|--------------------|
+|publication_fkey|FOREIGN KEY|FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE|[publications](publications.md) (publicationid)|No comment provided.|
+|  keyword_fkey  |FOREIGN KEY|      FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE      |      [keywords](keywords.md) (keywordid)      |No comment provided.|
 
 ## Indexes
 
@@ -31,3 +31,11 @@ This table has no index
 
 ## Relationships
 
+**References**
+
+*  → [publications](publications.md) (`publicationid`)
+*  → [keywords](keywords.md) (`keywordid`)
+
+**Referenced By**
+
+None.
