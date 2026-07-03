@@ -1,13 +1,11 @@
 - name: institutions
   schema: dairy
-  comment: |
+  comment: >-
     A table for institutions and organizations. This table is modeled after the [Research Organization Registry](https://ror.org/) and is
     intended to link to collaboration institutions, manufacturers, suppliers and research or operational dairy farms.
   type: BASE TABLE
   columns:
-  - name: institutionid
-    type: UUID7
-    comment: The unique internal identifier for the institution.
+  - ref: data_definitions/schemas/dairytables/columns/institutionid.yaml
   - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
   - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
   - name: superceedingrecord
@@ -17,9 +15,16 @@
   - name: institutionid_pk
     comment: Primary key for the institutions table (expects to be unique)
     type: PRIMARY KEY
-    def: PRIMARY KEY(institutionid)
-    table: institutions
-    referencedTable: institutions
+    ddl: PRIMARY KEY(institutionid)
     columns:
     - institutionid
- 
+  - name: institution_superceeding_fk
+    type: FOREIGN KEY
+    comment: Allows for institutions to be renamed, or get switched over time.
+    columns:
+      - superceedingrecord
+    references:
+      table: institutions
+      columns: 
+        - institutionid
+    ddl: FOREIGN KEY (superceedingrecord) REFERENCES institutions(institutionid)

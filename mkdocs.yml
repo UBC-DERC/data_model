@@ -9,14 +9,40 @@ copyright: '2026'
 site_url: https://ubc-derc.github.io/data_model/
 nav:
   - Introduction: 'index.md'
+  - Executive Summary: 'summary/executive_summary.md'
   - Governance and Guidance: 'admin/governance.md'
-  - Project Summary: 'summary/executive_summary.md'
-  - Database:
-    - database/dairy
-    - database/apps
+  - Database Description:
+    - database/
+  - Package API Reference:
+    - Overview: 'api/index.md'
+    - 'api/load_files.md'
+    - 'api/load_database.md'
+    - 'api/load_schema.md'
+    - 'api/load_tables.md'
+    - 'api/load_columns.md'
+    - 'api/createDocs.md'
 
 theme:
   name: material
+  custom_dir: overrides
+  language: en
+  palette:
+    # Light mode (follows the OS preference by default).
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode.
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   features:
     - content.action.edit
     - content.action.view
@@ -41,9 +67,26 @@ theme:
     - search.suggest
     - toc.follow
     - toc.integrate
+extra_css:
+  - stylesheets/extra.css
 plugins:
   - mermaid2
-  - include_dir_to_nav
+  - include_dir_to_nav:
+      flat: false
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            members_order: source
+            separate_signature: true
+            show_signature_annotations: true
+            merge_init_into_class: true
   - search:
       lang: en
       separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'

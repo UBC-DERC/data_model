@@ -4,6 +4,12 @@ This project is intended as a repository for the ultimate data model for the DER
 
 This repository is for `yaml` data representations of the actual data model.  The `yaml` formatting follows the example used by [`tabls`](https://github.com/k1Low/tbls) elsewhere, with an added directory structuring to make individual tables easier to process, modify, validate and document.
 
+```mermaid
+User Consultation --> Data Model
+Data Model --> Validation 
+Data Model --> Database DDL
+```
+
 ## Editing/Modifying or Working with the Data Model
 
 We are using version control as our primary method for managing the data model. This (in principle) allows us to create release notes for the model, have discussions and raise issues. Our goal is to manage the model in an inclusive manner that reflects changing user needs, expert knowledge and technical requirements.
@@ -62,22 +68,37 @@ The `tables` folder contains definitions of each of the tables created for the d
   - name: constraintname
     comment: |
         Some example primary key.
-    type: PRIMARY KEY
-    def: PRIMARY KEY (columnname, columnname)
-    table: cows
-    referencedTable:
-    - tablename
-    columns:
+    type: one of [PRIMARY KEY, FOREIGN KEY, UNIQUE, CHECK]
+    ddl: PRIMARY KEY (columnname, columnname)   # authoritative SQL for this constraint
+    columns:                                     # the constraint's OWN (local) columns
     - columnname
     - columnname
+  - name: a_foreign_key
+    comment: |
+        A foreign key also names the table it points at.
+    type: FOREIGN KEY
+    ddl: FOREIGN KEY (localcolumn) REFERENCES othertable (targetcolumn) ON UPDATE CASCADE
+    columns:                                     # local column(s) the FK is defined on
+    - localcolumn
+    references:                                  # only FOREIGN KEY may carry a `references`
+      schema: dairy                              # optional; defaults to the owning table's schema
+      table: othertable                          # optional; defaults to the owning table (self-FK)
+      columns:                                   # the REFERENCED column(s) in the target table
+      - targetcolumn
   indexes:
   - name: indexname
-    referencedTable:
-    - tablename
-    columns:
-    - columnname
     type: A valid postgres index type.
+    ddl: CREATE INDEX indexname ON tablename (columnname)
+    columns:                                     # indexes carry only local columns
+    - columnname
 ```
+
+Each constraint's `ddl` string is the authoritative SQL used to build the
+database. The structured fields exist to help non-SQL users and to let the
+tool validate references: a constraint's `columns` must exist in its own table,
+and a `references` block (allowed only on `FOREIGN KEY`) must point at an
+existing `(schema, table)` whose `columns` exist. When `schema`/`table` are
+omitted from a `references` block they default to the owning table.
 
 From these sets of yaml files we can build both documentation using `mkdocs` (in this repository) and we can build the actual SQL DDL for the database (using a Docker image and a separate python package). This structure allows us to clearly document the development of the database, and all its various components.
 
@@ -101,9 +122,32 @@ python -m pip install .
 
 ## How to Use this Repository
 
-<!--
-A short description of how this repository is expected to be used.
--->
+Once installed, the `data-model` command validates a model and writes both the
+composite YAML artifact and the MkDocs documentation:
+
+```bash
+data-model <path/to/entry.yaml> --docs <docs-output-dir> --output <composite.yaml>
+```
+
+For the example model bundled in this repository:
+
+```bash
+data-model data_definitions/dairymodel.yaml --docs docs --output output.yaml
+```
+
+The `data_definitions/` folder is **example input** — point the tool at the
+entry file of any directory of definitions.
+
+The command validates before writing anything. Validation runs in two phases:
+structural checks on each definition (unknown keys, malformed constraints), and
+cross-reference checks across the assembled model (every referenced table and
+column must exist). If either phase fails, the command prints **all** problems
+at once to stderr, writes **no** output, and exits with a non-zero status —
+suitable for gating a deployment pipeline before DDL generation.
+
+The composite `--output` YAML is the fully-resolved model (all `ref:` targets
+merged, reference schemas/tables filled in) intended for the downstream DDL
+generation stage.
 
 ## Funding Statement
 

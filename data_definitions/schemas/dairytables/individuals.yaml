@@ -3,9 +3,7 @@
   type: BASE TABLE
   comment: The primary table for storing records about an individual. We are modeling this table after the [schema:Person](https://schema.org/Person) data model to some degree, for broader compatibility.
   columns:
-    - name: individualid
-      type: uuid7
-      comment: An internal and unique identifier for an individual to support identification within the database.
+    - ref: data_definitions/schemas/dairytables/columns/individualid.yaml
     - name: fullname
       type: text
       comment: Full name of an individual, in written order (i.e., as they would write their names)
@@ -24,8 +22,6 @@
   - name: individual_pk
     comment: The primary key for the table (comes with indexing as well).
     type: PRIMARY KEY
-    def: PRIMARY KEY(individualid)
-    table: individuals
-    referencedTable: individuals
+    ddl: PRIMARY KEY(individualid)
     columns:
-    - individualid
+      - individualid

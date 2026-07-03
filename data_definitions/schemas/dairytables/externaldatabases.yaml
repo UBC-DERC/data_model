@@ -1,12 +1,12 @@
 - name: externaldatabases
   schema: dairy
-  comment: |
+  comment: >-
     A table to manage and record pointers to various external resources.
     These resources include data management tools such as DOIs and ARKs, product identifiers such as UPC codes, 
     and other external references such as WikiData, or others.
   type: BASE TABLE
   columns:
-    - name: externaldatabaseid
+    - name: databaseid
       type: uuid7
       comment: A unique internal identifier for an external database reference.
     - name: externaldatabase
@@ -17,7 +17,7 @@
       comment: A web address for this resource, a primary location.
     - name: urlmask
       type: url
-      comment: >
+      comment: >-
         The url mask is intended to show how the identifers should be used. 
         The mask will be based on the resource itself. For example, ORCID indicates 
         that its identifiers should be written as `https://orcid.org/0000-0000-0000-0000`, 

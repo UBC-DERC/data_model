@@ -8,3 +8,9 @@ src/data_model/__pycache__/
 uv.lock
 
 site/
+
+tests/__pycache__/
+
+docs/superpowers/
+
+.superpowers/

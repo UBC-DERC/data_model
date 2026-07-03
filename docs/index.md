@@ -1,13 +1,38 @@
 # The DERC Database Model
 
-A fully open data model based on best practices across industries and academic fields. This database is intended to support the research activities across the UBC Dairy Education and Research Center in Agassiz, British Columbia.
+A fully open data model based on best practices across industries and academic fields. This database is intended to support the research activities across the UBC [Dairy Education and Research Center](https://dairycentre.landfood.ubc.ca/) in Agassiz, British Columbia.
 
 ## Contents
 
-* [Executive Summary](summary/executive_summary.md)
-* [Governance and Guidance](admin/governance.md)
-* [Resources and Concepts](resources.md)
-* [Table Structure](database/index.md)
+
+<div class="grid cards" markdown>
+
+-   :material-clipboard-list:{ .lg .middle } __[Executive Summary](summary/executive_summary.md)__
+
+    ---
+
+    Project overview, outcomes and success metrics.
+
+-   :material-sitemap:{ .lg .middle } __[Governance and Guidance](admin/governance.md)__
+  
+    ---
+
+    How this project is governed and managed from a personel perspective.
+
+-   :material-lightbulb:{ .lg .middle } __[Resources and Concepts](resources.md)__
+
+    ---
+
+    Tools for project management, and database-related concepts to support efficient management.
+
+-   :material-database-check:{ .lg .middle } __[Table Structure](database/index.md)__
+
+    ---
+
+    Documentation of the database itself, including table overviews, definitions and links.
+
+</div>
+
 
 ## Project layout
 

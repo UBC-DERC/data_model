@@ -4,13 +4,7 @@
   comment: Which person or organization (or both) maintains ownership of this instrument?
   columns:
   - ref: data_definitions/schemas/dairytables/columns/instrumentid.yaml
-  - name: contactid
-    foreign-key:
-      table: people
-      column: personid
-  - name: institutionid
-    foreign-key:
-      table: institutions
-      column: institutionid
+  - ref: data_definitions/schemas/dairytables/columns/individualid.yaml
+  - ref: data_definitions/schemas/dairytables/columns/institutionid.yaml
   - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
   - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
