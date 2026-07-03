@@ -122,7 +122,7 @@ def _sample_table():
 
 
 def test_table_page_writes_markdown(tmp_path):
-    table_page(_sample_table(), tmp_path / "tables")
+    table_page(_sample_table(), tmp_path / "tables", "dairy", [])
     out = tmp_path / "tables" / "cows.md"
     assert out.is_file()
     text = out.read_text()
@@ -138,15 +138,37 @@ def test_table_page_writes_markdown(tmp_path):
 def test_table_page_falls_back_when_no_constraints(tmp_path):
     table = table_dict(name="bare", comment="x",
                        columns=[column_dict(name="c", type="text", comment="")])
-    table_page(table, tmp_path / "tables")
+    table_page(table, tmp_path / "tables", "dairy", [])
     text = (tmp_path / "tables" / "bare.md").read_text()
     assert "This table has no constraints" in text
     assert "This table has no index" in text
 
 
+def test_table_page_lists_references(tmp_path):
+    table = table_dict(name="instruments",
+        columns=[column_dict(name="supplierid", type="text")],
+        constraints=[constraint_dict(name="fk", type="FOREIGN KEY", ddl="FK ...",
+            columns=["supplierid"],
+            references=reference_dict(schema="dairy", table="institutions", columns=["institutionid"]))])
+    table_page(table, tmp_path / "tables", "dairy", [])
+    text = (tmp_path / "tables" / "instruments.md").read_text()
+    assert "**References**" in text
+    assert "[institutions](institutions.md)" in text
+    assert "**Referenced By**" in text
+
+
+def test_table_page_lists_referenced_by(tmp_path):
+    table = table_dict(name="institutions", columns=[column_dict(name="institutionid", type="text")])
+    incoming = [{"schema": "dairy", "table": "instruments",
+                 "columns": ["supplierid"], "target_columns": ["institutionid"]}]
+    table_page(table, tmp_path / "tables", "dairy", incoming)
+    text = (tmp_path / "tables" / "institutions.md").read_text()
+    assert "[instruments](instruments.md)" in text
+
+
 def test_schema_page_writes_schema_and_tables(tmp_path):
     schema = schema_dict(name="dairy", comment="the dairy schema", tables=[_sample_table()])
-    schema_page(schema, tmp_path / "dairy")
+    schema_page(schema, tmp_path / "dairy", {})
     schema_md = tmp_path / "dairy" / "index.md"
     assert schema_md.is_file()
     text = schema_md.read_text()

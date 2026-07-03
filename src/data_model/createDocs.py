@@ -204,15 +204,16 @@ def database_page(database: dict, path: Path) -> None:
         f"Description:\n**{database.comment}**",
         "\n## Schemas",
     ]
+    incoming_index = build_incoming_index(database)
     for schema in database.schemas:
         name = schema.name
         comment = schema.comment.strip()
         lines.append(f"* **[{name}](./{name}/index.md)**: *{comment}*")
-        schema_page(schema, path / name)
+        schema_page(schema, path / name, incoming_index)
     _write_page(path / "index.md", lines)
 
 
-def schema_page(schema: dict, path: Path) -> None:
+def schema_page(schema: dict, path: Path, incoming_index: dict) -> None:
     """_Generate the list that renders the `schemas` page._
 
     Args:
@@ -231,14 +232,41 @@ def schema_page(schema: dict, path: Path) -> None:
             lines.append("This schema contains no tables.")
         else:
             lines.append(f"* [{table.name}](tables/{table.name}.md)")
-            table_page(table, path / "tables")
+            incoming = incoming_index.get((schema.name, table.name), [])
+            table_page(table, path / "tables", schema.name, incoming)
     # Write the schema page as the folder's index page so MkDocs (with the
     # navigation.indexes feature) collapses the "<schema>/" section and its
     # landing page into a single nav entry instead of a folder + child page.
     _write_page(path / "index.md", lines)
 
 
-def table_page(table: dict, path: Path) -> None:
+def _relationships(table, schema_name:str, incoming:list)->str:
+    """_Build the Relationships body: outgoing References and incoming Referenced By._"""
+    references = []
+    for c in table.constraints:
+        if c.references is None:
+            continue
+        local = ", ".join(f"`{col}`" for col in c.columns)
+        link = _reference_link(schema_name, c.references.schema_, c.references.table)
+        refcols = ", ".join(f"`{col}`" for col in c.references.columns)
+        references.append(f"* {local} → {link} ({refcols})")
+
+    referenced_by = []
+    for entry in incoming:
+        link = _reference_link(schema_name, entry["schema"], entry["table"])
+        srccols = ", ".join(f"`{col}`" for col in entry["columns"])
+        tgtcols = ", ".join(f"`{col}`" for col in entry["target_columns"])
+        referenced_by.append(f"* {link} ({srccols}) → {tgtcols}")
+
+    return "\n".join([
+        "**References**\n",
+        "\n".join(references) if references else "None.",
+        "\n**Referenced By**\n",
+        "\n".join(referenced_by) if referenced_by else "None.",
+    ])
+
+
+def table_page(table: dict, path: Path, schema_name:str, incoming:list) -> None:
     name = table.name
     lines = [
         _front_matter(f"{name} table", table.comment),
@@ -247,9 +275,10 @@ def table_page(table: dict, path: Path) -> None:
         "\n## Columns\n",
         columnPrint(table.columns),
         "\n## Constraints\n",
-        constraintPrint(table.constraints),
+        constraintPrint(table.constraints, schema_name),
         "\n## Indexes\n",
         indexPrint(table.indexes),
         "\n## Relationships\n",
+        _relationships(table, schema_name, incoming),
     ]
     _write_page(path / f"{name}.md", lines)
