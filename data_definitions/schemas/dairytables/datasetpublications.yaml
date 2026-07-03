@@ -13,31 +13,23 @@
   - name: datasetpublications_datasetid_fk
     comment: The foreign key referencing the datasets table in the database.
     type: FOREIGN KEY
-    def: FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE ON DELETE CASCADE
-    table: datasetpublications
-    referencedTable:
-    - datasets
-    columns:
-    - datasetid
-    referencedColumns:
-    - datasetid
+    ddl: FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE ON DELETE CASCADE
+    references:
+      table: datasets
+      columns:
+      - datasetid
   - name: datasetpublications_publicationid_fk
     comment: The foreign key referencing the publications table in the database.
     type: FOREIGN KEY
-    def: FOREIGN KEY (publicationid) REFERENCES publication(publicationid) ON UPDATE CASCADE ON DELETE CASCADE
-    table: datasetpublications
-    referencedTable:
-    - publications
-    columns:
-    - publicationid
-    referencedColumns:
-    - publicationid
+    ddl: FOREIGN KEY (publicationid) REFERENCES publication(publicationid) ON UPDATE CASCADE ON DELETE CASCADE
+    references:
+      table: publications
+      columns:
+      - publicationid
   - name: datasetpublications_joint_pk
     comment: The Primary Key here is the joint datasetid/publicationid key. It shouldn't be repeated.
     type: PRIMARY KEY
-    def: PRIMARY KEY (datasetid, publicationid)
-    referencedTable: datasetpublications
+    ddl: PRIMARY KEY (datasetid, publicationid)
     columns:
     - publicationid
     - datasetid
-

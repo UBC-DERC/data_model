@@ -24,12 +24,12 @@ Description:
 
 ## Constraints
 
-|       name      |    type   |                                                    def                                                    |                                                                                       comment                                                                                      |
-|-----------------|-----------|-----------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| instrument_pkey |PRIMARY KEY|                                         PRIMARY KEY (instrumentid)                                        |The PRIMARY KEY for this table is a UUID7, which is unordered and globally unique. This is not the same as the UPC or serial number, and should be used only for internal reference.|
-|superceeding_fkey|FOREIGN KEY|FOREIGN KEY (superceedingrecordid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE|                     In the event an instrument is re-defined somehow -- when a value is overwritten -- this hierarchical key will point to the new information.                    |
-|manufacturer_fkey|FOREIGN KEY|           FOREIGN KEY (manufacturerid) REFERENCES institutions(institutionid) ON UPDATE CASCADE           |                                                                                        None                                                                                        |
-|  supplier_fkey  |FOREIGN KEY|             FOREIGN KEY (supplierid) REFERENCES institutions(institutionid) ON UPDATE CASCADE             |                                                                                        None                                                                                        |
+|       name      |    type   |                                                    ddl                                                    |                   reference                   |                                                                                       comment                                                                                      |
+|-----------------|-----------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| instrument_pkey |PRIMARY KEY|                                         PRIMARY KEY (instrumentid)                                        |                                               |The PRIMARY KEY for this table is a UUID7, which is unordered and globally unique. This is not the same as the UPC or serial number, and should be used only for internal reference.|
+|superceeding_fkey|FOREIGN KEY|FOREIGN KEY (superceedingrecordid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE|  [instruments](instruments.md) (instrumentid) |                     In the event an instrument is re-defined somehow -- when a value is overwritten -- this hierarchical key will point to the new information.                    |
+|manufacturer_fkey|FOREIGN KEY|           FOREIGN KEY (manufacturerid) REFERENCES institutions(institutionid) ON UPDATE CASCADE           |[institutions](institutions.md) (institutionid)|                                                                                No comment provided.                                                                                |
+|  supplier_fkey  |FOREIGN KEY|             FOREIGN KEY (supplierid) REFERENCES institutions(institutionid) ON UPDATE CASCADE             |[institutions](institutions.md) (institutionid)|                                                                                No comment provided.                                                                                |
 
 ## Indexes
 
@@ -37,3 +37,13 @@ This table has no index
 
 ## Relationships
 
+**References**
+
+* `instrumentid` → [instruments](instruments.md) (`instrumentid`)
+* `manufacturerid` → [institutions](institutions.md) (`institutionid`)
+* `supplierid` → [institutions](institutions.md) (`institutionid`)
+
+**Referenced By**
+
+* [instruments](instruments.md) (`instrumentid`) → `instrumentid`
+* [instrumentinstance](instrumentinstance.md) () → `instrumentid`

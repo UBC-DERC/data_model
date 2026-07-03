@@ -6,6 +6,7 @@ extensions:
 - pg_trgm
 locale: en_CA
 name: dairymodel
+owner: null
 schemas:
 - comment: The main dairy schema, with all data structures used for the farm.
   name: dairy
@@ -65,6 +66,7 @@ schemas:
       type: PRIMARY KEY
     indexes: []
     name: individuals
+    schema: dairy
     type: BASE TABLE
   - columns:
     - comment: A unique internal identifer for a publication in the database.
@@ -126,6 +128,7 @@ schemas:
       type: PRIMARY KEY
     indexes: []
     name: publications
+    schema: dairy
     type: BASE TABLE
   - columns:
     - comment: An internal, unique string to indentify a particular instrument in
@@ -204,10 +207,11 @@ schemas:
       references:
         columns:
         - instrumentid
-        schema_: dairy
+        schema: dairy
         table: instruments
       type: FOREIGN KEY
-    - columns: []
+    - columns:
+      - manufacturerid
       comment: No comment provided.
       ddl: FOREIGN KEY (manufacturerid) REFERENCES institutions(institutionid) ON
         UPDATE CASCADE
@@ -215,10 +219,11 @@ schemas:
       references:
         columns:
         - institutionid
-        schema_: dairy
+        schema: dairy
         table: institutions
       type: FOREIGN KEY
-    - columns: []
+    - columns:
+      - supplierid
       comment: No comment provided.
       ddl: FOREIGN KEY (supplierid) REFERENCES institutions(institutionid) ON UPDATE
         CASCADE
@@ -226,11 +231,12 @@ schemas:
       references:
         columns:
         - institutionid
-        schema_: dairy
+        schema: dairy
         table: institutions
       type: FOREIGN KEY
     indexes: []
     name: instruments
+    schema: dairy
     type: BASE TABLE
   - columns:
     - comment: An internal and unique identifier for an individual to support identification
@@ -265,6 +271,7 @@ schemas:
     constraints: []
     indexes: []
     name: individualidentifiers
+    schema: null
     type: BASE TABLE
   - columns:
     - comment: An internal, unique string to indentify a particular instrument in
@@ -312,11 +319,12 @@ schemas:
       references:
         columns:
         - instrumentid
-        schema_: dairy
+        schema: dairy
         table: instruments
       type: FOREIGN KEY
     indexes: []
     name: instrumentinstance
+    schema: null
     type: BASE TABLE
   - columns:
     - comment: This is the unique identifier given to the cow by the Canadian Government.
@@ -391,6 +399,7 @@ schemas:
       type: CHECK
     indexes: []
     name: cows
+    schema: dairy
     type: BASE TABLE
   - columns:
     - comment: An internal, unique string to indentify a particular instrument in
@@ -428,6 +437,7 @@ schemas:
     constraints: []
     indexes: []
     name: instrumentowners
+    schema: dairy
     type: BASE TABLE
   - columns:
     - comment: A unique internal indentifier for the dataset. This dataset id is used
@@ -473,6 +483,7 @@ schemas:
       type: PRIMARY KEY
     indexes: []
     name: datasets
+    schema: dairy
     type: BASE TABLE
   - columns:
     - comment: A unique internal identifer for a publication in the database.
@@ -514,7 +525,7 @@ schemas:
       references:
         columns:
         - publicationid
-        schema_: dairy
+        schema: dairy
         table: publications
       type: FOREIGN KEY
     - columns: []
@@ -524,11 +535,12 @@ schemas:
       references:
         columns:
         - keywordid
-        schema_: dairy
+        schema: dairy
         table: keywords
       type: FOREIGN KEY
     indexes: []
     name: publicationkeywords
+    schema: null
     type: BASE TABLE
   - columns:
     - comment: A unique internal indentifier for the dataset. This dataset id is used
@@ -585,7 +597,7 @@ schemas:
       references:
         columns:
         - datasetid
-        schema_: dairy
+        schema: dairy
         table: datasets
       type: FOREIGN KEY
     - columns: []
@@ -596,11 +608,12 @@ schemas:
       references:
         columns:
         - databaseid
-        schema_: dairy
+        schema: dairy
         table: externaldatabases
       type: FOREIGN KEY
     indexes: []
     name: datasetidentifiers
+    schema: dairy
     type: BASE TABLE
   - columns:
     - comment: A unique internal identifer for a keyword/source pair in the database.
@@ -656,11 +669,12 @@ schemas:
       references:
         columns:
         - databaseid
-        schema_: dairy
+        schema: dairy
         table: externaldatabases
       type: FOREIGN KEY
     indexes: []
     name: keywords
+    schema: dairy
     type: BASE TABLE
   - columns:
     - comment: A unique internal identifier for an external database reference.
@@ -706,6 +720,7 @@ schemas:
     constraints: []
     indexes: []
     name: externaldatabases
+    schema: dairy
     type: BASE TABLE
   - columns:
     - comment: The unique internal identifier for the institution.
@@ -744,18 +759,20 @@ schemas:
       name: institutionid_pk
       references: null
       type: PRIMARY KEY
-    - columns: []
+    - columns:
+      - superceedingrecord
       comment: Allows for institutions to be renamed, or get switched over time.
       ddl: FOREIGN KEY (superceedingrecord) REFERENCES institutions(institutionid)
       name: institution_superceeding_fk
       references:
         columns:
         - institutionid
-        schema_: dairy
+        schema: dairy
         table: institutions
       type: FOREIGN KEY
     indexes: []
     name: institutions
+    schema: dairy
     type: BASE TABLE
   - columns:
     - comment: References the uuid for the dataset metadata stored in the database.
@@ -776,7 +793,7 @@ schemas:
       references:
         columns:
         - datasetid
-        schema_: dairy
+        schema: dairy
         table: datasets
       type: FOREIGN KEY
     - columns: []
@@ -787,7 +804,7 @@ schemas:
       references:
         columns:
         - publicationid
-        schema_: dairy
+        schema: dairy
         table: publications
       type: FOREIGN KEY
     - columns:
@@ -801,6 +818,7 @@ schemas:
       type: PRIMARY KEY
     indexes: []
     name: datasetpublications
+    schema: dairy
     type: BASE TABLE
 - comment: 'The schema used for application specific tables, views and materialized
     views.

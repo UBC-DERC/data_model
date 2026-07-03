@@ -10,14 +10,6 @@ FIXTURES = Path(__file__).parent / "fixtures"
 # Repository root and the real definition files, used for integration tests.
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DATA_DEFINITIONS = REPO_ROOT / "data_definitions"
-VALIDATION_FILE = REPO_ROOT / "validation.yaml"
-
-
-@pytest.fixture
-def validation():
-    """The project's real validation schema (validation.yaml)."""
-    with open(VALIDATION_FILE, "r") as handle:
-        return yaml.safe_load(handle)
 
 
 @pytest.fixture

@@ -9,6 +9,20 @@ pin down its dispatch behaviour and document two known fragilities:
 import pytest
 
 from data_model import load_file
+from data_model.load_files import resolve_ref
+
+
+def test_resolve_ref_merges_target(write_yaml):
+    target = write_yaml("col.yaml", [{"name": "datecreated", "type": "datetime"}])
+    result = resolve_ref({"ref": str(target), "comment": "local"})
+    assert result["name"] == "datecreated"
+    assert result["type"] == "datetime"
+    assert result["comment"] == "local"
+
+
+def test_resolve_ref_passes_through_without_ref():
+    obj = {"name": "cows", "type": "text"}
+    assert resolve_ref(dict(obj)) == obj
 
 
 def test_load_single_file_returns_first_element(write_yaml):
@@ -39,12 +53,10 @@ def test_load_directory_returns_list_of_files(write_yaml):
     assert names == ["a", "b", "c"]
 
 
-def test_load_directory_ignores_yml_extension(write_yaml):
-    """Known bug: ``.yml`` files are silently skipped by glob('*.yaml').
+def test_load_directory_accepts_both_extensions(write_yaml):
+    """Both ``.yaml`` and ``.yml`` files are loaded from a directory.
 
-    The real repo contains ``datasetidentifiers.yml`` which is therefore
-    never loaded. This test documents the bug; flip the assertion once
-    load_file is fixed to accept both extensions.
+    Editors disagree on the extension, so the loader must accept either.
     """
     write_yaml("mixed/keep.yaml", [{"name": "keep"}])
     directory = (write_yaml("mixed/dropped.yml", [{"name": "dropped"}])).parent
@@ -53,7 +65,7 @@ def test_load_directory_ignores_yml_extension(write_yaml):
     names = [item["name"] for item in result]
 
     assert "keep" in names
-    assert "dropped" not in names  # <-- ideally this should be present
+    assert "dropped" in names
 
 
 def test_load_missing_path_raises(tmp_path):

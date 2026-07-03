@@ -6,7 +6,7 @@
     and other external references such as WikiData, or others.
   type: BASE TABLE
   columns:
-    - name: externaldatabaseid
+    - name: databaseid
       type: uuid7
       comment: A unique internal identifier for an external database reference.
     - name: externaldatabase

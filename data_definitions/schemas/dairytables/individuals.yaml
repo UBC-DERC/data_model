@@ -22,8 +22,6 @@
   - name: individual_pk
     comment: The primary key for the table (comes with indexing as well).
     type: PRIMARY KEY
-    def: PRIMARY KEY(individualid)
-    table: individuals
-    referencedTable: individuals
+    ddl: PRIMARY KEY(individualid)
     columns:
-    - individualid
+      - individualid

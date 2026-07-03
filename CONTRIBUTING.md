@@ -11,8 +11,9 @@ We actively welcome your pull requests.
 
 1. Create a GitHub issue proposing a change to a definition within the data model (you can stop here if you'd like).
 2. Fork the repo and create your branch from `main`.
-3. If you've added a defintion, it should be validated. You can do this by running `uv run main.py` (once you've followed the installation guidelines).
-
+3. If you've added a defintion, it should be validated. You can do this by running:
+     `data-model ./data_definitions/dairymodel.yaml -o new_test.yaml --docs ./docs`
+     (once you've followed the installation guidelines).
 4. Verify that there are no issues in your doc build. You can check the preview locally by entering your virtual environment and running `mkdocs serve`.
 5. Address any feedback in code review promptly.
 

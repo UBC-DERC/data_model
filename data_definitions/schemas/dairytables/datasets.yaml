@@ -17,8 +17,7 @@
   constraints:
   - name: datasets_pk
     type: PRIMARY KEY
-    def: PRIMARY KEY (datasetid)
-    referencedTable: datasets
+    ddl: PRIMARY KEY (datasetid)
     columns:
     - datasetid
     

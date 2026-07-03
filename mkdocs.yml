@@ -16,7 +16,6 @@ nav:
   - Package API Reference:
     - Overview: 'api/index.md'
     - 'api/load_files.md'
-    - 'api/validate.md'
     - 'api/load_database.md'
     - 'api/load_schema.md'
     - 'api/load_tables.md'

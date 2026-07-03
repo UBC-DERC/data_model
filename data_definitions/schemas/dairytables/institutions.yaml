@@ -15,9 +15,16 @@
   - name: institutionid_pk
     comment: Primary key for the institutions table (expects to be unique)
     type: PRIMARY KEY
-    def: PRIMARY KEY(institutionid)
-    table: institutions
-    referencedTable: institutions
+    ddl: PRIMARY KEY(institutionid)
     columns:
     - institutionid
- 
+  - name: institution_superceeding_fk
+    type: FOREIGN KEY
+    comment: Allows for institutions to be renamed, or get switched over time.
+    columns:
+      - superceedingrecord
+    references:
+      table: institutions
+      columns: 
+        - institutionid
+    ddl: FOREIGN KEY (superceedingrecord) REFERENCES institutions(institutionid)

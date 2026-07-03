@@ -1,0 +1,37 @@
+- name: publications
+  schema: dairy
+  comment: >-
+    Documenting publication information tied to DERC. May be related to DERC researchers,
+    collaborators or associated work. This table is likely to be liberal in its inclusion
+    because much of the material will be imported through bulk-import processes.
+  type: BASE TABLE
+  columns:
+    - ref: data_definitions/schemas/dairytables/columns/publicationid.yaml
+    - name: title
+      type: text
+      comment: The article, or publication title.
+    - name: abstract
+      type: text
+      comment: A longer form description of the dataset.
+    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
+    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+    - name: bibtex
+      type: jsonb
+      comment: A valid BibTeX reference for a publication.
+    - name: datepublishedstart
+      type: datetime
+      comment: >-
+        A datetime object for the beginning of the publication date. We use start and end date as a convention to manage uncertainty.
+        In a case where only year is known, we assign dates beginning at XXXX-01-01 and an end date of XXXX-12-31.
+    - name: datepublishedend
+      type: datetime
+      comment: >-
+        A datetime object for the end of the possible publication date. We use start and end date as a convention to manage uncertainty.
+        In a case where only year is known, we assign dates beginning at XXXX-01-01 and an end date of XXXX-12-31. 
+  constraints:
+  - name: publication_pk
+    type: PRIMARY KEY
+    ddl: PRIMARY KEY (publicationid)
+    columns:
+    - publicationid
+    
