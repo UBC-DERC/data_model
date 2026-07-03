@@ -74,7 +74,10 @@ def _render_table(rows:dict, keys:list, empty_message:str, emphasise:str=None)->
 
     formatted = []
     for row in rows:
-        ordered = {key: getattr(row, key) for key in keys}
+        ordered = {
+            key: (row[key] if isinstance(row, dict) else getattr(row, key))
+            for key in keys
+        }
         if emphasise is not None:
             ordered[emphasise] = f"*{ordered.get(emphasise)}*"
         formatted.append(ordered)
@@ -113,17 +116,35 @@ def columnPrint(columns:dict)->str:
     return _render_table(columns, ["name", "type", "comment"], "", emphasise="name")
 
 
-def constraintPrint(constraints)->str:
+def constraintPrint(constraints, schema_name:str="")->str:
     """_Print the `constraints` section of the Markdown pages._
 
+    Foreign-key constraints gain a ``reference`` cell linking to the referenced
+    table's documentation page (with the referenced columns); other constraint
+    types leave that cell blank.
+
     Args:
-        constraints (_dict_): _The dict rendering of the YAML input_
+        constraints: _The constraint objects for a table._
+        schema_name (str): _The owning schema, used to build relative links._
 
     Returns:
         _str_: _The `constraints` section, with deterministic ordering._
-    """    
+    """
+    rows = []
+    for c in constraints:
+        reference = ""
+        if c.references is not None:
+            link = _reference_link(schema_name, c.references.schema_, c.references.table)
+            reference = f"{link} ({', '.join(c.references.columns)})"
+        rows.append({
+            "name": c.name,
+            "type": c.type or "",
+            "ddl": c.ddl or "",
+            "reference": reference,
+            "comment": c.comment,
+        })
     return _render_table(
-        constraints, ["name", "type", "ddl", "comment"], "This table has no constraints"
+        rows, ["name", "type", "ddl", "reference", "comment"], "This table has no constraints"
     )
 
 

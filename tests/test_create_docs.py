@@ -77,8 +77,25 @@ def test_constraint_print_renders_ddl():
     rendered = constraintPrint([
         constraint_dict(name="pk", type="PRIMARY KEY", ddl="PRIMARY KEY (cadid)",
                         comment="c", columns=["cadid"])
-    ])
+    ], schema_name="dairy")
     assert "PRIMARY KEY (cadid)" in rendered
+
+
+def test_constraint_print_links_foreign_key():
+    out = constraintPrint([
+        constraint_dict(name="fk", type="FOREIGN KEY", ddl="FOREIGN KEY (supplierid) ...",
+            columns=["supplierid"],
+            references=reference_dict(schema="dairy", table="institutions", columns=["institutionid"]))
+    ], schema_name="dairy")
+    assert "[institutions](institutions.md)" in out
+    assert "institutionid" in out
+
+
+def test_constraint_print_no_reference_for_primary_key():
+    out = constraintPrint([
+        constraint_dict(name="pk", type="PRIMARY KEY", ddl="PRIMARY KEY (cadid)", columns=["cadid"])
+    ], schema_name="dairy")
+    assert "PRIMARY KEY (cadid)" in out
 
 
 def test_index_print_renders_ddl():
