@@ -12,6 +12,8 @@ from pathlib import Path
 
 from py_markdown_table.markdown_table import markdown_table
 
+from .object_classes import DDL_Dict
+
 NO_COMMENT = "No comment present"
 
 
@@ -29,7 +31,7 @@ def _reference_link(current_schema:str, target_schema:str, target_table:str)->st
     return f"[{target_table}]({path})"
 
 
-def build_incoming_index(database)->dict:
+def build_incoming_index(database:DDL_Dict)->dict:
     """_Map each referenced ``(schema, table)`` to the foreign keys that target it._
 
     Args:
@@ -116,7 +118,7 @@ def columnPrint(columns:dict)->str:
     return _render_table(columns, ["name", "type", "comment"], "", emphasise="name")
 
 
-def constraintPrint(constraints, schema_name:str="")->str:
+def constraintPrint(constraints:list, schema_name:str="")->str:
     """_Print the `constraints` section of the Markdown pages._
 
     Foreign-key constraints gain a ``reference`` cell linking to the referenced
