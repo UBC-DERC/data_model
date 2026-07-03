@@ -15,6 +15,47 @@ from py_markdown_table.markdown_table import markdown_table
 NO_COMMENT = "No comment present"
 
 
+def _reference_link(current_schema:str, target_schema:str, target_table:str)->str:
+    """_Build a Markdown link to a referenced table's documentation page._
+
+    Table pages live at ``<schema>/tables/<table>.md``. A same-schema target is
+    a sibling page; a cross-schema target is reached by walking up to the
+    ``database`` folder and back down into the other schema.
+    """
+    if target_schema == current_schema:
+        path = f"{target_table}.md"
+    else:
+        path = f"../../{target_schema}/tables/{target_table}.md"
+    return f"[{target_table}]({path})"
+
+
+def build_incoming_index(database)->dict:
+    """_Map each referenced ``(schema, table)`` to the foreign keys that target it._
+
+    Args:
+        database: _A loaded, reference-resolved database model._
+
+    Returns:
+        dict: _``(schema, table) -> [{schema, table, columns, target_columns}]``,
+            one entry per incoming foreign key. Tables with no incoming
+            references are absent from the mapping._
+    """
+    index:dict = {}
+    for schema in database.schemas:
+        for table in schema.tables:
+            for constraint in table.constraints:
+                ref = constraint.references
+                if ref is None:
+                    continue
+                index.setdefault((ref.schema_, ref.table), []).append({
+                    "schema": schema.name,
+                    "table": table.name,
+                    "columns": list(constraint.columns),
+                    "target_columns": list(ref.columns),
+                })
+    return index
+
+
 def _render_table(rows:dict, keys:list, empty_message:str, emphasise:str=None)->str:
     """_Render a full Markdown table from the set of dict elements._
 

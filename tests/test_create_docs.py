@@ -15,14 +15,39 @@ from data_model.createDocs import (
     schema_page,
     table_page,
 )
+from data_model.createDocs import _reference_link, build_incoming_index
 from data_model.object_classes import (
     column_dict,
     constraint_dict,
     index_dict,
     table_dict,
     schema_dict,
+    reference_dict,
     DDL_Dict,
 )
+
+
+def test_reference_link_same_schema():
+    assert _reference_link("dairy", "dairy", "institutions") == "[institutions](institutions.md)"
+
+
+def test_reference_link_cross_schema():
+    assert _reference_link("dairy", "apps", "logs") == "[logs](../../apps/tables/logs.md)"
+
+
+def test_build_incoming_index_maps_targets_to_sources():
+    db = DDL_Dict(name="d", schemas=[schema_dict(name="dairy", tables=[
+        table_dict(name="institutions", columns=[column_dict(name="institutionid", type="text")]),
+        table_dict(name="instruments", columns=[column_dict(name="supplierid", type="text")],
+            constraints=[constraint_dict(name="fk", type="FOREIGN KEY", columns=["supplierid"],
+                references=reference_dict(schema="dairy", table="institutions", columns=["institutionid"]))]),
+    ])])
+    idx = build_incoming_index(db)
+    entry = idx[("dairy", "institutions")][0]
+    assert entry["schema"] == "dairy" and entry["table"] == "instruments"
+    assert entry["columns"] == ["supplierid"]
+    assert entry["target_columns"] == ["institutionid"]
+    assert ("dairy", "instruments") not in idx
 
 
 # --------------------------------------------------------------------------- #
