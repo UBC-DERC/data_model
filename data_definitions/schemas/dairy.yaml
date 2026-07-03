@@ -1,5 +1,4 @@
 - name: dairy
-  comment: |
-    The main dairy schema, with all data structures used for the farm.
+  comment: The main dairy schema, with all data structures used for the farm.
   tables:
     - ref: data_definitions/schemas/dairytables

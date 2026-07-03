@@ -2,3 +2,9 @@
   schema:
     - ref: data_definitions/schemas/dairy.yaml 
     - ref: data_definitions/schemas/apps.yaml
+  extensions:
+    - postgis
+    - pg_stat_monitor
+    - pg_trgm
+  locale: en_CA
+  encoding: UTF8

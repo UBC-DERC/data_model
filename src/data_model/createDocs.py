@@ -1,8 +1,14 @@
 from pathlib import Path
 
 def document_database(database:dict, path:Path)->None:
+    """_summary_
+
+    Args:
+        database (dict): _description_
+        path (Path): _description_
+    """    
     docs = Path('docs/')
-    database_page(database, docs / 'database')
+    return database_page(database, docs / 'database')
     
 def database_page(database:dict, path:Path)->None:
     if not path.is_dir():
@@ -24,8 +30,8 @@ def schema_page(schema: dict, path:Path):
         path.mkdir()
     fileOutput = []
     fileOutput.append(f"# {schema.get('name')}")
-    fileOutput.append(f"Description:\n**{schema.get('comment', "No comment present")}**")
-    fileOutput.append("\n## Tables\n")
+    fileOutput.append(f"Description:\n**{schema.get('comment', "No comment present").strip()}**")
+    fileOutput.append("\n## Schema Tables\n")
     for i in schema.get('tables'):
         if type(i) is list:
             fileOutput.append("This schema contains no tables.")
@@ -41,12 +47,13 @@ def table_page(table: dict, path:Path):
         path.mkdir()
     fileOutput = []
     fileOutput.append(f"# {table.get('name')}")
-    fileOutput.append(f"Description:\n**{table.get('comment', "No comment present")}**")
+    fileOutput.append(f"Description:\n\n**{table.get('comment', "No comment present")}**")
     fileOutput.append("\n## Columns\n")
     fileOutput.append(columnPrint(table.get('columns')))
     fileOutput.append("\n## Constraints\n")
     fileOutput.append(constraintPrint(table.get('constraints', [])))
     fileOutput.append("\n## Indexes\n")
+    fileOutput.append(indexPrint(table.get('index', [])))
     fileOutput.append("\n## Relationships\n")
     with open(path / f"{table.get('name')}.md", 'w') as fileOut:
         for line in fileOutput:
@@ -63,12 +70,17 @@ def columnFormatter(columns):
 def columnPrint(columns:dict) -> list:
     from py_markdown_table.markdown_table import markdown_table
 
-    keys = ['name', 'type', 'comment']
+    keys = ['comment', 'type', 'name']
     columnPrint = []
     for i in columns:
-        columnPrint.append({k: i.get(k) for k in keys})
+        colorder = {k: i.get(k) for k in keys}
+        colorder['name'] = f'*{colorder.get('name')}*'
+        columnPrint.append(colorder)
     try:
-        return markdown_table(columnFormatter(columnPrint)).set_params(row_sep = 'markdown', quote=False).get_markdown()
+        mt = markdown_table(columnFormatter(columnPrint)).set_params(row_sep = 'markdown', 
+                                                                     quote=False,
+                                                                     ).get_markdown()
+        return mt
     except:
         print("This table is broken")
 
@@ -84,3 +96,16 @@ def constraintPrint(constraints:dict)->list:
         return markdown_table(constraintPrint).set_params(row_sep = 'markdown', quote=False).get_markdown()
     except:
         print(constraints)
+
+def indexPrint(indices:dict)->list:
+    from py_markdown_table.markdown_table import markdown_table
+    if len(indices) == 0:
+        return "This table has no index"
+    keys = ['name', 'type', 'def', 'comment']
+    indexPrint = []
+    for i in indices:
+        indexPrint.append({k: i.get(k) for k in keys})
+    try:
+        return markdown_table(indexPrint).set_params(row_sep = 'markdown', quote=False).get_markdown()
+    except:
+        print(indices)

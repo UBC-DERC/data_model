@@ -5,11 +5,21 @@
     intended to link to collaboration institutions, manufacturers, suppliers and research or operational dairy farms.
   type: BASE TABLE
   columns:
-    - name: institutionid
-      type: UUID7
-      comment: The unique internal identifier for the institution.
-    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
-    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
-    - name: superceedingrecord
-      comment: In the case a record is replaced with an alternative record (for example a manufacturer is sold to a new company).
-      type: UUID7
+  - name: institutionid
+    type: UUID7
+    comment: The unique internal identifier for the institution.
+  - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
+  - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+  - name: superceedingrecord
+    comment: In the case a record is replaced with an alternative record (for example a manufacturer is sold to a new company).
+    type: UUID7
+  constraints:
+  - name: institutionid_pk
+    comment: Primary key for the institutions table (expects to be unique)
+    type: PRIMARY KEY
+    def: PRIMARY KEY(institutionid)
+    table: institutions
+    referencedTable: institutions
+    columns:
+    - institutionid
+ 

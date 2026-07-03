@@ -11,7 +11,10 @@ nav:
   - Introduction: 'index.md'
   - Governance and Guidance: 'admin/governance.md'
   - Project Summary: 'summary/executive_summary.md'
-  - Database: 'database/index.md'
+  - Database:
+    - database/dairy
+    - database/apps
+
 theme:
   name: material
   features:
@@ -22,22 +25,25 @@ theme:
     - content.tooltips
     - navigation.footer
     - navigation.indexes
-    # - navigation.instant
     # - navigation.instant.prefetch
     # - navigation.instant.progress
-    # - navigation.prune
+    - navigation.prune
+    - navigation.path
+    - navigation.expand
     - navigation.sections
+    - navigation.instant
     - navigation.tabs
-    # - navigation.tabs.sticky
+    - navigation.tabs.sticky
     - navigation.top
     - navigation.tracking
     - search.highlight
     - search.share
     - search.suggest
     - toc.follow
-    # - toc.integrate
+    - toc.integrate
 plugins:
   - mermaid2
+  - include_dir_to_nav
   - search:
       lang: en
       separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
