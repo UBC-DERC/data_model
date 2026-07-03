@@ -52,6 +52,8 @@
   - name: manufacturer_fkey
     type: FOREIGN KEY
     ddl: FOREIGN KEY (manufacturerid) REFERENCES institutions(institutionid) ON UPDATE CASCADE
+    columns:
+      - manufacturerid
     references:
       table: institutions
       columns:
@@ -59,6 +61,8 @@
   - name: supplier_fkey
     type: FOREIGN KEY
     ddl: FOREIGN KEY (supplierid) REFERENCES institutions(institutionid) ON UPDATE CASCADE
+    columns:
+      - supplierid
     references:
       table: institutions
       columns:

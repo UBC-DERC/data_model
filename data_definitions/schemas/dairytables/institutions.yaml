@@ -21,6 +21,8 @@
   - name: institution_superceeding_fk
     type: FOREIGN KEY
     comment: Allows for institutions to be renamed, or get switched over time.
+    columns:
+      - superceedingrecord
     references:
       table: institutions
       columns: 
