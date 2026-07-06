@@ -115,10 +115,12 @@ Contributions to this repository are expected to follow the [Code of Conduct](CO
 To install  from this GitHub repository, either install using a graphical tool such as GitKraken or GitHub Desktop, or install from the console using:
 
 ```bash
-git clone UBC-DERC/data_model.git
-cd 
-python -m pip install .
+git clone https://github.com/UBC-DERC/data_model.git
+cd data_model
+uv sync
 ```
+
+This assumes you have the [`uv`](https://docs.astral.sh/uv/getting-started/installation/) package manager installed.
 
 ## How to Use this Repository
 
