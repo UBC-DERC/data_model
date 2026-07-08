@@ -39,3 +39,4 @@ def resolve_ref(obj:dict)->dict:
     if "ref" in obj:
         return load_file(obj["ref"]) | obj
     return obj
+

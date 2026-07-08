@@ -193,7 +193,8 @@ def document_database(database: dict, path:Path='docs') -> None:
 
     Returns:
         _None_: _Renders the documentation (no object output)._
-    """    
+    """   
+    # Note, this is where we hardcode the output as Path + "database" 
     return database_page(database, Path(path) / "database")
 
 

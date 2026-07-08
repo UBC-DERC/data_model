@@ -197,5 +197,5 @@ def test_check_references_returns_db_when_clean():
 
 def test_real_example_model_loads_and_checks():
     import data_model as dm
-    db = dm.load_database("data_definitions/dairymodel.yaml")
+    db = dm.load_database("examples/data_definitions/dairymodel.yaml")
     assert [s.name for s in db.schemas] == ["dairy", "apps"]

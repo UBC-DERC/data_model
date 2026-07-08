@@ -18,6 +18,7 @@ def load_database(filename:str)->DDL_Dict:
         DDL_Dict: _The validated, reference-checked database model._
     """
     db = resolve_ref(load_file(filename))
+    
     if "schemas" in db:
         db["schemas"] = [load_schema(s["ref"]) for s in db["schemas"]]
     database = DDL_Dict(**db)

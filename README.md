@@ -1,8 +1,8 @@
 # Human Readable Data Models for Dairy Database
 
-This project is intended as a repository for the ultimate data model for the DERC Dairy Database: D^3. The model is designed to represent and provide documentation for data elements within the DERC Research data system. Primarily this database is intended to store data to be used for research projects.
+This project generates a valid YAML file to help manage the development and evolution of SQL data models. It supports the creation of a database with extensions, schemas, tables, columns, indexes and constraints. A user will create a set of YAML files representing the database, organized within folders, and the script will validate these files and generate linked markdown documentation for the user. The documentation is structured such that it can be easily placed into an existing `mkdocs` project.
 
-This repository is for `yaml` data representations of the actual data model.  The `yaml` formatting follows the example used by [`tabls`](https://github.com/k1Low/tbls) elsewhere, with an added directory structuring to make individual tables easier to process, modify, validate and document.
+This repository contains an example `yaml` data representation in the `examples` folder, based on early prototyping of the data model for the UBC Dairy Education and Research Center.  The `yaml` formatting follows the example used by [`tabls`](https://github.com/k1Low/tbls) elsewhere, with an added directory structuring to make individual tables easier to process, modify, validate and document.
 
 ```mermaid
 User Consultation --> Data Model
@@ -12,19 +12,13 @@ Data Model --> Database DDL
 
 ## Editing/Modifying or Working with the Data Model
 
-We are using version control as our primary method for managing the data model. This (in principle) allows us to create release notes for the model, have discussions and raise issues. Our goal is to manage the model in an inclusive manner that reflects changing user needs, expert knowledge and technical requirements.
-
-Modifications should occur in branches of this repository, they should compile properly with the tools provided, and should contain sufficient annotations that users can understand why these changes have happened and how they support ongoing research.
-
-TODO: Create a "contribution guide".
-
-## Repository Structure
+The YAML file(s) used to define the database can be structured so that they are all in one file, or, you can make use of the `ref` tag to refer to another file. In this way, managing a complex data model with repeated elements can be simplified, by defining a field only once, and all documentation will be updated with any change.
 
 ### File and Folder Structure
 
 Within this repository we will create a named folder, here `dairymodel`. Within the folder we will include a set of `yaml` files. These files will contain the critical information for database, schema, table and column definitions. We create these files to support the work of experts in defining the critical fields and concepts used in the database.
 
-The database itself is defined by a folder structure, modeled after PostgreSQL database structure: `database` -> `schema` -> `table` -> `column`. Within each folder, we have individually named files for each of the elements within that hierarchy. Individual files can stand alone, or we can use the `#ref` tag to point to other files. For example, for the database definition we can create a `yaml` file with the text:
+The database itself is defined by a folder structure, modeled after PostgreSQL database structure: `database` -> `schema` -> `table` -> `column`. Within each folder, we have individually named files for each of the elements within that hierarchy. Individual files can stand alone, or we can use the `#ref` tag to point to other files. For example, for the database definition we can create a `yaml` file named `database.yaml` with the text:
 
 ```yaml
 - name: dairymodel
@@ -36,6 +30,15 @@ The database itself is defined by a folder structure, modeled after PostgreSQL d
       comment: |
         The schema used for application specific tables, views and materialized views.
 ```
+
+If we run:
+
+```bash
+data-model database.yaml --docs docs --output output.yaml
+```
+
+We will expect to see that we have a file called `output.yaml`, and a directory in `docs/database` that contains an `index.md` file and two folders, one for each named schema.
+
 
 or we can use references to sub-folders with the `ref` tag, to point to folder content:
 
