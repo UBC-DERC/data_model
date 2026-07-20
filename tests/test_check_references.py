@@ -22,6 +22,8 @@ from data_model.check_references import (
     ReferenceCheckError,
 )
 
+from os import getcwd
+
 
 def _cols(*names):
     return [column_dict(name=n, type="text") for n in names]

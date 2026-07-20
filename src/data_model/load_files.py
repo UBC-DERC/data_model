@@ -1,5 +1,5 @@
 import yaml
-import pathlib as pt
+from pathlib import Path
 
 def load_file(filename:str)->dict:
     """_load YAML file into a dict for internal use._
@@ -10,10 +10,14 @@ def load_file(filename:str)->dict:
     Returns:
         dict: _A dict model _
     """
-    filePath = pt.Path(filename)
+    filePath = Path(filename)
     if filePath.is_file():
         with open(filePath, "r") as file:
-            output = yaml.safe_load(file)[0]
+            try:
+                output = yaml.safe_load(file)[0]
+            except KeyError:
+                print(f'The object loaded from {filePath} does not have a key [0]:')
+                print(yaml.safe_load(file))
     elif filePath.is_dir():
         output = []
         for i in filePath.glob('*.y*ml'):
@@ -40,3 +44,17 @@ def resolve_ref(obj:dict)->dict:
         return load_file(obj["ref"]) | obj
     return obj
 
+def load_yaml_with_refs(path: Path):
+    data = yaml.safe_load(path.read_text())
+    return _resolve(data, base_dir=path.parent)
+
+def _resolve(node, base_dir: Path):
+    if isinstance(node, dict):
+        if "ref" in node:
+            ref_path = (base_dir / node["ref"]).resolve()
+            # nested refs resolve relative to *this* file's dir:
+            return load_yaml_with_refs(ref_path)
+        return {k: _resolve(v, base_dir) for k, v in node.items()}
+    if isinstance(node, list):
+        return [_resolve(item, base_dir) for item in node]
+    return node
