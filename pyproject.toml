@@ -57,6 +57,7 @@ dev = [
     "pytest>=9.0.3",
     "ruff>=0.6.0",
     "pytest-datafiles>=3.0.1",
+    "ty>=0.0.61",
 ]
 
 [tool.pytest.ini_options]
@@ -100,3 +101,6 @@ target-version = "py312"
 fixable = ["ALL"]
 unfixable = []
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ty.rules]
+exclude = ["tests"]
