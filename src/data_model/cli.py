@@ -14,7 +14,7 @@ import yaml
 from .load_database import load_database
 from .createDocs import document_database
 from .model_build import ModelValidationError
-from .check_references import ReferenceCheckError
+from .check_crossreferences import ReferenceCheckError
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -23,7 +23,7 @@ def _build_parser() -> argparse.ArgumentParser:
         description="Validate a YAML data model and write documentation and a composite YAML file.",
     )
     parser.add_argument("entry", help="Path to the database entry YAML file.")
-    parser.add_argument("--docs", required=True, help="Output directory for documentation.")
+    parser.add_argument("--docs", required=False, help="Output directory for documentation. No documentation will be built if unused.")
     parser.add_argument("-o", "--output", required=True, help="Path for the composite output YAML.")
     return parser
 
@@ -42,6 +42,9 @@ def main(argv: list[str] | None = None) -> int:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "w") as handle:
         yaml.safe_dump(database.model_dump(by_alias=True), handle)
-    document_database(database, args.docs)
-    print(f"Wrote {args.output} and documentation to {args.docs}")
+    if args.docs:
+        document_database(database, args.docs)
+        print(f"Wrote {args.output} and documentation to {args.docs}")
+    else:
+        print(f"Skipped documentation. Wrote {args.output}.")
     return 0
