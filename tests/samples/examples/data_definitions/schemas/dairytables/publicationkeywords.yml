@@ -1,0 +1,24 @@
+- name: publicationkeywords
+  type: BASE TABLE
+  comment: Linking publications to associated keywords.
+  columns:
+    - ref: columns/publicationid.yaml
+    - ref: columns/keywordid.yaml
+    - ref: columns/sourceid.yaml
+    - ref: columns/datecreated.yaml
+    - ref: columns/datemodified.yaml
+  constraints:
+  - name: publication_fkey
+    type: FOREIGN KEY
+    ddl: FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE
+    references:
+      table: publications
+      columns:
+        - publicationid
+  - name: keyword_fkey
+    type: FOREIGN KEY
+    ddl: FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE
+    references:
+      table: keywords
+      columns:
+        - keywordid

@@ -1,0 +1,44 @@
+
+- name: datasetidentifiers
+  schema: dairy
+  comment: Links datasets to URLs/DOIs/ARKs for external data resources.
+  type: BASE TABLE
+  columns:
+  - ref: columns/datasetid.yaml
+  - name: identifier
+    type: text
+    comment: >-
+      The external identifier for the dataset object. This may be a DOI, 
+      an ARK or a different data object. Currently the choice is simply 
+      one of the entries in the `externaldatabases` table, but this may 
+      be limited to a subset in the future.
+  - name: externaldatabaseid
+    type: uuid7
+    comment: >-
+      A pointer to the `externaldatabase` table. It may be worth adding a constraint that the
+      `identifier` and the `urlmask` should form a valid URL. In this case we should do some
+      proper error/assertion responses to make sure we're getting things right.
+  - ref: columns/datecreated.yaml
+  - ref: columns/datemodified.yaml
+  constraints:
+  - name: datasetidentifiers_pk
+    type: PRIMARY KEY
+    comment: >-
+      Primary key to ensure unique entries. Joint key, since we need all the information to provide a unique key.
+    ddl: PRIMARY KEY (datasetid, identifier, externaldatabaseid)
+  - name: datasetidentifiers_dsid_fk
+    type: FOREIGN KEY
+    comment: A foreign key to point to the dataset id.
+    references:
+      table: datasets
+      columns:
+      - datasetid
+    ddl: FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE ON DELETE CASCADE
+  - name: datasetidentifiers_externaldbid_fk
+    type: FOREIGN KEY
+    ddl: FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(externaldatabaseid) ON UPDATE CASCADE ON DELETE CASCADE
+    comment: Foreign key reference to external databases or resources.
+    references:
+      table: externaldatabases
+      columns:
+      - databaseid
