@@ -8,6 +8,7 @@ index). Two small helpers do the repetitive work:
   * ``_write_page`` creates the parent directory and writes a list of Markdown
     lines, replacing the repeated mkdir/open/write boilerplate.
 """
+from pydantic.v1 import NoneStr
 from pathlib import Path
 
 from py_markdown_table.markdown_table import markdown_table
@@ -58,7 +59,7 @@ def build_incoming_index(database:DDL_Dict)->dict:
     return index
 
 
-def _render_table(rows:dict, keys:list, empty_message:str, emphasise:str=None)->str:
+def _render_table(rows:dict, keys:list, empty_message:str, emphasise:str|NoneStr = None)->str:
     """_Render a full Markdown table from the set of dict elements._
 
     Args:
@@ -184,7 +185,7 @@ def _front_matter(title: str, description: str) -> str:
 # --------------------------------------------------------------------------- #
 # Page writers
 # --------------------------------------------------------------------------- #
-def document_database(database: dict, path:Path='docs') -> None:
+def document_database(database: dict, path:Path|str=Path('docs')) -> None:
     """_Renders the documentation from YAML dictionary._
 
     Args:
@@ -194,8 +195,10 @@ def document_database(database: dict, path:Path='docs') -> None:
     Returns:
         _None_: _Renders the documentation (no object output)._
     """   
+    if isinstance(path, str):
+        path = Path(path)
     # Note, this is where we hardcode the output as Path + "database" 
-    return database_page(database, Path(path) / "database")
+    return database_page(database, path / "database")
 
 
 def database_page(database: dict, path: Path) -> None:
