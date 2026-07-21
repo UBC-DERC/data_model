@@ -15,14 +15,13 @@ from data_model.object_classes import (
     constraint_dict,
     reference_dict,
 )
-from data_model.check_references import (
+from data_model.check_crossreferences import (
     find_missing_references,
     check_references,
     resolve_references,
     ReferenceCheckError,
 )
 
-from os import getcwd
 
 
 def _cols(*names):
@@ -199,5 +198,5 @@ def test_check_references_returns_db_when_clean():
 
 def test_real_example_model_loads_and_checks():
     import data_model as dm
-    db = dm.load_database("examples/data_definitions/dairymodel.yaml")
+    db = dm.load_database("tests/samples/examples/data_definitions/dairymodel.yaml")
     assert [s.name for s in db.schemas] == ["dairy", "apps"]
