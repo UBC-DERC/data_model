@@ -3,8 +3,8 @@
   type: BASE TABLE
   comment: Which person or organization (or both) maintains ownership of this instrument?
   columns:
-  - ref: data_definitions/schemas/dairytables/columns/instrumentid.yaml
-  - ref: data_definitions/schemas/dairytables/columns/individualid.yaml
-  - ref: data_definitions/schemas/dairytables/columns/institutionid.yaml
-  - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
-  - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+  - ref: columns/instrumentid.yaml
+  - ref: columns/individualid.yaml
+  - ref: columns/institutionid.yaml
+  - ref: columns/datecreated.yaml
+  - ref: columns/datemodified.yaml

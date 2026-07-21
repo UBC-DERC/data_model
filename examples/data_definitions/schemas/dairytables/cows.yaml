@@ -36,8 +36,8 @@
       type: text
       comment: >-
         My guess is that this is actually a pointer to another table, with some extra information.
-    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
-    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+    - ref: columns/datecreated.yaml
+    - ref: columns/datemodified.yaml
   constraints:
     - name: cowuniqueid
       comment: >-

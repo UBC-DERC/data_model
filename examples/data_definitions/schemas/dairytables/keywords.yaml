@@ -4,13 +4,13 @@
     A table for keywords for datasets, publications and other terms. Ideally these terms are linked to external resources, such as ontologies or subject schema.
   type: BASE TABLE
   columns:
-  - ref: data_definitions/schemas/dairytables/columns/keywordid.yaml
+  - ref: columns/keywordid.yaml
   - name: keyword
     type: text
     comment: A keyword used to describe a thing in the database.
-  - ref: data_definitions/schemas/dairytables/columns/sourceid.yaml
-  - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
-  - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+  - ref: columns/sourceid.yaml
+  - ref: columns/datecreated.yaml
+  - ref: columns/datemodified.yaml
   - name: superceedingrecord
     comment: In the case a record is replaced with an alternative record (for example a manufacturer is sold to a new company).
     type: UUID7

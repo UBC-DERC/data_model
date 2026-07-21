@@ -2,14 +2,14 @@
   comment: A particular instrument, with a particular location.
   type: BASE TABLE
   columns:
-    - ref: data_definitions/schemas/dairytables/columns/instrumentid.yaml
+    - ref: columns/instrumentid.yaml
     - name: location
       comment: >-
         More specific description of the positioning within the pen/barn. For example, "Halfway down the long side of the pen, 2m height"
       type: text
       nullable: true
-    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
-    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+    - ref: columns/datecreated.yaml
+    - ref: columns/datemodified.yaml
   constraints:
   - name: instrumantinstance_pk
     type: PRIMARY KEY

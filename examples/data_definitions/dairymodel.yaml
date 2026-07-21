@@ -1,7 +1,7 @@
 - name: dairymodel
   schemas:
-    - ref: data_definitions/schemas/dairy.yaml 
-    - ref: data_definitions/schemas/apps.yaml
+    - ref: schemas/dairy.yaml
+    - ref: schemas/apps.yaml
   extensions:
     - postgis
     - pg_stat_monitor

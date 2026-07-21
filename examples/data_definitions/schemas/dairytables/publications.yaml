@@ -6,15 +6,15 @@
     because much of the material will be imported through bulk-import processes.
   type: BASE TABLE
   columns:
-    - ref: data_definitions/schemas/dairytables/columns/publicationid.yaml
+    - ref: columns/publicationid.yaml
     - name: title
       type: text
       comment: The article, or publication title.
     - name: abstract
       type: text
       comment: A longer form description of the dataset.
-    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
-    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+    - ref: columns/datecreated.yaml
+    - ref: columns/datemodified.yaml
     - name: bibtex
       type: jsonb
       comment: A valid BibTeX reference for a publication.

@@ -5,15 +5,15 @@
     Modeled largely on the work of [Science On Schema](https://github.com/ESIPFed/science-on-schema.org/blob/main/guides/Dataset.md)
   type: BASE TABLE
   columns:
-    - ref: data_definitions/schemas/dairytables/columns/datasetid.yaml
+    - ref: columns/datasetid.yaml
     - name: datasetname
       type: text
       comment: A short name for the dataset used in summarizing its content.
     - name: datasetdescription
       type: text
       comment: A longer form description of the dataset.
-    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
-    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+    - ref: columns/datecreated.yaml
+    - ref: columns/datemodified.yaml
   constraints:
   - name: datasets_pk
     type: PRIMARY KEY

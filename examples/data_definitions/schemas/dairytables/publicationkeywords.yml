@@ -2,11 +2,11 @@
   type: BASE TABLE
   comment: Linking publications to associated keywords.
   columns:
-    - ref: data_definitions/schemas/dairytables/columns/publicationid.yaml
-    - ref: data_definitions/schemas/dairytables/columns/keywordid.yaml
-    - ref: data_definitions/schemas/dairytables/columns/sourceid.yaml
-    - ref: data_definitions/schemas/dairytables/columns/datecreated.yaml
-    - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
+    - ref: columns/publicationid.yaml
+    - ref: columns/keywordid.yaml
+    - ref: columns/sourceid.yaml
+    - ref: columns/datecreated.yaml
+    - ref: columns/datemodified.yaml
   constraints:
   - name: publication_fkey
     type: FOREIGN KEY
