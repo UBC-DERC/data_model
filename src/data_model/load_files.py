@@ -14,13 +14,9 @@ def load_file(filename:str)->dict:
     output = []
     if filePath.is_file():
         with open(filePath, "r") as file:
-            try:
-                output = yaml.safe_load(file)
-                if isinstance(output, list):
-                    output = output[0]
-            except KeyError:
-                print(f'The object loaded from {filePath} does not have a key [0]:')
-                print(yaml.safe_load(file))
+            output = yaml.safe_load(file)
+            if isinstance(output, list):
+                output = output[0]
     elif filePath.is_dir():
         output = []
         for i in filePath.glob('*.y*ml'):
