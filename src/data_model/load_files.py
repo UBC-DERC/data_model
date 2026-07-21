@@ -1,24 +1,27 @@
 import yaml
 from pathlib import Path
 
-def load_file(filename:str)->dict:
+def load_file(filename:str|Path)->dict:
     """_load YAML file into a dict for internal use._
 
     Args:
         filename (str): _A valid filename or directory._
 
     Returns:
-        dict: _A dict model _
+        Unknown | dict[Unknown,Unknown]: _A dict model _
     """
-    filePath = Path(filename)
-    output = []
+    if isinstance(filename, str):
+        filePath: Path = Path(filename)
+    else:
+        filePath = filename
+
     if filePath.is_file():
         with open(filePath, "r") as file:
-            output = yaml.safe_load(file)
+            output: dict | list = yaml.safe_load(file)
             if isinstance(output, list):
-                output = output[0]
+                output: dict = output[0]
     elif filePath.is_dir():
-        output = []
+        output: list = []
         for i in filePath.glob('*.y*ml'):
             output.append(load_file(i))
     else:
