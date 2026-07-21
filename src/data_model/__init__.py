@@ -8,7 +8,7 @@ from .model_build import (
     build_tables as build_tables,
     ModelValidationError as ModelValidationError,
 )
-from .check_references import (
+from .check_crossreferences import (
     check_references as check_references,
     find_missing_references as find_missing_references,
     resolve_references as resolve_references,
