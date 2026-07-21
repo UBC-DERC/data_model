@@ -96,9 +96,14 @@ def find_missing_references(db: DDL_Dict) -> list[str]:
                         f"missing table '{ref.schema_}.{ref.table}'"
                     )
                     continue
-                target_columns = columns_by_table[target]
+                target_columns = columns_by_table.get(target)
                 for col in ref.columns:
-                    if col not in target_columns:
+                    if target_columns is None:
+                        problems.append(
+                            f"{source} constraint '{constraint.name}' references "
+                            f"missing table '{ref.schema_}.{ref.table}'"
+                        )
+                    elif col not in target_columns:
                         problems.append(
                             f"{source} constraint '{constraint.name}' references "
                             f"column '{col}', which does not exist in "
