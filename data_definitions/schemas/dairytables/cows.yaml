@@ -44,17 +44,13 @@
         The PRIMARY KEY for this table is the unique set of the Canadian ID and the scheme type. In our case
         all of the identifiers should have 
       type: PRIMARY KEY
-      definition: PRIMARY KEY (cadid, cowschemeid)
-      table: cows
-      reference:
-      - table: cows
-        columns:
-        - cadid
-        - cowschemeid
+      ddl: PRIMARY KEY (cadid, cowschemeid)
+      columns:
+      - cadid
+      - cowschemeid
     - name: damidvalid
       comment: A constraint to ensure that the dam ID is a valid ID based on the Canadian government ID scheme.
-      type: CHECK (damid ~* '^.*$')
-      reference:
-      - table: cows
-        columns:
-        - damid
+      type: CHECK
+      ddl: CHECK (damid ~* '^.*$')
+      columns:
+      - damid

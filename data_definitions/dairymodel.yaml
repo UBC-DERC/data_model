@@ -1,4 +1,4 @@
-- dbname: dairymodel
+- name: dairymodel
   schemas:
     - ref: data_definitions/schemas/dairy.yaml 
     - ref: data_definitions/schemas/apps.yaml

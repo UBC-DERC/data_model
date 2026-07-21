@@ -10,3 +10,7 @@ uv.lock
 site/
 
 tests/__pycache__/
+
+docs/superpowers/
+
+.superpowers/
