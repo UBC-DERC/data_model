@@ -62,18 +62,3 @@ def base_dir_of(filename:str|Path)->Path:
     """
     p = Path(filename)
     return p if p.is_dir() else p.parent
-
-def load_yaml_with_refs(path: Path):
-    data = yaml.safe_load(path.read_text())
-    return _resolve(data, base_dir=path.parent)
-
-def _resolve(node, base_dir: Path):
-    if isinstance(node, dict):
-        if "ref" in node:
-            ref_path = (base_dir / node["ref"]).resolve()
-            # nested refs resolve relative to *this* file's dir:
-            return load_yaml_with_refs(ref_path)
-        return {k: _resolve(v, base_dir) for k, v in node.items()}
-    if isinstance(node, list):
-        return [_resolve(item, base_dir) for item in node]
-    return node
