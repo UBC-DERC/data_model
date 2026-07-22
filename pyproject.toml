@@ -64,11 +64,13 @@ dev = [
     "mkdocstrings[python]>=1.0.4",
     "mkdocs-minify-plugin>=0.8.0",
     "mkdocs[i18n]>=1.6.1",
+    "pytest-cov>=7.1.0",
 ]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+addopts = "--cov=data_model --cov-report markdown:docs/api/coverage.md"
 
 [tool.ruff]
 exclude = [

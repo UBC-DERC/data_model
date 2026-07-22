@@ -15,13 +15,18 @@ nav:
     - database/
   - Package API Reference:
     - Overview: 'api/index.md'
-    - 'api/load_files.md'
-    - 'api/load_database.md'
-    - 'api/load_schema.md'
-    - 'api/load_tables.md'
-    - 'api/load_columns.md'
-    - 'api/createDocs.md'
-
+    - CLI Usage: 'api/cli.md'
+    - Object Classes: 'api/object_classes.md'
+    - File Loading: 'api/load_files.md'
+    - Databse Creation: 'api/load_database.md'
+    - Schema Creation: 'api/load_schema.md'
+    - Table Creation: 'api/load_tables.md'
+    - Column Creation: 'api/load_columns.md'
+    - Full Model Building: 'api/model_build.md'
+    - Table/Column Reference Checking: 'api/check_crossreferences.md'
+    - Markdown Document Creation: 'api/createDocs.md'
+    - data_model Test Coverage: 'api/coverage.md'
+  - External Resources: 'resources.md'
 theme:
   name: material
   custom_dir: overrides
