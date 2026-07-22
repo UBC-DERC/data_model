@@ -61,4 +61,11 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: uv sync
-      - run: uv run mkdocs gh-deploy --force
+      - name: Build static files
+        id: build
+        run: uv run mkdocs build
+      - name: Deploy static files
+        uses: actions/upload-pages-artifact@98ef48e41587a300b82de4cf298aa98b57b2faae # v5.0.0
+        id: deploy
+        with:
+          path: site/
