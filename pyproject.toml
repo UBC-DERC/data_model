@@ -63,6 +63,7 @@ dev = [
     "mkdocs-include-dir-to-nav>=1.2.0",
     "mkdocstrings[python]>=1.0.4",
     "mkdocs-minify-plugin>=0.8.0",
+    "mkdocs[i18n]>=1.6.1",
 ]
 
 [tool.pytest.ini_options]

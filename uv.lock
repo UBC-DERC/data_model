@@ -178,6 +178,7 @@ docs = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "mkdocs", extra = ["i18n"] },
     { name = "mkdocs-include-dir-to-nav" },
     { name = "mkdocs-material" },
     { name = "mkdocs-mermaid2-plugin" },
@@ -206,6 +207,7 @@ provides-extras = ["docs"]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "mkdocs", extras = ["i18n"], specifier = ">=1.6.1" },
     { name = "mkdocs-include-dir-to-nav", specifier = ">=1.2.0" },
     { name = "mkdocs-material", specifier = ">=9.7.6" },
     { name = "mkdocs-mermaid2-plugin", specifier = ">=1.2.3" },
@@ -407,6 +409,11 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/bc/c6/bbd4f061bd16b378247f12953ffcb04786a618ce5e904b8c5a01a0309061/mkdocs-1.6.1.tar.gz", hash = "sha256:7b432f01d928c084353ab39c57282f29f92136665bdd6abf7c1ec8d822ef86f2", size = 3889159, upload-time = "2024-08-30T12:24:06.899Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/22/5b/dbc6a8cddc9cfa9c4971d59fb12bb8d42e161b7e7f8cc89e49137c5b279c/mkdocs-1.6.1-py3-none-any.whl", hash = "sha256:db91759624d1647f3f34aa0c3f327dd2601beae39a366d6e064c03468d35c20e", size = 3864451, upload-time = "2024-08-30T12:24:05.054Z" },
+]
+
+[package.optional-dependencies]
+i18n = [
+    { name = "babel" },
 ]
 
 [[package]]

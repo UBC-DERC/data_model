@@ -26,6 +26,7 @@ theme:
   name: material
   custom_dir: overrides
   language: en
+  locale: en_CA
   palette:
     # Light mode (follows the OS preference by default).
     - media: "(prefers-color-scheme: light)"
@@ -75,6 +76,7 @@ plugins:
       flat: false
   - mkdocstrings:
       default_handler: python
+      locale: en
       handlers:
         python:
           paths: [src]
