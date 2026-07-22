@@ -22,7 +22,7 @@ def load_file(filename:str|Path)->dict:
                 output: dict = output[0]
     elif filePath.is_dir():
         output: list = []
-        for i in filePath.glob('*.y*ml'):
+        for i in sorted(filePath.glob('*.y*ml')):
             output.append(load_file(i))
     else:
         raise FileNotFoundError(f"{filename} is neither a file or directory in the current working directory.")
