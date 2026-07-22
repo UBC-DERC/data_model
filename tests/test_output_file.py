@@ -11,7 +11,6 @@ def test_output_yaml_matches_golden(tmp_path):
     output = tmp_path / "output.yaml"
     subprocess.run(
         ["data-model", str(EXAMPLE),
-         "--docs", str(tmp_path / "docs"),
          "--output", str(output)],
         check=True,
     )
