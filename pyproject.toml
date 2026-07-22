@@ -70,7 +70,7 @@ dev = [
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-addopts = "--cov=data_model --cov-report markdown:docs/api/coverage.md"
+addopts = "--cov=data_model --cov-report markdown:docs/api/coverage.md --cov-fail-under=70"
 
 [tool.ruff]
 exclude = [

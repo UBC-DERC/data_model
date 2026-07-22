@@ -29,6 +29,8 @@ jobs:
       - run: uv sync --frozen
       - name: Lint (ruff)
         run: uv run ruff check .
+      - name: Check ty
+        run: uv run ty check
       - name: Tests (pytest)
         run: UPDATE_GOLDEN=1 uv run pytest -q
       - name: Docs build (strict)
