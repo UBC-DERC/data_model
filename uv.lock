@@ -178,6 +178,11 @@ docs = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "mkdocs-include-dir-to-nav" },
+    { name = "mkdocs-material" },
+    { name = "mkdocs-mermaid2-plugin" },
+    { name = "mkdocs-minify-plugin" },
+    { name = "mkdocstrings", extra = ["python"] },
     { name = "pytest" },
     { name = "pytest-datafiles" },
     { name = "ruff" },
@@ -201,6 +206,11 @@ provides-extras = ["docs"]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "mkdocs-include-dir-to-nav", specifier = ">=1.2.0" },
+    { name = "mkdocs-material", specifier = ">=9.7.6" },
+    { name = "mkdocs-mermaid2-plugin", specifier = ">=1.2.3" },
+    { name = "mkdocs-minify-plugin", specifier = ">=0.8.0" },
+    { name = "mkdocstrings", extras = ["python"], specifier = ">=1.0.4" },
     { name = "pytest", specifier = ">=9.0.3" },
     { name = "pytest-datafiles", specifier = ">=3.0.1" },
     { name = "ruff", specifier = ">=0.6.0" },
