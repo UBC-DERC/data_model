@@ -2,8 +2,8 @@ from itertools import chain
 
 from .load_files import load_file, resolve_ref
 from .load_tables import load_tables
-from .object_classes import schema_dict
 from .model_build import build_tables
+from .object_classes import schema_dict
 
 
 def load_schema(filename:str)->schema_dict:

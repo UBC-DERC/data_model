@@ -2,14 +2,19 @@
 
 Covers reference_dict (the foreign target of a constraint), and constraint_dict
 which separates a constraint's own/local columns from an optional foreign
-target that only FOREIGN KEY constraints may carry.
+target that only REFERENCES constraints may carry.
 """
 import pytest
 from pydantic import ValidationError
 
 from data_model.object_classes import (
-    reference_dict, constraint_dict, index_dict, table_dict, column_dict,
-    DDL_Dict, schema_dict,
+    DDL_Dict,
+    column_dict,
+    constraint_dict,
+    index_dict,
+    reference_dict,
+    schema_dict,
+    table_dict,
 )
 
 
@@ -42,7 +47,7 @@ def test_reference_defaults_schema_and_table_to_none():
 
 
 def test_reference_accepts_schema_and_table_from_yaml():
-    ref = reference_dict(**{"schema": "dairy", "table": "cows", "columns": ["cadid"]})
+    ref = reference_dict(schema="dairy", table="cows", columns=["cadid"])
     assert ref.schema_ == "dairy"
     assert ref.table == "cows"
 
@@ -59,7 +64,7 @@ def test_reference_forbids_unknown_keys():
 
 def test_foreign_key_accepts_references():
     c = constraint_dict(
-        name="fk", type="FOREIGN KEY", columns=["supplierid"],
+        name="fk", type="REFERENCES", columns=["supplierid"],
         references=reference_dict(table="institutions", columns=["institutionid"]),
     )
     assert c.references.table == "institutions"

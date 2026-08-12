@@ -6,9 +6,8 @@ offending table and constraint, and reports every bad table at once.
 """
 import pytest
 
-from data_model.model_build import build_tables, ModelValidationError
+from data_model.model_build import ModelValidationError, build_tables
 from data_model.object_classes import table_dict
-
 
 GOOD_TABLE = {
     "name": "cows",
@@ -29,7 +28,7 @@ def test_extra_key_names_table_and_constraint():
         "name": "instruments",
         "columns": [{"name": "supplierid", "type": "text"}],
         "constraints": [
-            {"name": "supplier_fkey", "type": "FOREIGN KEY", "referencedTable": "institutions"}
+            {"name": "supplier_fkey", "type": "REFERENCES", "referencedTable": "institutions"}
         ],
     }
     with pytest.raises(ModelValidationError) as exc:
@@ -53,7 +52,7 @@ def test_references_on_primary_key_is_reported_clearly():
         build_tables([bad])
     message = str(exc.value)
     assert "cowpk" in message
-    assert "FOREIGN KEY" in message
+    assert "REFERENCES" in message
 
 
 def test_all_bad_tables_reported_together():

@@ -24,7 +24,7 @@ def test_cli_invalid_entry_exits_1_and_writes_nothing(tmp_path, write_yaml, caps
         "name": "t1",
         "columns": [{"name": "id", "type": "text"}],
         "constraints": [{
-            "name": "ghost_fk", "type": "FOREIGN KEY", "columns": ["id"],
+            "name": "ghost_fk", "type": "REFERENCES", "columns": ["id"],
             "references": {"table": "ghost", "columns": ["id"]},
         }],
     }])

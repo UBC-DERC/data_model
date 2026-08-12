@@ -9,14 +9,14 @@
     - ref: data_definitions/schemas/dairytables/columns/datemodified.yaml
   constraints:
   - name: publication_fkey
-    type: FOREIGN KEY
+    type: REFERENCES
     ddl: FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE
     references:
       table: publications
       columns:
         - publicationid
   - name: keyword_fkey
-    type: FOREIGN KEY
+    type: REFERENCES
     ddl: FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE
     references:
       table: keywords

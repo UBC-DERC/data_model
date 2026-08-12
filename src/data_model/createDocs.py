@@ -58,7 +58,7 @@ def build_incoming_index(database:DDL_Dict)->dict:
     return index
 
 
-def _render_table(rows:dict, keys:list, empty_message:str, emphasise:str=None)->str:
+def _render_table(rows:dict, keys:list, empty_message:str, emphasise:str|None=None)->str:
     """_Render a full Markdown table from the set of dict elements._
 
     Args:

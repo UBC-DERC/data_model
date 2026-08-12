@@ -5,7 +5,7 @@ A constraint separates two clearly-named ideas:
 * ``columns`` — the constraint's own/local columns, validated against the table
   that owns the constraint.
 * ``references`` — an optional foreign target ``(schema, table, columns)``,
-  carried only by FOREIGN KEY constraints, whose ``columns`` are validated
+  carried only by REFERENCES constraints, whose ``columns`` are validated
   against the referenced table.
 
 The schema of the *referring* table is implied by its membership in a

@@ -37,7 +37,7 @@ def _table(name, *, columns=("id",), constraints=None):
 
 def _fk(name, references, columns=("id",)):
     return constraint_dict(
-        name=name, type="FOREIGN KEY", columns=list(columns), references=references
+        name=name, type="REFERENCES", columns=list(columns), references=references
     )
 
 

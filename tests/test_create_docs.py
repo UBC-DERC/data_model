@@ -8,6 +8,8 @@ writers honour the ``path`` they are given.
 """
 from data_model import document_database
 from data_model.createDocs import (
+    _reference_link,
+    build_incoming_index,
     columnPrint,
     constraintPrint,
     database_page,
@@ -15,15 +17,14 @@ from data_model.createDocs import (
     schema_page,
     table_page,
 )
-from data_model.createDocs import _reference_link, build_incoming_index
 from data_model.object_classes import (
+    DDL_Dict,
     column_dict,
     constraint_dict,
     index_dict,
-    table_dict,
-    schema_dict,
     reference_dict,
-    DDL_Dict,
+    schema_dict,
+    table_dict,
 )
 
 
@@ -39,7 +40,7 @@ def test_build_incoming_index_maps_targets_to_sources():
     db = DDL_Dict(name="d", schemas=[schema_dict(name="dairy", tables=[
         table_dict(name="institutions", columns=[column_dict(name="institutionid", type="text")]),
         table_dict(name="instruments", columns=[column_dict(name="supplierid", type="text")],
-            constraints=[constraint_dict(name="fk", type="FOREIGN KEY", columns=["supplierid"],
+            constraints=[constraint_dict(name="fk", type="REFERENCES", columns=["supplierid"],
                 references=reference_dict(schema="dairy", table="institutions", columns=["institutionid"]))]),
     ])])
     idx = build_incoming_index(db)
@@ -83,7 +84,7 @@ def test_constraint_print_renders_ddl():
 
 def test_constraint_print_links_foreign_key():
     out = constraintPrint([
-        constraint_dict(name="fk", type="FOREIGN KEY", ddl="FOREIGN KEY (supplierid) ...",
+        constraint_dict(name="fk", type="REFERENCES", ddl="FOREIGN KEY (supplierid) ...",
             columns=["supplierid"],
             references=reference_dict(schema="dairy", table="institutions", columns=["institutionid"]))
     ], schema_name="dairy")
@@ -147,7 +148,7 @@ def test_table_page_falls_back_when_no_constraints(tmp_path):
 def test_table_page_lists_references(tmp_path):
     table = table_dict(name="instruments",
         columns=[column_dict(name="supplierid", type="text")],
-        constraints=[constraint_dict(name="fk", type="FOREIGN KEY", ddl="FK ...",
+        constraints=[constraint_dict(name="fk", type="REFERENCES", ddl="FK ...",
             columns=["supplierid"],
             references=reference_dict(schema="dairy", table="institutions", columns=["institutionid"]))])
     table_page(table, tmp_path / "tables", "dairy", [])

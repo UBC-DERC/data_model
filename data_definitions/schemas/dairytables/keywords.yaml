@@ -23,7 +23,7 @@
     - keywordid
     - sourceid
   - name: keywordsource_fk
-    type: FOREIGN KEY
+    type: REFERENCES
     ddl: FOREIGN KEY (sourceid) REFERENCES externaldatabases(databaseid)
     references:
       table: externaldatabases
