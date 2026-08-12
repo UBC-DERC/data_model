@@ -1,17 +1,19 @@
 from itertools import chain
 
-from .load_files import load_file, resolve_ref
+from .load_files import load_file, resolve_ref, base_dir_of
 from .load_tables import load_tables
 from .model_build import build_tables
 from .object_classes import schema_dict
 
 
 def load_schema(filename:str)->schema_dict:
-    schema = resolve_ref(load_file(filename))
+    base = base_dir_of(filename)
+    schema = resolve_ref(load_file(filename), base)
     if "tables" in schema:
         for i in range(len(schema["tables"])):
             if "ref" in schema["tables"][i]:
-                schema["tables"][i] = load_tables(schema["tables"][i]["ref"])
+                # Table refs resolve relative to the schema file's directory.
+                schema["tables"][i] = load_tables(base / schema["tables"][i]["ref"])
         schema["tables"] = list(chain.from_iterable(schema["tables"]))
         # Build each table individually so structural problems are reported with
         # clear, table- and constraint-scoped messages (see model_build).

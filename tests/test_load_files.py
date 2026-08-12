@@ -8,6 +8,7 @@ pin down its dispatch behaviour and document two known fragilities:
 """
 import pytest
 
+import data_model as dm
 from data_model import load_file
 from data_model.load_files import resolve_ref
 
@@ -23,6 +24,42 @@ def test_resolve_ref_merges_target(write_yaml):
 def test_resolve_ref_passes_through_without_ref():
     obj = {"name": "cows", "type": "text"}
     assert resolve_ref(dict(obj)) == obj
+
+
+def test_resolve_ref_resolves_relative_to_base_dir(write_yaml):
+    """A relative ref is resolved against base_dir, not the cwd."""
+    target = write_yaml("nested/col.yaml", [{"name": "c", "type": "text"}])
+    result = resolve_ref({"ref": "col.yaml"}, base_dir=target.parent)
+    assert result["name"] == "c"
+
+
+def test_load_database_resolves_refs_relative_to_entry_file(write_yaml, monkeypatch, tmp_path):
+    """Refs resolve relative to the file that contains them, regardless of cwd.
+
+    The entry file references ``schemas/s.yaml``; that schema references a
+    table dir ``tables``; the table references ``columns/id.yaml`` -- all
+    written relative to their own directory. Loading works even when the
+    process runs from an unrelated working directory.
+    """
+    write_yaml("proj/schemas/s.yaml", [{"name": "dairy", "tables": [{"ref": "tables"}]}])
+    # The table file lives in the tables dir and points at columns relative to it.
+    write_yaml("proj/schemas/tables/cows.yaml", [{
+        "name": "cows",
+        "columns": [{"ref": "columns/name.yaml"}],
+    }])
+    write_yaml("proj/schemas/tables/columns/name.yaml", [{"name": "name", "type": "text"}])
+    entry = write_yaml("proj/db.yaml", [{"name": "d", "schemas": [{"ref": "schemas/s.yaml"}]}])
+
+    # Run from an unrelated directory to prove cwd-independence.
+    foreign = tmp_path / "elsewhere"
+    foreign.mkdir()
+    monkeypatch.chdir(foreign)
+
+    db = dm.load_database(str(entry))
+    assert [s.name for s in db.schemas] == ["dairy"]
+    cows = db.schemas[0].tables[0]
+    assert cows.name == "cows"
+    assert {c.name for c in cows.columns} == {"name"}
 
 
 def test_load_single_file_returns_first_element(write_yaml):

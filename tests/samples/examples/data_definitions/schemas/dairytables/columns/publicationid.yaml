@@ -1,0 +1,4 @@
+- name: publicationid
+  comment: >-
+    A unique internal identifer for a publication in the database.
+  type: uuid7

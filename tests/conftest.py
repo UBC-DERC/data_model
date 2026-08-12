@@ -5,11 +5,11 @@ import pytest
 import yaml
 
 # Directory holding small, hand-written YAML fixtures for unit tests.
-FIXTURES = Path(__file__).parent / "fixtures"
+FIXTURES = Path(__file__).parent / "samples"
 
 # Repository root and the real definition files, used for integration tests.
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DATA_DEFINITIONS = REPO_ROOT / "data_definitions"
+DATA_DEFINITIONS = REPO_ROOT / "examples/data_definitions"
 
 
 @pytest.fixture

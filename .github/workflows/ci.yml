@@ -6,7 +6,7 @@ on:
       - develop
   pull_request:
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -14,18 +14,22 @@ jobs:
   # Runs on every push to main/develop and on pull requests.
   checks:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
     steps:
       - name: Checkout the repository.
-        uses: actions/checkout@v7
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v7
       - name: Install uv
         uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
+          python-version: ${{ matrix.python-version }}
           enable-cache: true
-      - run: uv sync
+      - run: uv sync --frozen
       - name: Lint (ruff)
         run: uv run ruff check .
-      - name: Type checking (ty)
-        run: uv run ty check .
+      - name: Check ty
+        run: uv run ty check --output-format=github
       - name: Tests (pytest)
         run: uv run pytest -q
       - name: Docs build (strict)
@@ -37,23 +41,35 @@ jobs:
     needs: checks
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Checkout the repository.
-        uses: actions/checkout@v7
-      - name: Configure Git Credentials
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v7
       - name: Install uv
         uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
           enable-cache: true
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-      - uses: actions/cache@v4
+      - uses: actions/cache@3edfce9056124e459a23f683a21433670d47daca # v4
         with:
           key: mkdocs-material-${{ env.cache_id }}
           path: ~/.cache
           restore-keys: |
             mkdocs-material-
-      - run: uv sync
-      - run: uv run mkdocs gh-deploy --force
+      - run: uv sync --frozen
+      - name: Build static files
+        id: build
+        run: uv run mkdocs build
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@98ef48e41587a300b82de4cf298aa98b57b2faae # v5.0.0
+        with:
+          path: site/
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5

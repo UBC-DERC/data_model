@@ -1,0 +1,10 @@
+- name: dairymodel
+  schemas:
+    - ref: schemas/dairy.yaml
+    - ref: schemas/apps.yaml
+  extensions:
+    - postgis
+    - pg_stat_monitor
+    - pg_trgm
+  locale: en_CA
+  encoding: UTF8

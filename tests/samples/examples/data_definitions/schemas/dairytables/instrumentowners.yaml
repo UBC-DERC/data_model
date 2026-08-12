@@ -1,0 +1,10 @@
+- name: instrumentowners
+  schema: dairy
+  type: BASE TABLE
+  comment: Which person or organization (or both) maintains ownership of this instrument?
+  columns:
+  - ref: columns/instrumentid.yaml
+  - ref: columns/individualid.yaml
+  - ref: columns/institutionid.yaml
+  - ref: columns/datecreated.yaml
+  - ref: columns/datemodified.yaml

@@ -1,0 +1,5 @@
+- name: sourceid
+  type: uuid7
+  comment: >-
+    A unique internal indentifier for an external source for subjects or keywords.
+    This may include sources such as WikiData, or the Library of Congress subject catalog.

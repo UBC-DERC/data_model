@@ -1,0 +1,16 @@
+- name: individualidentifiers
+  comment: Linking individuals to external identifiers, such as websites, or ORCIDs.
+  type: BASE TABLE
+  columns:
+    - name: individualid
+      type: uuid7
+      comment: An internal and unique identifier for an individual to support identification within the database.
+    - name: identifier
+      type: text
+      comment: Text used as a valid identifier format (for example, DOIs or others).
+    - name: externaldatabaseid
+      type: uuid7
+      comment: A unique internal identifier for an external database reference.
+    - ref: columns/datecreated.yaml
+    - ref: columns/datemodified.yaml
+    

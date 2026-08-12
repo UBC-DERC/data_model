@@ -36,5 +36,5 @@ None.
 
 **Referenced By**
 
-* [datasetidentifiers](datasetidentifiers.md) () → `datasetid`
 * [datasetpublications](datasetpublications.md) () → `datasetid`
+* [datasetidentifiers](datasetidentifiers.md) () → `datasetid`
