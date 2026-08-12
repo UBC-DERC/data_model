@@ -8,6 +8,8 @@ a sentence that names the table, the constraint (by name, not index), the
 field, and the offending value, and reports every bad table together so a
 maintainer can fix them all in one pass.
 """
+from typing import Any
+
 from pydantic import ValidationError
 
 from .object_classes import table_dict
@@ -17,7 +19,7 @@ class ModelValidationError(Exception):
     """Raised when one or more table definitions fail structural validation."""
 
 
-def _label_location(data: dict, loc: tuple) -> str:
+def _label_location(data: dict[str, Any], loc: tuple[int | str, ...]) -> str:
     """Render a pydantic error location using item names instead of indices.
 
     Walks ``loc`` against the original input ``data`` so that a list index is
@@ -40,7 +42,7 @@ def _label_location(data: dict, loc: tuple) -> str:
     return " -> ".join(parts) if parts else "(table)"
 
 
-def _describe_errors(data: dict, error: ValidationError) -> list[str]:
+def _describe_errors(data: dict[str, Any], error: ValidationError) -> list[str]:
     """Turn one table's ValidationError into readable, table-scoped messages."""
     table_name = data.get("name", "(unnamed table)")
     messages: list[str] = []
@@ -50,7 +52,7 @@ def _describe_errors(data: dict, error: ValidationError) -> list[str]:
     return messages
 
 
-def build_tables(table_dicts: list[dict]) -> list[table_dict]:
+def build_tables(table_dicts: list[dict[str, Any]]) -> list[table_dict]:
     """Build ``table_dict`` models from validated dicts, or report all problems.
 
     Args:
