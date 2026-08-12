@@ -1,37 +1,38 @@
 from pathlib import Path
+from typing import Any
 
 import yaml
 
 
-def load_file(filename:str|Path)->dict:
-    """_load YAML file into a dict for internal use._
+def load_file(filename:str|Path)->Any:
+    """_load a YAML file (or directory of YAML files) into Python data._
+
+    A file yields the mapping it contains (the first document if the file is a
+    YAML sequence of documents); a directory yields a list with one loaded
+    entry per ``*.y*ml`` file. The return is the raw, un-validated YAML data,
+    so it is typed ``Any`` (validation into pydantic models happens later).
 
     Args:
-        filename (str): _A valid filename or directory._
+        filename (str | Path): _A valid file or directory path._
 
     Returns:
-        Unknown | dict[Unknown,Unknown]: _A dict model _
+        Any: _The loaded YAML data (a dict for a file, a list for a directory)._
     """
-    if isinstance(filename, str):
-        filePath: Path = Path(filename)
-    else:
-        filePath = filename
+    filePath = Path(filename)
 
     if filePath.is_file():
         with open(filePath, "r") as file:
-            output: dict | list = yaml.safe_load(file)
-            if isinstance(output, list):
-                output: dict = output[0]
+            output = yaml.safe_load(file)
+        if isinstance(output, list):
+            output = output[0]
     elif filePath.is_dir():
-        output: list = []
-        for i in sorted(filePath.glob('*.y*ml')):
-            output.append(load_file(i))
+        output = [load_file(i) for i in sorted(filePath.glob('*.y*ml'))]
     else:
         raise FileNotFoundError(f"{filename} is neither a file or directory in the current working directory.")
     return output
 
 
-def resolve_ref(obj:dict, base_dir:str|Path=".")->dict:
+def resolve_ref(obj:dict[str, Any], base_dir:str|Path=".")->dict[str, Any]:
     """_Merge a ``ref:`` target file into ``obj``; return ``obj`` unchanged if none._
 
     The referenced file is loaded first and the object's own keys are layered

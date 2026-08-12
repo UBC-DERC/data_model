@@ -9,16 +9,35 @@ index). Two small helpers do the repetitive work:
     lines, replacing the repeated mkdir/open/write boilerplate.
 """
 from pathlib import Path
+from typing import Any, TypedDict
 
 from py_markdown_table.markdown_table import markdown_table
-from pydantic.v1 import NoneStr
 
-from .object_classes import DDL_Dict
+from .object_classes import (
+    DDL_Dict,
+    column_dict,
+    constraint_dict,
+    index_dict,
+    schema_dict,
+    table_dict,
+)
 
 NO_COMMENT = "No comment present"
 
 
-def _reference_link(current_schema:str, target_schema:str, target_table:str)->str:
+class IncomingRef(TypedDict):
+    """A single foreign key that points *at* a table, seen from the target."""
+    schema: str
+    table: str
+    columns: list[str]
+    target_columns: list[str]
+
+
+# ``(schema, table)`` -> the foreign keys that reference it.
+IncomingIndex = dict[tuple[str | None, str | None], list[IncomingRef]]
+
+
+def _reference_link(current_schema:str, target_schema:str|None, target_table:str|None)->str:
     """_Build a Markdown link to a referenced table's documentation page._
 
     Table pages live at ``<schema>/tables/<table>.md``. A same-schema target is
@@ -32,7 +51,7 @@ def _reference_link(current_schema:str, target_schema:str, target_table:str)->st
     return f"[{target_table}]({path})"
 
 
-def build_incoming_index(database:DDL_Dict)->dict:
+def build_incoming_index(database:DDL_Dict)->IncomingIndex:
     """_Map each referenced ``(schema, table)`` to the foreign keys that target it._
 
     Args:
@@ -43,7 +62,7 @@ def build_incoming_index(database:DDL_Dict)->dict:
             one entry per incoming foreign key. Tables with no incoming
             references are absent from the mapping._
     """
-    index:dict = {}
+    index:IncomingIndex = {}
     for schema in database.schemas:
         for table in schema.tables:
             for constraint in table.constraints:
@@ -59,7 +78,7 @@ def build_incoming_index(database:DDL_Dict)->dict:
     return index
 
 
-def _render_table(rows:dict, keys:list, empty_message:str, emphasise:str|NoneStr = None)->str:
+def _render_table(rows:list[Any], keys:list[str], empty_message:str, emphasise:str|None = None)->str:
     """_Render a full Markdown table from the set of dict elements._
 
     Args:
@@ -91,12 +110,13 @@ def _render_table(rows:dict, keys:list, empty_message:str, emphasise:str|NoneStr
             .set_params(row_sep="markdown", quote=False)
             .get_markdown()
         )
-    except Exception:
+    except ValueError as e:
         print(f"Could not render table for rows: {rows}")
+        print(e)
         return ""
 
 
-def _write_page(path: Path, lines: list) -> None:
+def _write_page(path: Path, lines: list[str]) -> None:
     """_Write ``lines`` (one per element) to ``path``, creating parent dirs._
 
     Args:
@@ -107,7 +127,7 @@ def _write_page(path: Path, lines: list) -> None:
     path.write_text("\n".join(lines) + "\n")
 
 
-def columnPrint(columns:dict)->str:
+def columnPrint(columns:list[column_dict])->str:
     """_Provide determininistic column ordering for Markdown._
 
     Args:
@@ -119,7 +139,7 @@ def columnPrint(columns:dict)->str:
     return _render_table(columns, ["name", "type", "comment"], "", emphasise="name")
 
 
-def constraintPrint(constraints:list, schema_name:str="")->str:
+def constraintPrint(constraints:list[constraint_dict], schema_name:str="")->str:
     """_Print the `constraints` section of the Markdown pages._
 
     Foreign-key constraints gain a ``reference`` cell linking to the referenced
@@ -151,7 +171,7 @@ def constraintPrint(constraints:list, schema_name:str="")->str:
     )
 
 
-def indexPrint(indices)->str:
+def indexPrint(indices:list[index_dict])->str:
     """_Print the `indexes` section of the Markdown pages._
     Args:
         indices (_dict_): _The dict rendering of the YAML input_
@@ -185,7 +205,7 @@ def _front_matter(title: str, description: str) -> str:
 # --------------------------------------------------------------------------- #
 # Page writers
 # --------------------------------------------------------------------------- #
-def document_database(database: dict, path:Path|str=Path('docs')) -> None:
+def document_database(database: DDL_Dict, path:Path|str=Path('docs')) -> None:
     """_Renders the documentation from YAML dictionary._
 
     Args:
@@ -201,7 +221,7 @@ def document_database(database: dict, path:Path|str=Path('docs')) -> None:
     return database_page(database, path / "database")
 
 
-def database_page(database: dict, path: Path) -> None:
+def database_page(database: DDL_Dict, path: Path) -> None:
     lines = [
         _front_matter(
             f"{database.name} database", database.comment
@@ -219,7 +239,7 @@ def database_page(database: dict, path: Path) -> None:
     _write_page(path / "index.md", lines)
 
 
-def schema_page(schema: dict, path: Path, incoming_index: dict) -> None:
+def schema_page(schema: schema_dict, path: Path, incoming_index: IncomingIndex) -> None:
     """_Generate the list that renders the `schemas` page._
 
     Args:
@@ -246,7 +266,7 @@ def schema_page(schema: dict, path: Path, incoming_index: dict) -> None:
     _write_page(path / "index.md", lines)
 
 
-def _relationships(table, schema_name:str, incoming:list)->str:
+def _relationships(table:table_dict, schema_name:str, incoming:list[IncomingRef])->str:
     """_Build the Relationships body: outgoing References and incoming Referenced By._"""
     references = []
     for c in table.constraints:
@@ -272,7 +292,7 @@ def _relationships(table, schema_name:str, incoming:list)->str:
     ])
 
 
-def table_page(table: dict, path: Path, schema_name:str, incoming:list) -> None:
+def table_page(table: table_dict, path: Path, schema_name:str, incoming:list[IncomingRef]) -> None:
     name = table.name
     lines = [
         _front_matter(f"{name} table", table.comment),

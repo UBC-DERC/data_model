@@ -32,4 +32,4 @@ The following objects are exported from the top-level `data_model` package:
 | [`load_tables`](load_tables.md) | Load tables and resolve column refs |
 | [`load_columns`](load_columns.md) | Load and validate a column fragment |
 | [`model_build`](model_build.md) | The tooling to build the full data model from composite components. |
-| [`createDocs`](createDocs.md) | Render the model as Markdown documentation |
+| [`create_docs`](create_docs.md) | Render the model as Markdown documentation |
