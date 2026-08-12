@@ -1,5 +1,7 @@
-import yaml
 from pathlib import Path
+
+import yaml
+
 
 def load_file(filename:str|Path)->dict:
     """_load YAML file into a dict for internal use._

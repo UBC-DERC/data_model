@@ -1,7 +1,7 @@
-from .load_files import load_file, resolve_ref, base_dir_of
+from .check_crossreferences import check_references
+from .load_files import base_dir_of, load_file, resolve_ref
 from .load_schema import load_schema
 from .object_classes import DDL_Dict
-from .check_crossreferences import check_references
 
 
 def load_database(filename:str)->DDL_Dict:

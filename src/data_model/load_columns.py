@@ -1,4 +1,4 @@
-from .load_files import load_file, resolve_ref, base_dir_of
+from .load_files import base_dir_of, load_file, resolve_ref
 
 
 def load_columns(filename:str)->dict:

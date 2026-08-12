@@ -1,6 +1,6 @@
 from itertools import chain
 
-from .load_files import load_file, resolve_ref, base_dir_of
+from .load_files import base_dir_of, load_file, resolve_ref
 from .load_tables import load_tables
 from .model_build import build_tables
 from .object_classes import schema_dict

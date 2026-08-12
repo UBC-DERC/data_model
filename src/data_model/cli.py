@@ -11,10 +11,10 @@ from pathlib import Path
 
 import yaml
 
-from .load_database import load_database
-from .createDocs import document_database
-from .model_build import ModelValidationError
 from .check_crossreferences import ReferenceCheckError
+from .createDocs import document_database
+from .load_database import load_database
+from .model_build import ModelValidationError
 
 
 def _build_parser() -> argparse.ArgumentParser:

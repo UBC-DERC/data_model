@@ -1,5 +1,5 @@
 from .load_columns import load_columns
-from .load_files import load_file, resolve_ref, base_dir_of
+from .load_files import base_dir_of, load_file, resolve_ref
 
 
 def load_tables(filename:str)->list | dict:

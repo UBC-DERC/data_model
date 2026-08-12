@@ -8,10 +8,10 @@ index). Two small helpers do the repetitive work:
   * ``_write_page`` creates the parent directory and writes a list of Markdown
     lines, replacing the repeated mkdir/open/write boilerplate.
 """
-from pydantic.v1 import NoneStr
 from pathlib import Path
 
 from py_markdown_table.markdown_table import markdown_table
+from pydantic.v1 import NoneStr
 
 from .object_classes import DDL_Dict
 

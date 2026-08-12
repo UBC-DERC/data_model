@@ -1,5 +1,6 @@
 # tests/test_output_yaml.py
 from pathlib import Path
+
 import yaml
 
 GOLDEN = Path("tests/samples/output.yaml")

@@ -7,21 +7,20 @@ owning table, and foreign targets whose table or columns do not exist.
 """
 import pytest
 
+from data_model.check_crossreferences import (
+    ReferenceCheckError,
+    check_references,
+    find_missing_references,
+    resolve_references,
+)
 from data_model.object_classes import (
     DDL_Dict,
-    schema_dict,
-    table_dict,
     column_dict,
     constraint_dict,
     reference_dict,
+    schema_dict,
+    table_dict,
 )
-from data_model.check_crossreferences import (
-    find_missing_references,
-    check_references,
-    resolve_references,
-    ReferenceCheckError,
-)
-
 
 
 def _cols(*names):

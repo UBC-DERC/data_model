@@ -4,8 +4,6 @@ import yaml
 from data_model.cli import main
 
 
-
-
 def test_cli_success_writes_both_artifacts(tmp_path):
     out = tmp_path / "output.yaml"
     docs = tmp_path / "docs"
