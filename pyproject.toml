@@ -54,7 +54,7 @@ docs = [
 
 [dependency-groups]
 dev = [
-    "pytest>=9.0.3",
+    "pytest>=9.1.1",
     "ruff>=0.16.2",
     "pytest-datafiles>=3.0.1",
     "ty>=0.0.69",
