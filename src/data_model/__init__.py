@@ -11,7 +11,7 @@ from .check_crossreferences import (
     resolve_references as resolve_references,
 )
 from .cli import main as main
-from .createDocs import document_database as document_database
+from .create_docs import document_database as document_database
 from .load_database import load_database as load_database
 from .load_files import load_file as load_file
 from .load_schema import load_schema as load_schema

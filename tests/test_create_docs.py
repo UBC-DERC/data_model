@@ -1,4 +1,4 @@
-"""Tests for data_model.createDocs (Markdown generation).
+"""Tests for data_model.create_docs (Markdown generation).
 
 The renderers consume the pydantic model objects produced by the loader
 (``table_dict``/``schema_dict``/``DDL_Dict`` etc.), reading attributes such as
@@ -7,7 +7,7 @@ current behaviour: constraints/indexes render their ``ddl``, and the page
 writers honour the ``path`` they are given.
 """
 from data_model import document_database
-from data_model.createDocs import (
+from data_model.create_docs import (
     _reference_link,
     build_incoming_index,
     columnPrint,

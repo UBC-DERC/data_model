@@ -12,7 +12,7 @@ from pathlib import Path
 import yaml
 
 from .check_crossreferences import ReferenceCheckError
-from .createDocs import document_database
+from .create_docs import document_database
 from .load_database import load_database
 from .model_build import ModelValidationError
 
