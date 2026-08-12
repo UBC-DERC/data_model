@@ -286,7 +286,7 @@ dev = [
     { name = "pytest", specifier = ">=9.1.1" },
     { name = "pytest-cov", specifier = ">=7.1.0" },
     { name = "pytest-datafiles", specifier = ">=3.0.1" },
-    { name = "ruff", specifier = ">=0.16.2" },
+    { name = "ruff", specifier = ">=0.6.0" },
     { name = "ty", specifier = ">=0.0.69" },
 ]
 
