@@ -22,7 +22,7 @@ We actively welcome your pull requests.
 
 1. Fork the repo and create your branch from `main`.
 3. Install `uv` and run `uv sync`
-4. Make your code change.
+4. Make your code change and ensure `ruff`, `ty` and `pytest` checks run cleanly.
 5. Address any feedback in code review promptly.
 
 ## Issues
