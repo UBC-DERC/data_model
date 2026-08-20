@@ -1,3 +1,9 @@
+[![ci](https://github.com/UBC-DERC/data_model/actions/workflows/ci.yml/badge.svg)](https://github.com/UBC-DERC/data_model/actions/workflows/ci.yml) [![codeQL](https://github.com/UBC-DERC/data_model/actions/workflows/codeql.yml/badge.svg)](https://github.com/UBC-DERC/data_model/actions/workflows/codeql.yml)
+
+[![lifecycle](https://img.shields.io/badge/lifecycle-alpha-orange.svg)]()
+
+[![](https://img.shields.io/badge/MIT-green?style=for-the-badge)](LICENSE.md)
+
 # Human Readable Data Models for Dairy Database
 
 This project generates a valid YAML file to help manage the development and evolution of SQL data models. It supports the creation of a database with extensions, schemas, tables, columns, indexes and constraints. A user will create a set of YAML files representing the database, organized within folders, and the script will validate these files and generate linked markdown documentation for the user. The documentation is structured such that it can be easily placed into an existing `mkdocs` project.
@@ -5,9 +11,19 @@ This project generates a valid YAML file to help manage the development and evol
 This repository contains an example `yaml` data representation in the `examples` folder, based on early prototyping of the data model for the UBC Dairy Education and Research Center.  The `yaml` formatting follows the example used by [`tabls`](https://github.com/k1Low/tbls) elsewhere, with an added directory structuring to make individual tables easier to process, modify, validate and document.
 
 ```mermaid
-User Consultation --> Data Model
-Data Model --> Validation 
-Data Model --> Database DDL
+flowchart LR
+  uc@{ label: "User Consultation" }
+  dm@{ label: "Data Model\n(yaml)" }
+  val@{ label: "Validation\n(data_model)" }
+  ddl@{ label: "Database DDL\n(ddl_model)" }
+uc --> dm
+dm --> val
+dm --> ddl
+
+click uc "https://ubc-derc.github.io/data_model/admin/governance/" "Data Governance"
+click dm "https://ubc-derc.github.io/data_model/database/" "UBC DERC Database Documentation"
+click val "https://github.com/UBC-DERC/data_model" "data_model validator"
+click ddl "https://github.com/UBC-DERC/ddl_builder" "DDL_Builder Repository"
 ```
 
 ## Editing/Modifying or Working with the Data Model
