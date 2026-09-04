@@ -1,4 +1,5 @@
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from enum import Enum
 
 
 class column_dict(BaseModel):
@@ -18,10 +19,18 @@ class reference_dict(BaseModel):
     table:str | None = None
     columns:list[str]
 
+class ConstraintType(str, Enum):
+       """Allowed PostgreSQL constraint types."""
+       check = "CHECK"
+       unique = "UNIQUE"
+       unique_nulls_not_distinct = "UNIQUE NULLS NOT DISTINCT"
+       primary_key = "PRIMARY KEY"
+       foreign_key = "FOREIGN KEY"
+
 class constraint_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name:str
-    type:str | None = None
+    type:ConstraintType | None = None
     comment:str = "No comment provided."
     ddl:str | None = None
     # ``columns`` are the constraint's own/local columns (the key columns of a
@@ -33,10 +42,10 @@ class constraint_dict(BaseModel):
 
     @model_validator(mode="after")
     def _references_only_on_foreign_keys(self):
-        if self.references is not None and self.type != "REFERENCES":
+        if self.references is not None and self.type != ConstraintType.foreign_key:
             raise ValueError(
                 f"constraint '{self.name}' has a references block but is type "
-                f"{self.type!r}; only REFERENCES may reference another table."
+                f"{self.type!r}; only FOREIGN KEYs may reference another table."
             )
         return self
 

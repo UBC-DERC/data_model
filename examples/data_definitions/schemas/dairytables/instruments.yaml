@@ -41,7 +41,7 @@
     - instrumentid
   - name: superceeding_fkey
     comment: In the event an instrument is re-defined somehow -- when a value is overwritten -- this hierarchical key will point to the new information.
-    type: REFERENCES
+    type: FOREIGN KEY
     ddl: FOREIGN KEY (superceedingrecordid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE
     references:
       table: instruments
@@ -50,7 +50,7 @@
     columns:
     - instrumentid
   - name: manufacturer_fkey
-    type: REFERENCES
+    type: FOREIGN KEY
     ddl: FOREIGN KEY (manufacturerid) REFERENCES institutions(institutionid) ON UPDATE CASCADE
     columns:
       - manufacturerid
@@ -59,7 +59,7 @@
       columns:
       - institutionid
   - name: supplier_fkey
-    type: REFERENCES
+    type: FOREIGN KEY
     ddl: FOREIGN KEY (supplierid) REFERENCES institutions(institutionid) ON UPDATE CASCADE
     columns:
       - supplierid
