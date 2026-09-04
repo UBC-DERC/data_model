@@ -38,7 +38,7 @@ issues="https://github.com/UBC-DERC/data_model/issues"
 data-model = "data_model:main"
 
 [build-system]
-requires = ["uv_build>=0.11.8,<0.12.0"]
+requires = ["uv_build>=0.11.8,<0.13.0"]
 build-backend = "uv_build"
 
 [project.optional-dependencies]
