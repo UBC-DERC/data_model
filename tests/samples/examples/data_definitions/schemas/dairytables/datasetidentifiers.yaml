@@ -27,7 +27,7 @@
       Primary key to ensure unique entries. Joint key, since we need all the information to provide a unique key.
     ddl: PRIMARY KEY (datasetid, identifier, externaldatabaseid)
   - name: datasetidentifiers_dsid_fk
-    type: REFERENCES
+    type: FOREIGN KEY
     comment: A foreign key to point to the dataset id.
     references:
       table: datasets
@@ -35,7 +35,7 @@
       - datasetid
     ddl: FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE ON DELETE CASCADE
   - name: datasetidentifiers_externaldbid_fk
-    type: REFERENCES
+    type: FOREIGN KEY
     ddl: FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(externaldatabaseid) ON UPDATE CASCADE ON DELETE CASCADE
     comment: Foreign key reference to external databases or resources.
     references:
