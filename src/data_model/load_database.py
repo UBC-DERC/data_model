@@ -7,7 +7,7 @@ from .object_classes import DDL_Dict
 def load_database(filename:str)->DDL_Dict:
     """_Recursively load and validate the database model from a YAML entry file._
 
-    The model is assembled from the entry file and its ``ref:`` targets, built
+    The model is assembled from the entry file and its ``$ref:`` targets, built
     into pydantic models (structural validation), then checked for unresolved
     references across all schemas and tables.
 
@@ -21,13 +21,13 @@ def load_database(filename:str)->DDL_Dict:
     file = load_file(filename)
     db = resolve_ref(file, base)
     if db.get('schemas', None):
-        # Schemas may arrive two ways: as ``ref:`` pointers that must be loaded
+        # Schemas may arrive two ways: as ``$ref:`` pointers that must be loaded
         # and assembled from component files, or as fully-inlined schema dicts
         # (e.g. a serialised model like tests/samples/output.yaml). Resolve each
         # entry independently and leave inline schemas for DDL_Dict to validate.
         # Refs are resolved relative to the entry file's directory.
         db["schemas"] = [
-            load_schema(base / s["ref"]) if "ref" in s else s
+            load_schema(base / s["$ref"]) if "$ref" in s else s
             for s in db["schemas"]
         ]
     database = DDL_Dict(**db)

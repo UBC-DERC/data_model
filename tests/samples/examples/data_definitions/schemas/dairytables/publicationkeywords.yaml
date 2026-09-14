@@ -2,11 +2,11 @@
   type: BASE TABLE
   comment: Linking publications to associated keywords.
   columns:
-    - ref: columns/publicationid.yaml
-    - ref: columns/keywordid.yaml
-    - ref: columns/sourceid.yaml
-    - ref: columns/datecreated.yaml
-    - ref: columns/datemodified.yaml
+    - $ref: columns/publicationid.yaml
+    - $ref: columns/keywordid.yaml
+    - $ref: columns/sourceid.yaml
+    - $ref: columns/datecreated.yaml
+    - $ref: columns/datemodified.yaml
   constraints:
   - name: publication_fkey
     type: FOREIGN KEY

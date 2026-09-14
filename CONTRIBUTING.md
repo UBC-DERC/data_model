@@ -16,7 +16,9 @@ We actively welcome your pull requests.
      `data-model ./examples/... -o new_test.yaml --docs ./docs`
      (once you've followed the installation guidelines).
 5. Verify that there are no issues in your doc build. You can check the preview locally by entering your virtual environment and running `mkdocs serve`.
-6. Address any feedback in code review promptly.
+6. *Make sure that you are testing against an updated data model*
+   * Run `pytest` with the `UPDATE_GOLDEN=1` environment variable: `UPDATE_GOLDEN=1 uv run pytest`.
+7. Address any feedback in code review promptly.
 
 ## For bug fixes
 

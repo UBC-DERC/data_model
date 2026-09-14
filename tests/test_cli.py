@@ -37,8 +37,8 @@ def test_cli_invalid_entry_exits_1_and_writes_nothing(tmp_path, write_yaml, caps
         }],
     }])
     tables_dir = tmp_path / "tables"
-    schema = write_yaml("schema.yaml", [{"name": "dairy", "tables": [{"ref": str(tables_dir)}]}])
-    entry = write_yaml("db.yaml", [{"name": "d", "schemas": [{"ref": str(schema)}]}])
+    schema = write_yaml("schema.yaml", [{"name": "dairy", "tables": [{"$ref": str(tables_dir)}]}])
+    entry = write_yaml("db.yaml", [{"name": "d", "schemas": [{"$ref": str(schema)}]}])
 
     out = tmp_path / "output.yaml"
     code = main([str(entry), "--docs", str(tmp_path / "docs"), "--output", str(out)])

@@ -4,13 +4,13 @@
     A table for keywords for datasets, publications and other terms. Ideally these terms are linked to external resources, such as ontologies or subject schema.
   type: BASE TABLE
   columns:
-  - ref: columns/keywordid.yaml
+  - $ref: columns/keywordid.yaml
   - name: keyword
     type: text
     comment: A keyword used to describe a thing in the database.
-  - ref: columns/sourceid.yaml
-  - ref: columns/datecreated.yaml
-  - ref: columns/datemodified.yaml
+  - $ref: columns/sourceid.yaml
+  - $ref: columns/datecreated.yaml
+  - $ref: columns/datemodified.yaml
   - name: superceedingrecord
     comment: In the case a record is replaced with an alternative record (for example a manufacturer is sold to a new company).
     type: UUID7

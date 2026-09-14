@@ -145,7 +145,7 @@ We can see a database structure with nested schema and `tables`. Individual file
   - name: a_foreign_key
     comment: |
         A foreign key also names the table it points at.
-    type: REFERENCES
+    type: FOREIGN KEY
     ddl: FOREIGN KEY (localcolumn) REFERENCES othertable (targetcolumn) ON UPDATE CASCADE
     columns:                                     # local column(s) the FK is defined on
     - localcolumn
@@ -183,3 +183,4 @@ Contributions to this repository are expected to follow the [Code of Conduct](CO
 ## Funding Statement
 
 This project was developed with funding from [Farm Credit Canada](https://www.fcc-fac.ca/).
+ 
