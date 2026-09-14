@@ -64,7 +64,7 @@ def test_reference_forbids_unknown_keys():
 
 def test_foreign_key_accepts_references():
     c = constraint_dict(
-        name="fk", type="REFERENCES", columns=["supplierid"],
+        name="fk", type="FOREIGN KEY", columns=["supplierid"],
         references=reference_dict(table="institutions", columns=["institutionid"]),
     )
     assert c.references.table == "institutions"
