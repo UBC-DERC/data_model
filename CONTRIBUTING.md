@@ -20,9 +20,18 @@ We actively welcome your pull requests.
 
 ## For bug fixes
 
-1. Fork the repo and create your branch from `main`.
+1. Create a GitHub issue identifying a bug (you can stop here if you'd like).
+2. Fork the repo and create your branch from `main`.
 3. Install `uv` and run `uv sync`
 4. Make your code change and ensure `ruff`, `ty` and `pytest` checks run cleanly.
+5. Address any feedback in code review promptly.
+
+## For "Best Practices" Documentation
+
+1. Create a GitHub issue identifying a documentation deficiency (you can stop here if you'd like).
+2. Fork the repo and create your branch from `main`.
+3. Install `uv` and run `uv sync`
+4. Edit documentation in the `docs` and check that it is showing up properly by running `uv run mkdocs serve`.
 5. Address any feedback in code review promptly.
 
 ## Issues
@@ -32,5 +41,5 @@ clear and has sufficient instructions to be able to reproduce the issue.
 
 ## License
 
-By contributing to examples, you agree that your contributions will be licensed
+By contributing to this projects code, documentation and examples you agree that your contributions will be licensed
 under the [LICENSE file](LICENSE.md) in the root directory of this source tree.

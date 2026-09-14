@@ -1,5 +1,6 @@
-from pydantic import BaseModel, ConfigDict, Field, model_validator
 from enum import Enum
+
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class column_dict(BaseModel):
