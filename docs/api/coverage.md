@@ -6,9 +6,9 @@
 | src/data\_model/create\_docs.py           |      107 |        5 |     95% |
 | src/data\_model/load\_columns.py          |        5 |        0 |    100% |
 | src/data\_model/load\_database.py         |       13 |        0 |    100% |
-| src/data\_model/load\_files.py            |       21 |        1 |     95% |
+| src/data\_model/load\_files.py            |       21 |        0 |    100% |
 | src/data\_model/load\_schema.py           |       15 |        0 |    100% |
 | src/data\_model/load\_tables.py           |       16 |        1 |     94% |
 | src/data\_model/model\_build.py           |       35 |        1 |     97% |
 | src/data\_model/object\_classes.py        |       62 |        0 |    100% |
-| **TOTAL**                                 |  **362** |   **10** | **97%** |
+| **TOTAL**                                 |  **362** |    **9** | **98%** |
