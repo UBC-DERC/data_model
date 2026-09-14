@@ -9,6 +9,8 @@ class column_dict(BaseModel):
     type:str
     comment:str = "No comment provided."
     nullable:bool = True
+    default:str | None = None
+
 
 class reference_dict(BaseModel):
     # ``schema`` shadows BaseModel.schema(), so store it as ``schema_`` while
@@ -77,7 +79,7 @@ class schema_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name:str
     comment:str = "No comment provided."
-    tables:list[table_dict] | None = []
+    tables:list[table_dict] = []
 
 class DDL_Dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
