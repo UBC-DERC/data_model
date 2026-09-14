@@ -41,7 +41,7 @@ def main(argv: list[str] | None = None) -> int:
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "w") as handle:
-        yaml.safe_dump(database.model_dump(by_alias=True), handle)
+        yaml.safe_dump(database.model_dump(by_alias=True, mode = 'json'), handle)
     if args.docs:
         document_database(database, args.docs)
         print(f"Wrote {args.output} and documentation to {args.docs}")

@@ -67,7 +67,7 @@ class table_dict(BaseModel):
     name:str
     schema_:str | None = Field(default=None, alias="schema")
     type:str = 'BASE TABLE'
-    comment:str = "No comment provided."
+    comment:str | None= "No comment provided."
     columns:list[column_dict]
     constraints:list[constraint_dict] = []
     indexes:list[index_dict] = []
@@ -76,7 +76,7 @@ class schema_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name:str
     comment:str = "No comment provided."
-    tables:list[table_dict]
+    tables:list[table_dict] | None = []
 
 class DDL_Dict(BaseModel):
     model_config = ConfigDict(extra="forbid")

@@ -109,7 +109,6 @@ data-model examples/simple_example/database.yaml --docs docs --output examples/s
 
 We will expect to see that we have a file called [`output.yaml`](examples/simple_example/output.yaml), and a directory in `docs/database` that contains an `index.md` file and two folders, one for each named schema.
 
-
 ### Database with References
 
 We can use references to sub-folders with the `ref` tag, to point to folder content for more complex examples, as in our example within [`examples/data_definitions`](examples/data_definitions/)

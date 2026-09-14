@@ -5,6 +5,14 @@ from data_model.cli import main
 
 
 def test_cli_success_writes_both_artifacts(tmp_path):
+    """
+
+    Args:
+        tmp_path (_type_): _description_
+    We're testing to make sure that the CLI writes both the validated
+    YAML file (to whatever temp folder we're using) and the mkdocs
+    documentaion.
+    """
     out = tmp_path / "output.yaml"
     docs = tmp_path / "docs"
     code = main([
