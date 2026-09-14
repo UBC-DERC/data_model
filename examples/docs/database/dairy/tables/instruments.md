@@ -1,0 +1,49 @@
+---
+title: "instruments table"
+description: "A table for managing scientific and technical instruments used within the research system. This table is intended to help with connecting measurements to doc..."
+---
+
+# instruments
+Description:
+
+**A table for managing scientific and technical instruments used within the research system. This table is intended to help with connecting  measurements to documentation and workflow management. The design of this table and its associated foreign key links is based on the [RDA PIDINST v1.0](https://zenodo.org/records/6396467#.YkQxzRBBwlw).**
+
+## Columns
+
+|            name           |   type   |                                                                                                                                                              comment                                                                                                                                                              |
+|---------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|       *instrumentid*      |  uuid-7  |                                            An internal, unique string to indentify a particular instrument in the general sense. This is as opposed to specific instances of an instrument which would be identified with both the broader instrument, and the specific serial number.                                            |
+|       *description*       |   text   |                                                                        A general description for the particular instrument that can be used to easily  identify the instrument. Should include a technical description of the device and its capabilities.                                                                        |
+|      *instrumentname*     |   text   |                                                                                                               The proper name by which the instrument is identified. The instrument may have other colloquial names.                                                                                                              |
+|*instrumentcolloquialnames*|text array|                                                                                                              Colloquial names used for the instrument. This field should be a text array to support multiple entries.                                                                                                             |
+|      *manufacturerid*     |   UUID7  |                                                                                                                                                  The manufacturer of the product.                                                                                                                                                 |
+|        *supplierid*       |   UUID7  |                                                                                                                     The organization through which the equipment was purchased (an alias for institution id).                                                                                                                     |
+|       *datecreated*       | datetime |                                 The date this entry was created. This field is used for the purposes of tracking changes across the database, and supporting reproducibility of data and data models, by allowing users to "roll back" or search for the impacts of new changes or data additions.                                |
+|       *datemodified*      | datetime |The date of the most recent record modification. This column does not identify how the record was changed, although this should be a central element of the data model. At present we are implementing the toolset, and providing the opportunity to see that a record was modified, not neccessarily how that record was modified.|
+|   *superceedingrecordid*  |   UUID7  |                                                                                                         In the case a record is replaced with an alternative record (for example a manufacturer is sold to a new company).                                                                                                        |
+
+## Constraints
+
+|       name      |    type   |                                                    ddl                                                    |                   reference                   |                                                                                       comment                                                                                      |
+|-----------------|-----------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| instrument_pkey |PRIMARY KEY|                                         PRIMARY KEY (instrumentid)                                        |                                               |The PRIMARY KEY for this table is a UUID7, which is unordered and globally unique. This is not the same as the UPC or serial number, and should be used only for internal reference.|
+|superceeding_fkey| REFERENCES|FOREIGN KEY (superceedingrecordid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE|  [instruments](instruments.md) (instrumentid) |                     In the event an instrument is re-defined somehow -- when a value is overwritten -- this hierarchical key will point to the new information.                    |
+|manufacturer_fkey| REFERENCES|           FOREIGN KEY (manufacturerid) REFERENCES institutions(institutionid) ON UPDATE CASCADE           |[institutions](institutions.md) (institutionid)|                                                                                No comment provided.                                                                                |
+|  supplier_fkey  | REFERENCES|             FOREIGN KEY (supplierid) REFERENCES institutions(institutionid) ON UPDATE CASCADE             |[institutions](institutions.md) (institutionid)|                                                                                No comment provided.                                                                                |
+
+## Indexes
+
+This table has no index
+
+## Relationships
+
+**References**
+
+* `instrumentid` → [instruments](instruments.md) (`instrumentid`)
+* `manufacturerid` → [institutions](institutions.md) (`institutionid`)
+* `supplierid` → [institutions](institutions.md) (`institutionid`)
+
+**Referenced By**
+
+* [instrumentinstance](instrumentinstance.md) () → `instrumentid`
+* [instruments](instruments.md) (`instrumentid`) → `instrumentid`
