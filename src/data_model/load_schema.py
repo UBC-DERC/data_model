@@ -11,9 +11,9 @@ def load_schema(filename:str)->schema_dict:
     schema = resolve_ref(load_file(filename), base)
     if "tables" in schema:
         for i in range(len(schema["tables"])):
-            if "ref" in schema["tables"][i]:
+            if "$ref" in schema["tables"][i]:
                 # Table refs resolve relative to the schema file's directory.
-                schema["tables"][i] = load_tables(base / schema["tables"][i]["ref"])
+                schema["tables"][i] = load_tables(base / schema["tables"][i]["$ref"])
         schema["tables"] = list(chain.from_iterable(schema["tables"]))
         # Build each table individually so structural problems are reported with
         # clear, table- and constraint-scoped messages (see model_build).

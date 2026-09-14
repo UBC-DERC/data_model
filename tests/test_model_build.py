@@ -52,7 +52,7 @@ def test_references_on_primary_key_is_reported_clearly():
         build_tables([bad])
     message = str(exc.value)
     assert "cowpk" in message
-    assert "REFERENCES" in message
+    assert "PRIMARY KEY" in message
 
 
 def test_all_bad_tables_reported_together():

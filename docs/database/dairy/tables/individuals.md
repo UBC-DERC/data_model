@@ -22,9 +22,9 @@ Description:
 
 ## Constraints
 
-|     name    |    type   |           ddl           |reference|                           comment                          |
-|-------------|-----------|-------------------------|---------|------------------------------------------------------------|
-|individual_pk|PRIMARY KEY|PRIMARY KEY(individualid)|         |The primary key for the table (comes with indexing as well).|
+|     name    |           type           |           ddl           |reference|                           comment                          |
+|-------------|--------------------------|-------------------------|---------|------------------------------------------------------------|
+|individual_pk|ConstraintType.primary_key|PRIMARY KEY(individualid)|         |The primary key for the table (comes with indexing as well).|
 
 ## Indexes
 

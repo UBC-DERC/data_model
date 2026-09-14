@@ -1,3 +1,5 @@
+from enum import Enum
+
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
@@ -7,6 +9,8 @@ class column_dict(BaseModel):
     type:str
     comment:str = "No comment provided."
     nullable:bool = True
+    default:str | None = None
+
 
 class reference_dict(BaseModel):
     # ``schema`` shadows BaseModel.schema(), so store it as ``schema_`` while
@@ -18,10 +22,18 @@ class reference_dict(BaseModel):
     table:str | None = None
     columns:list[str]
 
+class ConstraintType(str, Enum):
+       """Allowed PostgreSQL constraint types."""
+       check = "CHECK"
+       unique = "UNIQUE"
+       unique_nulls_not_distinct = "UNIQUE NULLS NOT DISTINCT"
+       primary_key = "PRIMARY KEY"
+       foreign_key = "FOREIGN KEY"
+
 class constraint_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name:str
-    type:str | None = None
+    type:ConstraintType | None = None
     comment:str = "No comment provided."
     ddl:str | None = None
     # ``columns`` are the constraint's own/local columns (the key columns of a
@@ -33,10 +45,10 @@ class constraint_dict(BaseModel):
 
     @model_validator(mode="after")
     def _references_only_on_foreign_keys(self):
-        if self.references is not None and self.type != "REFERENCES":
+        if self.references is not None and self.type != ConstraintType.foreign_key:
             raise ValueError(
                 f"constraint '{self.name}' has a references block but is type "
-                f"{self.type!r}; only REFERENCES may reference another table."
+                f"{self.type!r}; only FOREIGN KEYs may reference another table."
             )
         return self
 
@@ -58,7 +70,7 @@ class table_dict(BaseModel):
     name:str
     schema_:str | None = Field(default=None, alias="schema")
     type:str = 'BASE TABLE'
-    comment:str = "No comment provided."
+    comment:str | None= "No comment provided."
     columns:list[column_dict]
     constraints:list[constraint_dict] = []
     indexes:list[index_dict] = []
@@ -67,7 +79,7 @@ class schema_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name:str
     comment:str = "No comment provided."
-    tables:list[table_dict]
+    tables:list[table_dict] = []
 
 class DDL_Dict(BaseModel):
     model_config = ConfigDict(extra="forbid")

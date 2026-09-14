@@ -21,7 +21,7 @@ jobs:
       - name: Checkout the repository.
         uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v7
       - name: Install uv
-        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
@@ -32,6 +32,8 @@ jobs:
         run: uv run ty check --output-format=github
       - name: Tests (pytest)
         run: uv run pytest -q
+      - name: Generate JSON Schema
+        run: uv run python -c "import json; from data_model.object_classes import DDL_Dict; print(json.dumps(DDL_Dict.model_json_schema(), indent=2))" > docs/schema.json
       - name: Docs build (strict)
         run: uv run mkdocs build --strict
 
@@ -52,7 +54,7 @@ jobs:
       - name: Checkout the repository.
         uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v7
       - name: Install uv
-        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
           enable-cache: true
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
@@ -63,6 +65,8 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: uv sync --frozen
+      - name: Generate JSON Schema
+        run: uv run python -c "import json; from data_model.object_classes import DDL_Dict; print(json.dumps(DDL_Dict.model_json_schema(), indent=2))" > docs/schema.json
       - name: Build static files
         id: build
         run: uv run mkdocs build
@@ -72,4 +76,4 @@ jobs:
           path: site/
       - name: Deploy to GitHub Pages
         id: deploy
-        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
