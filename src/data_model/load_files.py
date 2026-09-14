@@ -7,8 +7,8 @@ import yaml
 def load_file(filename:str|Path)->Any:
     """_load a YAML file (or directory of YAML files) into Python data._
 
-    A file yields the mapping it contains (the first document if the file is a
-    YAML sequence of documents); a directory yields a list with one loaded
+    If the reference is a file, it returns its own mapping; if the reference 
+    points to a directory, then it yields a list with one loaded
     entry per ``*.y*ml`` file. The return is the raw, un-validated YAML data,
     so it is typed ``Any`` (validation into pydantic models happens later).
 
@@ -33,13 +33,13 @@ def load_file(filename:str|Path)->Any:
 
 
 def resolve_ref(obj:dict[str, Any], base_dir:str|Path=".")->dict[str, Any]:
-    """_Merge a ``ref:`` target file into ``obj``; return ``obj`` unchanged if none._
+    """_Merge a ``$ref:`` target file into ``obj``; return ``obj`` unchanged if none._
 
     The referenced file is loaded first and the object's own keys are layered
     on top (``loaded | obj``), so a locally-specified key (e.g. a ``comment``)
     overrides the shared reference.
 
-    The ``ref`` path is resolved relative to ``base_dir`` (the directory of the
+    The ``$ref`` path is resolved relative to ``base_dir`` (the directory of the
     file that contains the ref). Absolute refs are used as-is, since joining an
     absolute path onto ``base_dir`` yields the absolute path.
 
@@ -50,8 +50,8 @@ def resolve_ref(obj:dict[str, Any], base_dir:str|Path=".")->dict[str, Any]:
     Returns:
         dict: _The object with any ``ref`` target merged in._
     """
-    if "ref" in obj:
-        return load_file(Path(base_dir) / obj["ref"]) | obj
+    if "$ref" in obj:
+        return load_file(Path(base_dir) / obj["$ref"]) | obj
     return obj
 
 

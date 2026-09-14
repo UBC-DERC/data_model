@@ -15,6 +15,7 @@ nav:
     - database/
   - Package API Reference:
     - Overview: 'api/index.md'
+    - JSON Schema: 'api/schema.md'
     - CLI Usage: 'api/cli.md'
     - Object Classes: 'api/object_classes.md'
     - File Loading: 'api/load_files.md'

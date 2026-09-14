@@ -109,7 +109,6 @@ data-model examples/simple_example/database.yaml --docs docs --output examples/s
 
 We will expect to see that we have a file called [`output.yaml`](examples/simple_example/output.yaml), and a directory in `docs/database` that contains an `index.md` file and two folders, one for each named schema.
 
-
 ### Database with References
 
 We can use references to sub-folders with the `ref` tag, to point to folder content for more complex examples, as in our example within [`examples/data_definitions`](examples/data_definitions/)
@@ -146,7 +145,7 @@ We can see a database structure with nested schema and `tables`. Individual file
   - name: a_foreign_key
     comment: |
         A foreign key also names the table it points at.
-    type: REFERENCES
+    type: FOREIGN KEY
     ddl: FOREIGN KEY (localcolumn) REFERENCES othertable (targetcolumn) ON UPDATE CASCADE
     columns:                                     # local column(s) the FK is defined on
     - localcolumn
@@ -184,3 +183,4 @@ Contributions to this repository are expected to follow the [Code of Conduct](CO
 ## Funding Statement
 
 This project was developed with funding from [Farm Credit Canada](https://www.fcc-fac.ca/).
+ 

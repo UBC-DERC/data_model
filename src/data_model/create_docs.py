@@ -105,11 +105,10 @@ def _render_table(rows:list[Any], keys:list[str], empty_message:str, emphasise:s
         formatted.append(ordered)
 
     try:
-        return (
-            markdown_table(formatted)
-            .set_params(row_sep="markdown", quote=False)
-            .get_markdown()
-        )
+        table = markdown_table(formatted).set_params(row_sep="markdown", quote=False)
+        result = table.get_markdown()
+        assert isinstance(result, str)
+        return result
     except ValueError as e:
         print(f"Could not render table for rows: {rows}")
         print(e)
@@ -291,11 +290,10 @@ def _relationships(table:table_dict, schema_name:str, incoming:list[IncomingRef]
         "\n".join(referenced_by) if referenced_by else "None.",
     ])
 
-
 def table_page(table: table_dict, path: Path, schema_name:str, incoming:list[IncomingRef]) -> None:
     name = table.name
     lines = [
-        _front_matter(f"{name} table", table.comment),
+        _front_matter(f"{name} table", table.comment or ""),
         f"# {name}",
         f"Description:\n\n**{table.comment}**",
         "\n## Columns\n",

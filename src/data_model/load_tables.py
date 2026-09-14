@@ -16,7 +16,7 @@ def load_tables(filename:str|Path)->list[dict[str, Any]] | dict[str, Any]:
             table = resolve_ref(table, base)
             if "columns" in table:
                 table["columns"] = [
-                    load_columns(base / c["ref"]) if "ref" in c else c
+                    load_columns(base / c["$ref"]) if "$ref" in c else c
                     for c in table["columns"]
                 ]
             result.append(table)
