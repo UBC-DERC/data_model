@@ -9,14 +9,14 @@
     - ref: columns/datemodified.yaml
   constraints:
   - name: publication_fkey
-    type: REFERENCES
+    type: FOREIGN KEY
     ddl: FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE
     references:
       table: publications
       columns:
         - publicationid
   - name: keyword_fkey
-    type: REFERENCES
+    type: FOREIGN KEY
     ddl: FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE
     references:
       table: keywords

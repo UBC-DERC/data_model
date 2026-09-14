@@ -19,7 +19,7 @@
     columns:
     - institutionid
   - name: institution_superceeding_fk
-    type: REFERENCES
+    type: FOREIGN KEY
     comment: Allows for institutions to be renamed, or get switched over time.
     columns:
       - superceedingrecord
