@@ -1,4 +1,16 @@
-- name: dairymodel
+ddaml: 2026.10.5
+info:
+  title: Dairy Model
+  summary: A data model for dairy farm management
+  version: 1.0.0
+  license:
+    name: CC0-1.0
+    url: https://creativecommons.org/publicdomain/zero/1.0/
+  contacts:
+    - name: Dairy Model Team
+      email: dairy@example.com
+database:
+  name: dairymodel
   schemas:
     - $ref: schemas/dairy.yaml
     - $ref: schemas/apps.yaml

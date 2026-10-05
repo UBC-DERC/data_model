@@ -48,7 +48,7 @@ def test_load_database_resolves_refs_relative_to_entry_file(write_yaml, monkeypa
         "columns": [{"$ref": "columns/name.yaml"}],
     }])
     write_yaml("proj/schemas/tables/columns/name.yaml", [{"name": "name", "type": "text"}])
-    entry = write_yaml("proj/db.yaml", [{"name": "d", "schemas": [{"$ref": "schemas/s.yaml"}]}])
+    entry = write_yaml("proj/db.yaml", [{"database": {"name": "d", "schemas": [{"$ref": "schemas/s.yaml"}]}}])
 
     # Run from an unrelated directory to prove cwd-independence.
     foreign = tmp_path / "elsewhere"

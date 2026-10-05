@@ -1,3 +1,5 @@
+from typing import Any
+
 from .check_crossreferences import check_references
 from .load_files import base_dir_of, load_file, resolve_ref
 from .load_schema import load_schema
@@ -20,17 +22,19 @@ def load_database(filename:str)->DDL_Dict:
     """
     base = base_dir_of(filename)
     file = load_file(filename)
-    db = resolve_ref(file, base)
-    if db.get('schemas', None):
-        # Schemas may arrive two ways: as ``$ref:`` pointers that must be loaded
-        # and assembled from component files, or as fully-inlined schema dicts
-        # (e.g. a serialised model like tests/samples/output.yaml). Resolve each
-        # entry independently and leave inline schemas for DDL_Dict to validate.
-        # Refs are resolved relative to the entry file's directory.
-        db["schemas"] = [
-            load_schema(base / s["$ref"]) if "$ref" in s else s
-            for s in db["schemas"]
-        ]
-    database = DDL_Dict(**db)
+    db: dict[str, Any] = resolve_ref(file, base)
+    db_slug: dict[str, Any] | None = db.get('database', None)
+    if db_slug is None:
+      # There's no database block in the entry file, so we can't load a database model.
+      # This should be an error.
+      raise ValueError(
+                  f"database entry file {filename!r} has no 'database:' block; "
+                  "cannot load database model."
+      )
+    db_slug["schemas"] = [
+        load_schema(base / s["$ref"]) if "$ref" in s else s
+        for s in db_slug["schemas"]
+    ]
+    database = DDL_Dict(**db_slug)
     check_references(database)
     return database
