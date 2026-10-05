@@ -34,10 +34,10 @@ def resolve_references(db: DDL_Dict) -> DDL_Dict:
     :func:`find_missing_references` rather than silently rewritten.
 
     Args:
-        db (DDL_Dict): _A fully loaded database model (mutated in place)._
+        db (DDL_Dict): A fully loaded database model (mutated in place).
 
     Returns:
-        DDL_Dict: _The same model, for chaining._
+        DDL_Dict: The same model, for chaining.
     """
     for schema in db.schemas:
         for table in schema.tables:
@@ -60,11 +60,11 @@ def find_missing_references(db: DDL_Dict) -> list[str]:
     ``(schema, table)`` and ``columns`` exist in the referenced table.
 
     Args:
-        db (DDL_Dict): _A fully loaded database model._
+        db (DDL_Dict): A fully loaded database model.
 
     Returns:
-        list[str]: _One human-readable message per problem. An empty list means
-            every reference resolves._
+        list[str]: One human-readable message per problem. An empty list means
+            every reference resolves.
     """
     resolve_references(db)
 
@@ -119,13 +119,13 @@ def check_references(db: DDL_Dict) -> DDL_Dict:
     be fixed in a single pass.
 
     Args:
-        db (DDL_Dict): _A fully loaded database model._
+        db (DDL_Dict): A fully loaded database model.
 
     Returns:
-        DDL_Dict: _The unchanged model, allowing this to be chained._
+        DDL_Dict: The unchanged model, allowing this to be chained.
 
     Raises:
-        ReferenceCheckError: _If one or more references cannot be resolved._
+        ReferenceCheckError: If one or more references cannot be resolved.
     """
     problems = find_missing_references(db)
     if problems:

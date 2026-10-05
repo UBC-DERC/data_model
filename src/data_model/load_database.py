@@ -5,7 +5,7 @@ from .object_classes import DDL_Dict
 
 
 def load_database(filename:str)->DDL_Dict:
-    """_Recursively load and validate the database model from a YAML entry file._
+    """Recursively load and validate the database model from a YAML entry file.
 
     The model is assembled from the entry file and its ``$ref:`` targets, built
     into Pydantic models (structural validation). The loading module loads all objects
@@ -13,10 +13,10 @@ def load_database(filename:str)->DDL_Dict:
     end, to simplify the loading flow.
 
     Args:
-        filename (str): _Path to the database entry YAML file._
+        filename (str): Path to the database entry YAML file.
 
     Returns:
-        DDL_Dict: _The validated, reference-checked database model._
+        DDL_Dict: The validated, reference-checked database model.
     """
     base = base_dir_of(filename)
     file = load_file(filename)
