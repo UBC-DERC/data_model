@@ -33,7 +33,7 @@ def load_database(filename:str)->DDL_Dict:
       )
     db_slug["schemas"] = [
         load_schema(base / s["$ref"]) if "$ref" in s else s
-        for s in db_slug["schemas"]
+        for s in db_slug.get("schemas", [])
     ]
     database = DDL_Dict(**db_slug)
     check_references(database)
