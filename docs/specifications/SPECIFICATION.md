@@ -26,6 +26,40 @@ Versioning will use a [CalVer](https://calver.org/) system, using a YYYY.M.D.MIC
 | --- | --- | --- |
 | ddaml | str | REQUIRED. This string MUST be the CalVer version number of the ddaml specification. This field allows other tooling to understand the structure and specification of the ddaml file. |
 | info | str | REQUIRED. This string is used to provide additional metadata about the purpose of the ddaml document and data model. |
+| database | [Database object](#database) | REQUIRED. The database definition |
+
+### Info
+
+These fields are similar to the fields defined in the [OpenAPI v3.2.1 Specification](https://spec.openapis.org/oas/v3.2.1.html). They are used to support metadata propagation for specific data models, and to identify the rights owner, and data or object discovery.
+
+| Field name | Type | Description |
+| --- | --- | --- |
+| title | str | REQUIRED. The title of the data model (different from the database name). This is a formal title for the document. |
+| summary | str | A short summary of the database model. |
+| description | str | A description of the data model. [CommonMark](https://commonmark.org/) syntax MAY be used for rich text representation. |
+| contact | [[Contact Object](#contact)] | The contact information for the metadata and data model maintainer. |
+| license | [License Object](#license) | The license information for the data model and structured repository associated with it. |
+| version | str | REQUIRED. The version of the DDAML document (which is distinct from the DDAML Specification version). |
+
+### Contact
+
+Support for contact information. Drawn from the OpenAPI standard.
+
+| Field name | Type | Description |
+| --- | --- | --- |
+| name | str | The identifying name of the contact person/organization. |
+| url | str | The URI for the contact information. This MUST be in the form of a URI. |
+| email | str | The email address of the contact person/organization. This MUST be in the form of an email address. |
+
+### License
+
+A field to support the discovery and application of licensing to any data model created using a DDAML form/format.
+
+| Field name | Type | Description |
+| --- | --- | --- |
+| name | str | REQUIRED. The license name used for the data model. |
+| identifier | str | An [SPDX-Licenses](https://spdx.org/licenses/) expression for the API. The identifier field is mutually exclusive of the url field. |
+| url | str | A URI for the license used for the data model. This MUST be in the form of a URI. The url field is mutually exclusive of the identifier field. |
 
 ### Database
 
@@ -43,6 +77,9 @@ Versioning will use a [CalVer](https://calver.org/) system, using a YYYY.M.D.MIC
 
 | Field name | Type | Description |
 | --- | --- | --- |
+| name | str | REQUIRED. A valid schema name. |
+| comment | str | A comment to apply to the schema. The default value is "No comment provided." |
+| tables | [Table objects](#table) | [] |
 
 ### Table
 
