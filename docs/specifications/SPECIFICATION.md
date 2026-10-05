@@ -1,4 +1,5 @@
 # DDAML Specification
+Date: October 5, 2026
 
 This document serves to define the specifications for the DDAML (Database Description Ain't Markup Language) format that will be used to generate valid (Postgres) data description language (DDL) structure through the [`data_model`](https://gituhb.com/UBC-DERC/data_model) and the [`ddl_builder`](https://github.com/UBC-DERC/ddl_builder) Python packages. The goal is to develop a human readable document format that can be processed by a Python script and transformed into usable SQL to work within a system in which ATOMic features of databases are required, but schema or data model specifications may change over time.
 

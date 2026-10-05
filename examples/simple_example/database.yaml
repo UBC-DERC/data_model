@@ -1,8 +1,17 @@
-- name: dairymodel
+ddaml: 2026.10.5
+info:
+  title: Simple Example
+  summary: A data model for a very simple explanation
+  version: 1.0.0
+  license:
+    name: CC0-1.0
+    url: https://creativecommons.org/publicdomain/zero/1.0/
+  contacts:
+    - name: Simple Example Team
+      email: simple@example.com
+database:
+  name: simplemodel
   schemas:
-    - name: dairy
+    - name: public
       comment: |
-        The main dairy schema, with all data structures used for the farm.
-    - name: apps
-      comment: |
-        The schema used for application specific tables, views and materialized views.
+        The public (default) schema.
