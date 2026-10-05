@@ -4,6 +4,8 @@
 
 [![](https://img.shields.io/badge/MIT-green?style=for-the-badge)](LICENSE.md)
 
+[![CalVer - 2026.9.14](https://img.shields.io/badge/calver-2026.9.14-22bfda.svg)](https://calver.org/)
+
 # Human Readable Data Models for Database Design
 
 This project generates a valid YAML file to help manage the development and evolution of SQL data models. It supports the creation of a Postgres database with extensions, schemas, tables, columns, indexes and constraints. A user will create a set of YAML files representing the database, organized within folders, and the script will validate these files and generate linked markdown documentation for the user. The documentation is structured such that it can be easily placed into an existing `mkdocs` project.
