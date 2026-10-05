@@ -11,7 +11,6 @@ class column_dict(BaseModel):
     nullable:bool = True
     default:str | None = None
 
-
 class reference_dict(BaseModel):
     # ``schema`` shadows BaseModel.schema(), so store it as ``schema_`` while
     # keeping the YAML/serialised key as ``schema`` via an alias. schema/table
@@ -36,10 +35,6 @@ class constraint_dict(BaseModel):
     type:ConstraintType | None = None
     comment:str = "No comment provided."
     ddl:str | None = None
-    # ``columns`` are the constraint's own/local columns (the key columns of a
-    # PRIMARY KEY/UNIQUE, the local side of a REFERENCES, or the columns a
-    # CHECK touches). ``references`` is the optional foreign target and is only
-    # valid on REFERENCES constraints.
     columns:list[str] = []
     references: reference_dict | None = None
 

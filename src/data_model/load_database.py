@@ -8,8 +8,9 @@ def load_database(filename:str)->DDL_Dict:
     """_Recursively load and validate the database model from a YAML entry file._
 
     The model is assembled from the entry file and its ``$ref:`` targets, built
-    into pydantic models (structural validation), then checked for unresolved
-    references across all schemas and tables.
+    into Pydantic models (structural validation). The loading module loads all objects
+    and then checks for unresolved references across all schemas and tables at the
+    end, to simplify the loading flow.
 
     Args:
         filename (str): _Path to the database entry YAML file._

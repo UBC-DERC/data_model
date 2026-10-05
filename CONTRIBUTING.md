@@ -1,4 +1,4 @@
-# Contributing to `data_model``
+# Contributing to `data_model`
 
 We want to make contributing to this project as easy and transparent as
 possible. We also want to support broader community adoption of this tool, and transparent adoption of the data standards.
