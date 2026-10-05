@@ -132,5 +132,4 @@ def check_references(db: DDL_Dict) -> DDL_Dict:
         raise ReferenceCheckError(
             "Unresolved references found:\n  - " + "\n  - ".join(problems)
         )
-    print("All references resolve!")
     return db
