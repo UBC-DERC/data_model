@@ -105,9 +105,9 @@ schemas:
       name: datasetid
       nullable: true
       type: uuid7
-    - comment: The external identifier for the dataset object. This may be a DOI,  an
-        ARK or a different data object. Currently the choice is simply  one of the
-        entries in the `externaldatabases` table, but this may  be limited to a subset
+    - comment: The external identifier for the dataset object. This may be a DOI,
+        an ARK or a different data object. Currently the choice is simply one of the
+        entries in the `externaldatabases` table, but this may be limited to a subset
         in the future.
       default: null
       name: identifier
@@ -140,14 +140,18 @@ schemas:
       type: datetime
     comment: Links datasets to URLs/DOIs/ARKs for external data resources.
     constraints:
-    - columns: []
+    - columns:
+      - datasetid
+      - identifier
+      - externaldatabaseid
       comment: Primary key to ensure unique entries. Joint key, since we need all
         the information to provide a unique key.
-      ddl: PRIMARY KEY (datasetid, identifier, externaldatabaseid)
+      ddl: null
       name: datasetidentifiers_pk
       references: null
       type: PRIMARY KEY
-    - columns: []
+    - columns:
+      - datasetid
       comment: A foreign key to point to the dataset id.
       ddl: FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE
         ON DELETE CASCADE
@@ -160,7 +164,8 @@ schemas:
         schema: dairy
         table: datasets
       type: FOREIGN KEY
-    - columns: []
+    - columns:
+      - externaldatabaseid
       comment: Foreign key reference to external databases or resources.
       ddl: FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(externaldatabaseid)
         ON UPDATE CASCADE ON DELETE CASCADE
@@ -190,7 +195,8 @@ schemas:
       type: uuid7
     comment: Links DERC related datasets to publications in the literature.
     constraints:
-    - columns: []
+    - columns:
+      - datasetid
       comment: The foreign key referencing the datasets table in the database.
       ddl: FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE
         ON DELETE CASCADE
@@ -203,7 +209,8 @@ schemas:
         schema: dairy
         table: datasets
       type: FOREIGN KEY
-    - columns: []
+    - columns:
+      - publicationid
       comment: The foreign key referencing the publications table in the database.
       ddl: FOREIGN KEY (publicationid) REFERENCES publication(publicationid) ON UPDATE
         CASCADE ON DELETE CASCADE
@@ -536,8 +543,9 @@ schemas:
       name: instrumantinstance_pk
       references: null
       type: PRIMARY KEY
-    - columns: []
-      comment: No comment provided.
+    - columns:
+      - instrumentid
+      comment: A foreign key to point to the instrument id.
       ddl: FOREIGN KEY (instrumentid) REFERENCES instruments(instrumentid) ON UPDATE
         CASCADE ON DELETE CASCADE
       name: instrumentid_fk
@@ -772,8 +780,9 @@ schemas:
       name: keywordid_pk
       references: null
       type: PRIMARY KEY
-    - columns: []
-      comment: No comment provided.
+    - columns:
+      - sourceid
+      comment: A foreign key to point to the source id.
       ddl: FOREIGN KEY (sourceid) REFERENCES externaldatabases(databaseid)
       name: keywordsource_fk
       references:
@@ -825,8 +834,9 @@ schemas:
       type: datetime
     comment: Linking publications to associated keywords.
     constraints:
-    - columns: []
-      comment: No comment provided.
+    - columns:
+      - publicationid
+      comment: A foreign key to point to the publication id.
       ddl: FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE
         CASCADE
       name: publication_fkey
@@ -838,8 +848,9 @@ schemas:
         schema: dairy
         table: publications
       type: FOREIGN KEY
-    - columns: []
-      comment: No comment provided.
+    - columns:
+      - keywordid
+      comment: A foreign key to point to the keyword id.
       ddl: FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE
       name: keyword_fkey
       references:
