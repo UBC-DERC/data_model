@@ -164,12 +164,13 @@ class ddaml_info(BaseModel):
     model_config = ConfigDict(extra="forbid")
     version: str
     title: str
-    summary: str
-    license: license_dict
+    summary: str = "No summary provided."
+    license: license_dict = license_dict(full_name="Default Copyright Applies")
     contacts: list[contact_dict] = []
 
 
 class ddaml_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
+    ddaml_version: str = "0.1.0"
     database: DDL_Dict
     info: ddaml_info
