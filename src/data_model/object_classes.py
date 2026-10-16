@@ -5,37 +5,64 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 class column_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    name:str
-    type:str
-    comment:str = "No comment provided."
-    nullable:bool = True
-    default:str | None = None
+    name: str
+    type: str
+    comment: str = "No comment provided."
+    nullable: bool = True
+    default: str | None = None
+
+
+class OnUpdateType(str, Enum):
+    """Allowed PostgreSQL ON UPDATE actions."""
+
+    no_action = "NO ACTION"
+    restrict = "RESTRICT"
+    cascade = "CASCADE"
+    set_null = "SET NULL"
+    set_default = "SET DEFAULT"
+
+
+class OnDeleteType(str, Enum):
+    """Allowed PostgreSQL ON DELETE actions."""
+
+    no_action = "NO ACTION"
+    restrict = "RESTRICT"
+    cascade = "CASCADE"
+    set_null = "SET NULL"
+    set_default = "SET DEFAULT"
+
 
 class reference_dict(BaseModel):
-    # ``schema`` shadows BaseModel.schema(), so store it as ``schema_`` while
-    # keeping the YAML/serialised key as ``schema`` via an alias. schema/table
-    # are optional and are filled from the owning table's context during the
-    # resolution pass (see check_references.resolve_references).
+    """Reference structure for the data model.
+    By default the reference is assumed to be in the same schema as the owning table
+    Default ON UPDATE and ON DELETE actions are NO ACTION unless specified otherwise.
+    """
+
     model_config = ConfigDict(populate_by_name=True, extra="forbid")
-    schema_:str | None = Field(default=None, alias="schema")
-    table:str | None = None
-    columns:list[str]
+    schema_: str | None = Field(default=None, alias="schema")
+    table: str | None = None
+    columns: list[str]
+    on_update: OnUpdateType = OnUpdateType.no_action
+    on_delete: OnDeleteType = OnDeleteType.no_action
+
 
 class ConstraintType(str, Enum):
-       """Allowed PostgreSQL constraint types."""
-       check = "CHECK"
-       unique = "UNIQUE"
-       unique_nulls_not_distinct = "UNIQUE NULLS NOT DISTINCT"
-       primary_key = "PRIMARY KEY"
-       foreign_key = "FOREIGN KEY"
+    """Allowed PostgreSQL constraint types."""
+
+    check = "CHECK"
+    unique = "UNIQUE"
+    unique_nulls_not_distinct = "UNIQUE NULLS NOT DISTINCT"
+    primary_key = "PRIMARY KEY"
+    foreign_key = "FOREIGN KEY"
+
 
 class constraint_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    name:str
-    type:ConstraintType | None = None
-    comment:str = "No comment provided."
-    ddl:str | None = None
-    columns:list[str] = []
+    name: str
+    type: ConstraintType | None = None
+    comment: str = "No comment provided."
+    ddl: str | None = None
+    columns: list[str] = []
     references: reference_dict | None = None
 
     @model_validator(mode="after")
@@ -47,41 +74,74 @@ class constraint_dict(BaseModel):
             )
         return self
 
+
 class index_dict(BaseModel):
     # Indexes are always defined on their owning table, so they carry only
     # local ``columns`` — there is no cross-table reference to validate.
     model_config = ConfigDict(extra="forbid")
-    name:str
-    type:str | None = None
-    comment:str = "No comment provided."
-    ddl:str
-    columns:list[str] = []
+    name: str
+    type: str | None = None
+    comment: str = "No comment provided."
+    ddl: str
+    columns: list[str] = []
+
 
 class table_dict(BaseModel):
     # ``schema`` is advisory only; a table's owning schema is authoritative via
     # its folder placement and membership in a schema_dict. Stored as
     # ``schema_`` (aliased to ``schema``) to avoid shadowing BaseModel.schema().
     model_config = ConfigDict(populate_by_name=True, extra="forbid")
-    name:str
-    schema_:str | None = Field(default=None, alias="schema")
-    type:str = 'BASE TABLE'
-    comment:str | None= "No comment provided."
-    columns:list[column_dict]
-    constraints:list[constraint_dict] = []
-    indexes:list[index_dict] = []
+    name: str
+    schema_: str | None = Field(default=None, alias="schema")
+    type: str = "BASE TABLE"
+    comment: str | None = "No comment provided."
+    columns: list[column_dict]
+    constraints: list[constraint_dict] = []
+    indexes: list[index_dict] = []
+
 
 class schema_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    name:str
-    comment:str = "No comment provided."
-    tables:list[table_dict] = []
+    name: str
+    comment: str = "No comment provided."
+    tables: list[table_dict] = []
+
 
 class DDL_Dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    encoding:str = 'UTF8'
-    locale:str = 'en_CA'
-    name:str
-    owner:str | None = None
-    comment:str = "No comment provided."
-    extensions:list[str] = []
-    schemas:list[schema_dict]
+    encoding: str = "UTF8"
+    locale: str = "en_CA"
+    name: str
+    owner: str | None = None
+    comment: str = "No comment provided."
+    extensions: list[str] = []
+    schemas: list[schema_dict]
+
+
+class license_dict(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    full_name: str
+    licenseId: str | None = None
+    url: str | None = None
+
+
+class contact_dict(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    name: str
+    email: str | None = None
+    url: str | None = None
+
+
+class ddaml_info(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    version: str
+    title: str
+    summary: str
+    license: license_dict
+    contacts: list[contact_dict] = []
+
+
+class ddaml_dict(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    database: DDL_Dict
+    info: ddaml_info

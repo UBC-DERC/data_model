@@ -4,6 +4,7 @@ Covers reference_dict (the foreign target of a constraint), and constraint_dict
 which separates a constraint's own/local columns from an optional foreign
 target that only REFERENCES constraints may carry.
 """
+
 import pytest
 from pydantic import ValidationError
 
@@ -19,7 +20,9 @@ from data_model.object_classes import (
 
 
 def test_table_accepts_schema_key_and_forbids_unknown():
-    t = table_dict(name="cows", schema="dairy", columns=[column_dict(name="id", type="text")])
+    t = table_dict(
+        name="cows", schema="dairy", columns=[column_dict(name="id", type="text")]
+    )
     assert t.schema_ == "dairy"
     with pytest.raises(ValidationError):
         table_dict(name="cows", columns=[column_dict(name="id", type="text")], bogus=1)
@@ -31,9 +34,20 @@ def test_column_forbids_unknown_keys():
 
 
 def test_database_accepts_owner_and_forbids_unknown():
-    db = DDL_Dict(name="d", owner="postgres",
-                  schemas=[schema_dict(name="dairy", tables=[table_dict(
-                      name="cows", columns=[column_dict(name="id", type="text")])])])
+    db = DDL_Dict(
+        name="d",
+        owner="postgres",
+        schemas=[
+            schema_dict(
+                name="dairy",
+                tables=[
+                    table_dict(
+                        name="cows", columns=[column_dict(name="id", type="text")]
+                    )
+                ],
+            )
+        ],
+    )
     assert db.owner == "postgres"
     with pytest.raises(ValidationError):
         DDL_Dict(name="d", schemas=[], nonsense=1)
@@ -64,7 +78,9 @@ def test_reference_forbids_unknown_keys():
 
 def test_foreign_key_accepts_references():
     c = constraint_dict(
-        name="fk", type="FOREIGN KEY", columns=["supplierid"],
+        name="fk",
+        type="FOREIGN KEY",
+        columns=["supplierid"],
         references=reference_dict(table="institutions", columns=["institutionid"]),
     )
     assert c.references.table == "institutions"
@@ -73,7 +89,9 @@ def test_foreign_key_accepts_references():
 def test_primary_key_rejects_references():
     with pytest.raises(ValidationError):
         constraint_dict(
-            name="pk", type="PRIMARY KEY", columns=["id"],
+            name="pk",
+            type="PRIMARY KEY",
+            columns=["id"],
             references=reference_dict(table="cows", columns=["id"]),
         )
 
