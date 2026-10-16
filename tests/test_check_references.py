@@ -7,6 +7,7 @@ owning table, and foreign targets whose table or columns do not exist.
 """
 
 import pytest
+from pydantic import ValidationError
 
 from data_model.check_crossreferences import (
     ReferenceCheckError,
@@ -57,7 +58,10 @@ def test_resolution_defaults_schema_to_owning_schema():
                 _table(
                     "calves",
                     constraints=[
-                        _fk("fk", reference_dict(table="cows", columns=["id"]))
+                        _fk(
+                            "fk",
+                            references=reference_dict(table="cows", columns=["id"]),
+                        )
                     ],
                 ),
                 _table("cows"),
@@ -76,7 +80,10 @@ def test_resolution_defaults_table_to_owning_table():
             name="dairy",
             tables=[
                 _table(
-                    "cows", constraints=[_fk("selffk", reference_dict(columns=["id"]))]
+                    "cows",
+                    constraints=[
+                        _fk("selffk", reference_dict(table="cows", columns=["id"]))
+                    ],
                 ),
             ],
         )
@@ -285,7 +292,7 @@ def test_self_fk_with_defaults_passes():
                     constraints=[
                         _fk(
                             "damfk",
-                            reference_dict(columns=["cadid"]),
+                            reference_dict(table="cows", columns=["cadid"]),
                             columns=("cadid",),
                         )
                     ],
@@ -346,10 +353,10 @@ def test_check_references_returns_db_when_clean():
     assert check_references(db) is db
 
 
-def test_real_example_model_loads_and_checks():
+def test_real_example_model_loads_and_checks(data_definitions):
     import data_model as dm
 
-    db = dm.load_database("tests/samples/examples/data_definitions/dairymodel.yaml")
+    db = dm.load_database(filename=str(data_definitions / "dairymodel.yaml"))
     assert [s.name for s in db.schemas] == ["dairy", "apps"]
 
 
@@ -372,3 +379,58 @@ def test_on_update_and_on_delete_defaults():
     ref = db.schemas[0].tables[0].constraints[0].references
     assert ref.on_update == "NO ACTION"
     assert ref.on_delete == "NO ACTION"
+
+
+def test_on_update_and_on_delete_explicit():
+    db = _db(
+        schema_dict(
+            name="dairy",
+            tables=[
+                _table(
+                    "calves",
+                    constraints=[
+                        _fk(
+                            "fk",
+                            reference_dict(
+                                table="cows",
+                                columns=["id"],
+                                on_update="CASCADE",
+                                on_delete="SET NULL",
+                            ),
+                        )
+                    ],
+                ),
+                _table("cows"),
+            ],
+        )
+    )
+    resolve_references(db)
+    ref = db.schemas[0].tables[0].constraints[0].references
+    assert ref.on_update == "CASCADE"
+    assert ref.on_delete == "SET NULL"
+
+
+def test_on_update_and_on_delete_invalid():
+    with pytest.raises(ValidationError):
+        _db(
+            schema_dict(
+                name="dairy",
+                tables=[
+                    _table(
+                        "calves",
+                        constraints=[
+                            _fk(
+                                "fk",
+                                reference_dict(
+                                    table="cows",
+                                    columns=["id"],
+                                    on_update="INVALID",
+                                    on_delete="INVALID",
+                                ),
+                            )
+                        ],
+                    ),
+                    _table("cows"),
+                ],
+            )
+        )
