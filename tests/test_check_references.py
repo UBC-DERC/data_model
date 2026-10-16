@@ -357,7 +357,7 @@ def test_real_example_model_loads_and_checks(data_definitions):
     import data_model as dm
 
     db = dm.load_database(filename=str(data_definitions / "dairymodel.yaml"))
-    assert [s.name for s in db.schemas] == ["dairy", "apps"]
+    assert [s.name for s in db.database.schemas] == ["dairy", "apps"]
 
 
 def test_on_update_and_on_delete_defaults():
