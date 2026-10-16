@@ -67,10 +67,9 @@ Validation runs in two phases:
 
 1. structural checks on each definition (unknown keys, malformed constraints)
 2. cross-reference checks across the assembled model (every referenced table and
-column must exist). 
+column must exist).
 
-If either phase fails, the command prints **all** problems at once to stderr, writes **no** output, and exits with a non-zero status —
-suitable for gating a deployment pipeline before DDL generation.
+If either phase fails, the command prints **all** problems at once to stderr, writes **no** output, and exits with a non-zero status - suitable for gating a deployment pipeline before DDL generation.
 
 The composite `--output` YAML is the fully-resolved model (all `ref:` targets merged, reference schemas/tables filled in) intended for the downstream DDL generation stage.
 
