@@ -6,7 +6,7 @@ from .model_build import build_tables
 from .object_classes import schema_dict
 
 
-def load_schema(filename:str)->schema_dict:
+def load_schema(filename: str) -> schema_dict:
     base = base_dir_of(filename)
     schema = resolve_ref(load_file(filename), base)
     if "tables" in schema:

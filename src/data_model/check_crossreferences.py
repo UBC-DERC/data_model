@@ -17,6 +17,7 @@ Checking runs across *all* references and collects every problem, so a single
 run reports the complete list of unresolved references rather than stopping at
 the first one.
 """
+
 from .object_classes import DDL_Dict
 
 

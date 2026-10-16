@@ -4,8 +4,8 @@ from typing import Any
 import yaml
 
 
-def load_file(filename:str|Path)->Any:
-    """ Load a YAML file (or directory of YAML files) into Python data.
+def load_file(filename: str | Path) -> Any:
+    """Load a YAML file (or directory of YAML files) into Python data.
 
     If the reference is a file, it returns its own mapping; if the reference
     points to a directory, then it yields a list with one loaded
@@ -26,14 +26,16 @@ def load_file(filename:str|Path)->Any:
         if isinstance(output, list):
             output = output[0]
     elif filePath.is_dir():
-        output = [load_file(i) for i in sorted(filePath.glob('*.y*ml'))]
+        output = [load_file(i) for i in sorted(filePath.glob("*.y*ml"))]
     else:
-        raise FileNotFoundError(f"{filename} is neither a file or directory in the current working directory.")
+        raise FileNotFoundError(
+            f"{filename} is neither a file or directory in the current working directory."
+        )
     return output
 
 
-def resolve_ref(obj:dict[str, Any], base_dir:str|Path=".")->dict[str, Any]:
-    """ Merge a ``$ref:`` target file into ``obj``; return ``obj`` unchanged if none."
+def resolve_ref(obj: dict[str, Any], base_dir: str | Path = ".") -> dict[str, Any]:
+    """Merge a ``$ref:`` target file into ``obj``; return ``obj`` unchanged if none."
 
     The referenced file is loaded first and the object's own keys are layered
     on top (``loaded | obj``), so a locally-specified key (e.g. a ``comment``)
@@ -55,8 +57,8 @@ def resolve_ref(obj:dict[str, Any], base_dir:str|Path=".")->dict[str, Any]:
     return obj
 
 
-def base_dir_of(filename:str|Path)->Path:
-    """ Return the directory that refs inside ``filename`` resolve against.
+def base_dir_of(filename: str | Path) -> Path:
+    """Return the directory that refs inside ``filename`` resolve against.
 
     For a file this is its parent directory; for a directory (loaded via
     globbing) it is the directory itself, because the globbed files live

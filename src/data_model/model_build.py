@@ -8,6 +8,7 @@ a sentence that names the table, the constraint (by name, not index), the
 field, and the offending value, and reports every bad table together so a
 maintainer can fix them all in one pass.
 """
+
 from typing import Any
 
 from pydantic import ValidationError

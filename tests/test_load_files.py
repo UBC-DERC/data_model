@@ -6,6 +6,7 @@ pin down its dispatch behaviour and document two known fragilities:
   * it only returns the *first* element of a YAML list (``[0]``);
   * directory loading globs ``*.yaml`` only, silently ignoring ``*.yml``.
 """
+
 import pytest
 
 import data_model as dm
@@ -33,7 +34,9 @@ def test_resolve_ref_resolves_relative_to_base_dir(write_yaml):
     assert result["name"] == "c"
 
 
-def test_load_database_resolves_refs_relative_to_entry_file(write_yaml, monkeypatch, tmp_path):
+def test_load_database_resolves_refs_relative_to_entry_file(
+    write_yaml, monkeypatch, tmp_path
+):
     """Refs resolve relative to the file that contains them, regardless of cwd.
 
     The entry file references ``schemas/s.yaml``; that schema references a
@@ -41,14 +44,26 @@ def test_load_database_resolves_refs_relative_to_entry_file(write_yaml, monkeypa
     written relative to their own directory. Loading works even when the
     process runs from an unrelated working directory.
     """
-    write_yaml("proj/schemas/s.yaml", [{"name": "dairy", "tables": [{"$ref": "tables"}]}])
+    write_yaml(
+        "proj/schemas/s.yaml", [{"name": "dairy", "tables": [{"$ref": "tables"}]}]
+    )
     # The table file lives in the tables dir and points at columns relative to it.
-    write_yaml("proj/schemas/tables/cows.yaml", [{
-        "name": "cows",
-        "columns": [{"$ref": "columns/name.yaml"}],
-    }])
-    write_yaml("proj/schemas/tables/columns/name.yaml", [{"name": "name", "type": "text"}])
-    entry = write_yaml("proj/db.yaml", [{"database": {"name": "d", "schemas": [{"$ref": "schemas/s.yaml"}]}}])
+    write_yaml(
+        "proj/schemas/tables/cows.yaml",
+        [
+            {
+                "name": "cows",
+                "columns": [{"$ref": "columns/name.yaml"}],
+            }
+        ],
+    )
+    write_yaml(
+        "proj/schemas/tables/columns/name.yaml", [{"name": "name", "type": "text"}]
+    )
+    entry = write_yaml(
+        "proj/db.yaml",
+        [{"database": {"name": "d", "schemas": [{"$ref": "schemas/s.yaml"}]}}],
+    )
 
     # Run from an unrelated directory to prove cwd-independence.
     foreign = tmp_path / "elsewhere"

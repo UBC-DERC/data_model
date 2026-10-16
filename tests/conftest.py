@@ -1,4 +1,5 @@
 """Shared pytest fixtures for the data_model test suite."""
+
 from pathlib import Path
 
 import pytest
