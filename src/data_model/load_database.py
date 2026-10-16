@@ -3,7 +3,7 @@ from typing import Any
 from .check_crossreferences import check_references
 from .load_files import base_dir_of, load_file, resolve_ref
 from .load_schema import load_schema
-from .object_classes import ddaml_dict, ddaml_info, license_dict
+from .object_classes import ddaml_dict
 
 
 def load_database(filename: str) -> ddaml_dict:
