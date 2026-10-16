@@ -54,12 +54,13 @@ class ConstraintType(str, Enum):
     unique_nulls_not_distinct = "UNIQUE NULLS NOT DISTINCT"
     primary_key = "PRIMARY KEY"
     foreign_key = "FOREIGN KEY"
+    none = "NONE"
 
 
 class constraint_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name: str
-    type: ConstraintType | None = None
+    type: ConstraintType = ConstraintType.none
     comment: str = "No comment provided."
     ddl: str | None = None
     columns: list[str] = []
@@ -71,6 +72,33 @@ class constraint_dict(BaseModel):
             raise ValueError(
                 f"constraint '{self.name}' has a references block but is type "
                 f"{self.type!r}; only FOREIGN KEYs may reference another table."
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _references_must_have_columns(self):
+        if self.references is not None and not self.references.columns:
+            raise ValueError(
+                f"constraint '{self.name}' has a references block but no columns "
+                f"defined; at least one column must be specified."
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _references_must_have_table(self):
+        if self.references is not None and not self.references.table:
+            raise ValueError(
+                f"constraint '{self.name}' has a references block but no table "
+                f"defined; a table must be specified."
+            )
+        return self
+
+    @model_validator(mode="after")
+    def colums_must_be_defined_for_constraints(self):
+        if self.type != ConstraintType.none and len(self.columns) == 0:
+            raise ValueError(
+                f"constraint '{self.name}' is type {self.type!r} but has no columns "
+                f"defined; at least one column must be specified."
             )
         return self
 

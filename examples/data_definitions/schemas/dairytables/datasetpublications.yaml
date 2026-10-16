@@ -13,6 +13,8 @@
   - name: datasetpublications_datasetid_fk
     comment: The foreign key referencing the datasets table in the database.
     type: FOREIGN KEY
+    columns:
+    - datasetid
     ddl: FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE ON DELETE CASCADE
     references:
       table: datasets
@@ -21,6 +23,8 @@
   - name: datasetpublications_publicationid_fk
     comment: The foreign key referencing the publications table in the database.
     type: FOREIGN KEY
+    columns:
+    - publicationid
     ddl: FOREIGN KEY (publicationid) REFERENCES publication(publicationid) ON UPDATE CASCADE ON DELETE CASCADE
     references:
       table: publications
