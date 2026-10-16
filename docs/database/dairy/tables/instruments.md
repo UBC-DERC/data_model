@@ -45,5 +45,5 @@ This table has no index
 
 **Referenced By**
 
-* [instrumentinstance](instrumentinstance.md) () → `instrumentid`
+* [instrumentinstance](instrumentinstance.md) (`instrumentid`) → `instrumentid`
 * [instruments](instruments.md) (`instrumentid`) → `instrumentid`
