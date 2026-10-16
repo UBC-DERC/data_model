@@ -73,7 +73,7 @@ A field to support the discovery and application of licensing to any data model 
 | owner | str | None = None |
 | comment | str | "No comment provided." |
 | extensions | list[str] | [] |
-| schemas | [Schema Objects](#schema) | |
+| schemas | [Schema Objects](#schema) | An optional field. We can generate a database with no schema. Postgresql will still create a `public` schema. |
 
 ### Schema
 

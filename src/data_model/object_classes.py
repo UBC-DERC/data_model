@@ -143,7 +143,7 @@ class DDL_Dict(BaseModel):
     owner: str | None = None
     comment: str = "No comment provided."
     extensions: list[str] = []
-    schemas: list[schema_dict]
+    schemas: list[schema_dict] = []
 
 
 class license_dict(BaseModel):

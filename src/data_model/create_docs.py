@@ -249,6 +249,8 @@ def database_page(database: DDL_Dict, path: Path) -> None:
         comment = schema.comment.strip()
         lines.append(f"* **[{name}](./{name}/index.md)**: *{comment}*")
         schema_page(schema, path / name, incoming_index)
+    if not database.schemas:
+        lines.append("This database has no schemas.")
     _write_page(path / "index.md", lines)
 
 

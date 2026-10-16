@@ -33,7 +33,7 @@ def load_database(filename: str) -> ddaml_dict:
         )
     db_slug["schemas"] = [
         load_schema(base / s["$ref"]) if "$ref" in s else s
-        for s in db_slug.get("schemas", [])
+        for s in db_slug.get("schemas") or []
     ]
     database = ddaml_dict(**db)
     check_references(database.database)
