@@ -155,6 +155,8 @@ schemas:
       references:
         columns:
         - datasetid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: datasets
       type: FOREIGN KEY
@@ -166,6 +168,8 @@ schemas:
       references:
         columns:
         - databaseid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: externaldatabases
       type: FOREIGN KEY
@@ -194,6 +198,8 @@ schemas:
       references:
         columns:
         - datasetid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: datasets
       type: FOREIGN KEY
@@ -205,6 +211,8 @@ schemas:
       references:
         columns:
         - publicationid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: publications
       type: FOREIGN KEY
@@ -477,6 +485,8 @@ schemas:
       references:
         columns:
         - institutionid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: institutions
       type: FOREIGN KEY
@@ -534,6 +544,8 @@ schemas:
       references:
         columns:
         - instrumentid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: instruments
       type: FOREIGN KEY
@@ -670,6 +682,8 @@ schemas:
       references:
         columns:
         - instrumentid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: instruments
       type: FOREIGN KEY
@@ -682,6 +696,8 @@ schemas:
       references:
         columns:
         - institutionid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: institutions
       type: FOREIGN KEY
@@ -694,6 +710,8 @@ schemas:
       references:
         columns:
         - institutionid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: institutions
       type: FOREIGN KEY
@@ -761,6 +779,8 @@ schemas:
       references:
         columns:
         - databaseid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: externaldatabases
       type: FOREIGN KEY
@@ -813,6 +833,8 @@ schemas:
       references:
         columns:
         - publicationid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: publications
       type: FOREIGN KEY
@@ -823,6 +845,8 @@ schemas:
       references:
         columns:
         - keywordid
+        on_delete: NO ACTION
+        on_update: NO ACTION
         schema: dairy
         table: keywords
       type: FOREIGN KEY
