@@ -1,3 +1,0 @@
-- name: institutionid
-  type: UUID7
-  comment: The unique internal identifier for the institution.
