@@ -1,18 +1,18 @@
 # DDAML Specification
 
-Date: October 5, 2026
+Date: October 26, 2026
 
-This document serves to define the specifications for the DDAML (Database Description Ain't Markup Language) format that will be used to generate valid (Postgres) data description language (DDL) structure through the [`data_model`](https://gituhb.com/UBC-DERC/data_model) and the [`ddl_builder`](https://github.com/UBC-DERC/ddl_builder) Python packages. The goal is to develop a human readable document format that can be processed by a Python script and transformed into usable SQL to work within a system in which ATOMic features of databases are required, but schema or data model specifications may change over time.
+This document serves to define the specifications for the DDAML (Database Description Ain't Markup Language) format that will be used to generate valid (Postgres) data description language (DDL) structure through the [`data_model`](https://github.com/UBC-DERC/data_model) and the [`ddl_builder`](https://github.com/UBC-DERC/ddl_builder) Python packages. The goal is to develop a human readable document format that can be processed by a Python script and transformed into usable SQL to work within a system in which atomic features of databases are required, but schema or data model specifications may change over time.
 
 This format will attempt to mirror other existing schema, and is strongly influenced by [OpenAPI](https://spec.openapis.org/oas/latest.html).
 
-## Version 2026.10
+## Version 2026.10.26
 
 The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “NOT RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in [RFC2119](https://www.rfc-editor.org/info/rfc2119/).
 
 ### Introduction
 
-This documentation is intended to support a data model that allows users to read, build documentation, and itterate over data models for (Postgres) databases over time as part of a workflow that allows lay partners and technical experts to work together to develop and define appropriate data models for complex systems. The tool was originally developed as part of work at the University of British Columbia's Dairy Education and Research Center, where multiple existing systems, proprietary data models, and a history of academic research resulted in a large number of heterogenous datasets that needed to be aligned to support longitudinal data analysis.
+This documentation is intended to support a data model that allows users to read, build documentation, and iterate over data models for (Postgres) databases over time as part of a workflow that allows lay partners and technical experts to work together to develop and define appropriate data models for complex systems. The tool was originally developed as part of work at the University of British Columbia's Dairy Education and Research Center, where multiple existing systems, proprietary data models, and a history of academic research resulted in a large number of heterogenous datasets that needed to be aligned to support longitudinal data analysis.
 
 The models and systems established as part of DDAML allow system developers to consult with domain experts, technicians, researchers and other invested groups, without the need for deep understanding of underlying database principles. It allows for integrated development of indices, constraints and references, and can support the implementation of best-practices early on in the database design process.
 
@@ -26,8 +26,8 @@ Versioning will use a [CalVer](https://calver.org/) system, using a YYYY.M.D.MIC
 
 | Field name | Type | Description |
 | --- | --- | --- |
-| ddaml | str | REQUIRED. This string MUST be the CalVer version number of the ddaml specification. This field allows other tooling to understand the structure and specification of the ddaml file. |
-| info | str | REQUIRED. This string is used to provide additional metadata about the purpose of the ddaml document and data model. |
+| ddaml_version | str | REQUIRED. This string MUST be the CalVer version number of the ddaml specification. This field allows other tooling to understand the structure and specification of the ddaml file. |
+| info | [Info object](#info) | REQUIRED. This string is used to provide additional metadata about the purpose of the ddaml document and data model. |
 | database | [Database object](#database) | REQUIRED. The database definition |
 
 ### Info
@@ -39,17 +39,17 @@ These fields are similar to the fields defined in the [OpenAPI v3.2.1 Specificat
 | title | str | REQUIRED. The title of the data model (different from the database name). This is a formal title for the document. |
 | summary | str | A short summary of the database model. |
 | description | str | A description of the data model. [CommonMark](https://commonmark.org/) syntax MAY be used for rich text representation. |
-| contact | [[Contact Object](#contact)] | The contact information for the metadata and data model maintainer. |
+| contacts | [Contact Object](#contacts) | The contact information for the metadata and data model maintainer. |
 | license | [License Object](#license) | The license information for the data model and structured repository associated with it. |
 | version | str | REQUIRED. The version of the DDAML document (which is distinct from the DDAML Specification version). |
 
-### Contact
+### Contacts
 
 Support for contact information. Drawn from the OpenAPI standard.
 
 | Field name | Type | Description |
 | --- | --- | --- |
-| name | str | The identifying name of the contact person/organization. |
+| name | str | REQUIRED. The identifying name of the contact person/organization. |
 | url | str | The URI for the contact information. This MUST be in the form of a URI. |
 | email | str | The email address of the contact person/organization. This MUST be in the form of an email address. |
 
@@ -59,8 +59,8 @@ A field to support the discovery and application of licensing to any data model 
 
 | Field name | Type | Description |
 | --- | --- | --- |
-| name | str | REQUIRED. The license name used for the data model. |
-| identifier | str | An [SPDX-Licenses](https://spdx.org/licenses/) expression for the API. The identifier field is mutually exclusive of the url field. |
+| full_name | str | REQUIRED. The license name used for the data model. |
+| licenseId | str | An [SPDX-Licenses](https://spdx.org/licenses/) expression for the API. The identifier field is mutually exclusive of the url field. |
 | url | str | A URI for the license used for the data model. This MUST be in the form of a URI. The url field is mutually exclusive of the identifier field. |
 
 ### Database
@@ -69,7 +69,7 @@ A field to support the discovery and application of licensing to any data model 
 | --- | --- | --- |
 | encoding | str | 'UTF8' |
 | locale | str | 'en_CA' |
-| name | str | |
+| name | str | REQUIRED. The name for the database on the server. To be used in `CREATE DATABASE`. |
 | owner | str | None = None |
 | comment | str | "No comment provided." |
 | extensions | list[str] | [] |
@@ -99,8 +99,8 @@ A field to support the discovery and application of licensing to any data model 
 
 | Field name | Type | Description |
 | --- | --- | --- |
-| name | str | The formal column name. Should conform to Postgres standard. |
-| type | str | Column type. MUST conform to an allowed [Postgres data type](https://www.postgresql.org/docs/current/datatype.html) or a type supported by an existing Postgres extension. Validation occurs during converstion to DDL in the `ddl_builder` Python package. |
+| name | str | REQUIRED. The formal column name. Should conform to Postgres standard. |
+| type | str | REQUIRED. Column type. MUST conform to an allowed [Postgres data type](https://www.postgresql.org/docs/current/datatype.html) or a type supported by an existing Postgres extension. Validation occurs during conversion to DDL in the `ddl_builder` Python package. |
 | comment | str | As opposed to the [Table Object](#table) comments, the column comments default to "No comment provided." |
 | nullable | bool | Is the field nullable? Defaults to `True` |
 | default | str | Defines a default value, the field is submitted as a string, but will be transformed based on the `type` defined above. |
@@ -109,8 +109,19 @@ A field to support the discovery and application of licensing to any data model 
 
 | Field name | Type | Description |
 | --- | --- | --- |
+| name | str | REQUIRED. Valid name for the index. |
+| type | str | Index type. |
+| comment | str | Valid comment explaining the use of the index. Defaults to "No comment provided." |
+| ddl | str | The DDL for defining the index. |
+| columns | list[str] | A list of column names to which the index is applied. |
 
 ### Constraint
 
 | Field name | Type | Description |
 | --- | --- | --- |
+| name | str | A valid name for the constraint |
+| type | ConstraintType | One of the set of constraint types. |
+| comment | str | An explanation for the comment. Defaults to "No comment  provided." |
+| ddl | str | This will be phased out, but in early development we were including an explicit call to the DDL. |
+| columns | list[str] | A list of columns within the table that the constraint is referencing, defaults to `None` |
+| references | reference_dict | A reference to another table and columns that are referenced by the constraint. Defaults to `None` |

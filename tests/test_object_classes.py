@@ -19,6 +19,26 @@ from data_model.object_classes import (
 )
 
 
+def test_extensions_are_validated():
+    """A valid extension key is accepted and becomes part of the model dump"""
+    table = table_dict(
+        name="cows",
+        columns=[column_dict(name="id", type="text")],
+        **{"x-valid": 1},
+    )
+    assert table.model_extra == {"x-valid": 1}
+    assert table.model_dump(exclude={"model_extra"}).get("x-valid") == 1
+
+
+def test_bad_extensions_are_invalidated():
+    with pytest.raises(ValidationError):
+        table_dict(
+            name="cows",
+            columns=[column_dict(name="id", type="text")],
+            **{"X-valid": 1},
+        )
+
+
 def test_table_accepts_schema_key_and_forbids_unknown():
     t = table_dict(
         name="cows", schema="dairy", columns=[column_dict(name="id", type="text")]
@@ -84,6 +104,28 @@ def test_foreign_key_accepts_references():
         references=reference_dict(table="institutions", columns=["institutionid"]),
     )
     assert c.references.table == "institutions"
+
+
+def test_foreign_key_has_more_columns_than_references():
+    with pytest.raises(ValidationError):
+        constraint_dict(
+            name="fk",
+            type="FOREIGN KEY",
+            columns=["supplierid", "institutionid"],
+            references=reference_dict(table="institutions", columns=["institutionid"]),
+        )
+
+
+def test_foreign_key_has_more_references_than_columns():
+    with pytest.raises(ValidationError):
+        constraint_dict(
+            name="fk",
+            type="FOREIGN KEY",
+            columns=["supplierid"],
+            references=reference_dict(
+                table="institutions", columns=["supplierid", "institutionid"]
+            ),
+        )
 
 
 def test_primary_key_rejects_references():

@@ -160,8 +160,8 @@ database:
         references:
           columns:
           - datasetid
-          on_delete: null
-          on_update: null
+          on_delete: CASCADE
+          on_update: CASCADE
           schema: dairy
           table: datasets
         type: FOREIGN KEY
@@ -174,8 +174,8 @@ database:
         references:
           columns:
           - databaseid
-          on_delete: null
-          on_update: null
+          on_delete: CASCADE
+          on_update: CASCADE
           schema: dairy
           table: externaldatabases
         type: FOREIGN KEY
@@ -205,8 +205,8 @@ database:
         references:
           columns:
           - datasetid
-          on_delete: null
-          on_update: null
+          on_delete: CASCADE
+          on_update: CASCADE
           schema: dairy
           table: datasets
         type: FOREIGN KEY
@@ -219,8 +219,8 @@ database:
         references:
           columns:
           - publicationid
-          on_delete: null
-          on_update: null
+          on_delete: CASCADE
+          on_update: CASCADE
           schema: dairy
           table: publications
         type: FOREIGN KEY
@@ -553,8 +553,8 @@ database:
         references:
           columns:
           - instrumentid
-          on_delete: null
-          on_update: null
+          on_delete: CASCADE
+          on_update: CASCADE
           schema: dairy
           table: instruments
         type: FOREIGN KEY
@@ -616,7 +616,7 @@ database:
         nullable: true
         type: uuid-7
       - comment: A general description for the particular instrument that can be used
-          to easily  identify the instrument. Should include a technical description
+          to easily identify the instrument. Should include a technical description
           of the device and its capabilities.
         default: null
         name: description
@@ -669,7 +669,7 @@ database:
         nullable: true
         type: UUID7
       comment: A table for managing scientific and technical instruments used within
-        the research system. This table is intended to help with connecting  measurements
+        the research system. This table is intended to help with connecting measurements
         to documentation and workflow management. The design of this table and its
         associated foreign key links is based on the [RDA PIDINST v1.0](https://zenodo.org/records/6396467#.YkQxzRBBwlw).
       constraints:
@@ -692,8 +692,8 @@ database:
         references:
           columns:
           - instrumentid
-          on_delete: null
-          on_update: null
+          on_delete: CASCADE
+          on_update: CASCADE
           schema: dairy
           table: instruments
         type: FOREIGN KEY
@@ -707,7 +707,7 @@ database:
           columns:
           - institutionid
           on_delete: null
-          on_update: null
+          on_update: CASCADE
           schema: dairy
           table: institutions
         type: FOREIGN KEY
@@ -721,7 +721,7 @@ database:
           columns:
           - institutionid
           on_delete: null
-          on_update: null
+          on_update: CASCADE
           schema: dairy
           table: institutions
         type: FOREIGN KEY
@@ -846,7 +846,7 @@ database:
           columns:
           - publicationid
           on_delete: null
-          on_update: null
+          on_update: CASCADE
           schema: dairy
           table: publications
         type: FOREIGN KEY
@@ -859,7 +859,7 @@ database:
           columns:
           - keywordid
           on_delete: null
-          on_update: null
+          on_update: CASCADE
           schema: dairy
           table: keywords
         type: FOREIGN KEY

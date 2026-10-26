@@ -27,3 +27,5 @@
       table: instruments
       columns:
       - instrumentid
+      on_update: CASCADE
+      on_delete: CASCADE

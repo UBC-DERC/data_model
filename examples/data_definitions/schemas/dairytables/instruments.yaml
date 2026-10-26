@@ -2,7 +2,7 @@
   schema: dairy
   type: BASE TABLE
   comment: >-
-    A table for managing scientific and technical instruments used within the research system. This table is intended to help with connecting 
+    A table for managing scientific and technical instruments used within the research system. This table is intended to help with connecting
     measurements to documentation and workflow management. The design of this table and its associated foreign key links is based on the [RDA
     PIDINST v1.0](https://zenodo.org/records/6396467#.YkQxzRBBwlw).
   columns:
@@ -10,7 +10,7 @@
     - name: description
       type: text
       comment: >-
-        A general description for the particular instrument that can be used to easily 
+        A general description for the particular instrument that can be used to easily
         identify the instrument. Should include a technical description of the device and its capabilities.
     - name: instrumentname
       comment: The proper name by which the instrument is identified. The instrument may have other colloquial names.
@@ -47,6 +47,8 @@
       table: instruments
       columns:
       - instrumentid
+      on_delete: CASCADE
+      on_update: CASCADE
     columns:
     - instrumentid
   - name: manufacturer_fkey
@@ -58,6 +60,7 @@
       table: institutions
       columns:
       - institutionid
+      on_update: CASCADE
   - name: supplier_fkey
     type: FOREIGN KEY
     ddl: FOREIGN KEY (supplierid) REFERENCES institutions(institutionid) ON UPDATE CASCADE
@@ -67,3 +70,4 @@
       table: institutions
       columns:
         - institutionid
+      on_update: CASCADE

@@ -3,8 +3,32 @@ from enum import Enum
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
-class column_dict(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+class extensible_dict(BaseModel):
+    """Supporting the use of `x-` extensions for the data model. This will
+    support links to external schema (for example)."""
+
+    model_config = ConfigDict(
+        extra="allow",
+        json_schema_extra={
+            "patternProperties": {"^x-": {}},
+            "additionalProperties": False,
+        },
+    )
+
+    @model_validator(mode="after")
+    def _validate_extensions(self):
+        for key in self.model_extra or {}:
+            if key.startswith("x-"):
+                continue
+            raise ValueError(
+                f"Invalid extension key '{key}'; all extensions must start with 'x-'"
+            )
+        return self
+
+
+class column_dict(extensible_dict):
+    """A class for columns, supporting the use of `x-` extensions for the data model."""
+
     name: str
     type: str
     comment: str = "No comment provided."
@@ -103,6 +127,18 @@ class constraint_dict(BaseModel):
             )
         return self
 
+    @model_validator(mode="after")
+    def columns_defined_must_have_same_count_as_columns_referenced(self):
+        ref_cols = self.references.columns if self.references else []
+        if self.type == ConstraintType.foreign_key and len(self.columns) != len(
+            ref_cols
+        ):
+            raise ValueError(
+                f"constraint '{self.name}' references {len(ref_cols)} columns, but ",
+                f"has {len(self.columns)!r} defined.",
+            )
+        return self
+
 
 class index_dict(BaseModel):
     # Indexes are always defined on their owning table, so they carry only
@@ -111,15 +147,15 @@ class index_dict(BaseModel):
     name: str
     type: str | None = None
     comment: str = "No comment provided."
-    ddl: str
+    ddl: str | None = None
     columns: list[str] = []
 
 
-class table_dict(BaseModel):
+class table_dict(extensible_dict):
     # ``schema`` is advisory only; a table's owning schema is authoritative via
     # its folder placement and membership in a schema_dict. Stored as
     # ``schema_`` (aliased to ``schema``) to avoid shadowing BaseModel.schema().
-    model_config = ConfigDict(populate_by_name=True, extra="forbid")
+    model_config = ConfigDict(populate_by_name=True)
     name: str
     schema_: str | None = Field(default=None, alias="schema")
     type: str = "BASE TABLE"
@@ -129,8 +165,7 @@ class table_dict(BaseModel):
     indexes: list[index_dict] = []
 
 
-class schema_dict(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+class schema_dict(extensible_dict):
     name: str
     comment: str = "No comment provided."
     tables: list[table_dict] = []
@@ -172,6 +207,6 @@ class ddaml_info(BaseModel):
 
 class ddaml_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    ddaml_version: str = "0.1.0"
+    ddaml_version: str
     database: DDL_Dict
     info: ddaml_info

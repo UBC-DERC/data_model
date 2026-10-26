@@ -38,6 +38,8 @@
       table: datasets
       columns:
       - datasetid
+      on_update: CASCADE
+      on_delete: CASCADE
     ddl: FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE ON DELETE CASCADE
   - name: datasetidentifiers_externaldbid_fk
     type: FOREIGN KEY
@@ -49,3 +51,5 @@
       table: externaldatabases
       columns:
       - databaseid
+      on_update: CASCADE
+      on_delete: CASCADE

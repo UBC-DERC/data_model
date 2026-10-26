@@ -18,7 +18,7 @@ def load_database(filename: str) -> ddaml_dict:
         filename (str): Path to the database entry YAML file.
 
     Returns:
-        DDL_Dict: The validated, reference-checked database model.
+        ddaml_dict: The validated, reference-checked database model and metadata.
     """
     base = base_dir_of(filename)
     file = load_file(filename)

@@ -20,6 +20,8 @@
       table: datasets
       columns:
       - datasetid
+      on_delete: CASCADE
+      on_update: CASCADE
   - name: datasetpublications_publicationid_fk
     comment: The foreign key referencing the publications table in the database.
     type: FOREIGN KEY
@@ -30,6 +32,8 @@
       table: publications
       columns:
       - publicationid
+      on_delete: CASCADE
+      on_update: CASCADE
   - name: datasetpublications_joint_pk
     comment: The Primary Key here is the joint datasetid/publicationid key. It shouldn't be repeated.
     type: PRIMARY KEY

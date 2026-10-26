@@ -17,6 +17,7 @@
       table: publications
       columns:
         - publicationid
+      on_update: CASCADE
   - name: keyword_fkey
     type: FOREIGN KEY
     columns:
@@ -26,3 +27,4 @@
       table: keywords
       columns:
         - keywordid
+      on_update: CASCADE

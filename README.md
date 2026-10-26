@@ -2,7 +2,7 @@
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-alpha-orange.svg)]()
 
-[![](https://img.shields.io/badge/MIT-green?style=for-the-badge)](LICENSE.md)
+[![](https://img.shields.io/badge/MIT-green?style=for-the-badge)](https://github.com/UBC-DERC/data_model/blob/main/LICENSE.md)
 
 [![CalVer - 2026.10.0a1](https://img.shields.io/badge/calver-2026.10.0a1-22bfda.svg)](https://calver.org/)
 
@@ -60,14 +60,12 @@ For the example model bundled in this repository:
 data-model examples/data_definitions/dairymodel.yaml --docs docs --output output.yaml
 ```
 
-The `examples/data_definitions/` folder is **example input** — point the tool at the
-entry file of any directory of definitions.
+The `examples/data_definitions/` folder is **example input** — point the tool at the entry file of any directory of definitions.
 
 Validation runs in two phases:
 
 1. structural checks on each definition (unknown keys, malformed constraints)
-2. cross-reference checks across the assembled model (every referenced table and
-column must exist).
+2. cross-reference checks across the assembled model (every referenced table and column must exist).
 
 If either phase fails, the command prints **all** problems at once to stderr, writes **no** output, and exits with a non-zero status - suitable for gating a deployment pipeline before DDL generation.
 
@@ -75,13 +73,13 @@ The composite `--output` YAML is the fully-resolved model (all `$ref:` targets m
 
 ## Editing/Modifying or Working with the Data Model
 
-The YAML file(s) used to define the database can be structured so that they are all in one file (see: [output.yaml](examples/data_definitions/output.yaml)), or, you can make use of the `$ref` tag to refer to other files (see: [data_definitions](examples/data_definitions/dairymodel.yaml)). In this way, managing a complex data model with repeated elements can be simplified, by defining a field only once, and all documentation will be updated with any change.
+The YAML file(s) used to define the database can be structured so that they are all in one file (see: [output.yaml](https://github.com/UBC-DERC/data_model/blob/main/examples/data_definitions/output.yaml)), or, you can make use of the `$ref` tag to refer to other files (see: [data_definitions](https://github.com/UBC-DERC/data_model/blob/main/examples/data_definitions/dairymodel.yaml)). In this way, managing a complex data model with repeated elements can be simplified, by defining a field only once, and all documentation will be updated with any change.
 
 This conceptual model borrows from the [OpenAPI `$ref` implementation](https://swagger.io/docs/specification/v3_0/using-ref/).
 
 ### File and Folder Structure
 
-Within this repository we will create a named folder, here [`data_definitions`](examples/data_definitions). Within the folder are all the `yaml` files that make up the data model. These files contain the critical information for database, schema, table and column definitions. We create these files to support the work of experts in defining the critical fields and concepts used in the database.
+Within this repository we will create a named folder, here [`data_definitions`](https://github.com/UBC-DERC/data_model/blob/main/examples/data_definitions). Within the folder are all the `yaml` files that make up the data model. These files contain the critical information for database, schema, table and column definitions. We create these files to support the work of experts in defining the critical fields and concepts used in the database.
 
 The database itself is defined by a folder structure, modeled after PostgreSQL database structure: `database` -> `schema` -> `table` -> `column` although this folder structure is not enforced. Each folder contains individually named files for each of the elements within that hierarchy. Individual files can stand alone, or we can use the `$ref` tag to point to other files.
 
@@ -89,7 +87,7 @@ The database itself is defined by a folder structure, modeled after PostgreSQL d
 
 ### Simple Database and Documentation
 
-In `examples/simple_example` we define a database file as [`database.yaml`](examples/simple_example/database.yaml) with the text:
+In `examples/simple_example` we define a database file as [`database.yaml`](https://github.com/UBC-DERC/data_model/blob/main/examples/simple_example/database.yaml) with the text:
 
 ```yaml
 - name: dairymodel
@@ -108,11 +106,11 @@ If we run:
 data-model examples/simple_example/database.yaml --docs docs --output examples/simple_example/output.yaml
 ```
 
-We will expect to see that we have a file called [`output.yaml`](examples/simple_example/output.yaml), and a directory in `docs/database` that contains an `index.md` file and two folders, one for each named schema.
+We will expect to see that we have a file called [`output.yaml`](https://github.com/UBC-DERC/data_model/blob/main/examples/simple_example/output.yaml), and a directory in `docs/database` that contains an `index.md` file and two folders, one for each named schema.
 
 ### Database with References
 
-We can use references to sub-folders with the `$ref` tag, to point to folder content for more complex examples, as in our example within [`examples/data_definitions`](examples/data_definitions/)
+We can use references to sub-folders with the `$ref` tag, to point to folder content for more complex examples, as in our example within [`examples/data_definitions`](https://github.com/UBC-DERC/data_model/blob/main/examples/data_definitions/)
 
 ```yaml
 - name: dairymodel
@@ -178,7 +176,7 @@ This project was developed by:
 
 * [![ORCID](https://img.shields.io/badge/ORCID-0000--0002--2700--4605-green.svg)](https://orcid.org/0000-0002-2700-4605): Simon Goring
 
-Contributions to this repository are expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+Contributions to this repository are expected to follow the [Code of Conduct](https://github.com/UBC-DERC/data_model/blob/main/CODE_OF_CONDUCT.md).
 
 ## Funding Statement
 

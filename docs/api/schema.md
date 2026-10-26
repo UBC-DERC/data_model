@@ -51,6 +51,7 @@ The schema defines these primary objects:
 
 | Object | Description |
 |--------|-------------|
+| `ddaml_dict` | Full object definition, including metadata. |
 | `DDL_Dict` | Root database definition |
 | `schema_dict` | A database schema containing tables |
 | `table_dict` | A table with columns, constraints, and indexes |
