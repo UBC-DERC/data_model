@@ -28,9 +28,8 @@ class ReferenceCheckError(Exception):
 def resolve_references(db: DDL_Dict) -> DDL_Dict:
     """Fill omitted ``references`` schema/table from the owning table's context.
 
-    A reference with no ``schema`` defaults to the owning table's schema; with
-    no ``table`` it defaults to the owning table itself (a self-referential
-    foreign key). Values that are already set are left as-is, so a name that
+    A reference with no ``schema`` defaults to the owning table's schema.
+    Values that are already set are left as-is, so a name that
     simply does not resolve stays wrong and is caught by
     :func:`find_missing_references` rather than silently rewritten.
 
@@ -48,8 +47,6 @@ def resolve_references(db: DDL_Dict) -> DDL_Dict:
                     continue
                 if ref.schema_ is None:
                     ref.schema_ = schema.name
-                if ref.table is None:
-                    ref.table = table.name
     return db
 
 
