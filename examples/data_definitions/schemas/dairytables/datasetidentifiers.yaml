@@ -43,7 +43,7 @@
     type: FOREIGN KEY
     columns:
     - externaldatabaseid
-    ddl: FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(externaldatabaseid) ON UPDATE CASCADE ON DELETE CASCADE
+    ddl: FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(databaseid) ON UPDATE CASCADE ON DELETE CASCADE
     comment: Foreign key reference to external databases or resources.
     references:
       table: externaldatabases
