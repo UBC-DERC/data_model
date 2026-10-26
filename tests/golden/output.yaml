@@ -838,7 +838,7 @@ database:
       constraints:
       - columns:
         - publicationid
-        comment: A foreign key to point to the publication id.
+        comment: No comment provided.
         ddl: FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON
           UPDATE CASCADE
         name: publication_fkey
@@ -852,7 +852,7 @@ database:
         type: FOREIGN KEY
       - columns:
         - keywordid
-        comment: A foreign key to point to the keyword id.
+        comment: No comment provided.
         ddl: FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE
         name: keyword_fkey
         references:
