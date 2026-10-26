@@ -1,6 +1,6 @@
 [project]
 name = "data-model"
-version = "0.1.0"
+version = "2026.10.0a1"
 description = "Manage YAML representations of PostgreSQL database definitions, including tables, schema, indices and constraints."
 readme = {file="README.md", content-type = "text/markdown"}
 authors = [

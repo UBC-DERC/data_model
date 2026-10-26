@@ -4,7 +4,7 @@
 
 [![](https://img.shields.io/badge/MIT-green?style=for-the-badge)](LICENSE.md)
 
-[![CalVer - 2026.9.14](https://img.shields.io/badge/calver-2026.9.14-22bfda.svg)](https://calver.org/)
+[![CalVer - 2026.10.0a1](https://img.shields.io/badge/calver-2026.10.0a1-22bfda.svg)](https://calver.org/)
 
 # Human Readable Data Models for Database Design
 
@@ -71,11 +71,11 @@ column must exist).
 
 If either phase fails, the command prints **all** problems at once to stderr, writes **no** output, and exits with a non-zero status - suitable for gating a deployment pipeline before DDL generation.
 
-The composite `--output` YAML is the fully-resolved model (all `ref:` targets merged, reference schemas/tables filled in) intended for the downstream DDL generation stage.
+The composite `--output` YAML is the fully-resolved model (all `$ref:` targets merged, reference schemas/tables filled in) intended for the downstream DDL generation stage.
 
 ## Editing/Modifying or Working with the Data Model
 
-The YAML file(s) used to define the database can be structured so that they are all in one file (see: [output.yaml](examples/output.yaml)), or, you can make use of the `ref` tag to refer to other files (see: [data_definitions](examples/data_definitions/dairymodel.yaml)). In this way, managing a complex data model with repeated elements can be simplified, by defining a field only once, and all documentation will be updated with any change.
+The YAML file(s) used to define the database can be structured so that they are all in one file (see: [output.yaml](examples/data_definitions/output.yaml)), or, you can make use of the `$ref` tag to refer to other files (see: [data_definitions](examples/data_definitions/dairymodel.yaml)). In this way, managing a complex data model with repeated elements can be simplified, by defining a field only once, and all documentation will be updated with any change.
 
 This conceptual model borrows from the [OpenAPI `$ref` implementation](https://swagger.io/docs/specification/v3_0/using-ref/).
 
@@ -83,7 +83,7 @@ This conceptual model borrows from the [OpenAPI `$ref` implementation](https://s
 
 Within this repository we will create a named folder, here [`data_definitions`](examples/data_definitions). Within the folder are all the `yaml` files that make up the data model. These files contain the critical information for database, schema, table and column definitions. We create these files to support the work of experts in defining the critical fields and concepts used in the database.
 
-The database itself is defined by a folder structure, modeled after PostgreSQL database structure: `database` -> `schema` -> `table` -> `column` although this folder structure is not enforced. Each folder contains individually named files for each of the elements within that hierarchy. Individual files can stand alone, or we can use the `ref` tag to point to other files.
+The database itself is defined by a folder structure, modeled after PostgreSQL database structure: `database` -> `schema` -> `table` -> `column` although this folder structure is not enforced. Each folder contains individually named files for each of the elements within that hierarchy. Individual files can stand alone, or we can use the `$ref` tag to point to other files.
 
 ## Examples
 
@@ -112,15 +112,15 @@ We will expect to see that we have a file called [`output.yaml`](examples/simple
 
 ### Database with References
 
-We can use references to sub-folders with the `ref` tag, to point to folder content for more complex examples, as in our example within [`examples/data_definitions`](examples/data_definitions/)
+We can use references to sub-folders with the `$ref` tag, to point to folder content for more complex examples, as in our example within [`examples/data_definitions`](examples/data_definitions/)
 
 ```yaml
 - name: dairymodel
   schemas:
-    - ref: schemas/dairy.yaml
+    - $ref: schemas/dairy.yaml
 ```
 
-Using the `ref` tag also allows us to re-use certain content, for example, columns for understanding data creation dates and data modification dated.
+Using the `$ref` tag also allows us to re-use certain content, for example, columns for understanding data creation dates and data modification dated.
 
 The `dairymodel.yaml` file defines elements of a preliminary design for a dairy farm database. This includes pointers to particular database extensions, schema definitions, and other elements that are required to define a database.
 
