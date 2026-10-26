@@ -160,22 +160,22 @@ database:
         references:
           columns:
           - datasetid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: datasets
         type: FOREIGN KEY
       - columns:
         - externaldatabaseid
         comment: Foreign key reference to external databases or resources.
-        ddl: FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(externaldatabaseid)
+        ddl: FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(databaseid)
           ON UPDATE CASCADE ON DELETE CASCADE
         name: datasetidentifiers_externaldbid_fk
         references:
           columns:
           - databaseid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: externaldatabases
         type: FOREIGN KEY
@@ -205,22 +205,22 @@ database:
         references:
           columns:
           - datasetid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: datasets
         type: FOREIGN KEY
       - columns:
         - publicationid
         comment: The foreign key referencing the publications table in the database.
-        ddl: FOREIGN KEY (publicationid) REFERENCES publication(publicationid) ON
+        ddl: FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON
           UPDATE CASCADE ON DELETE CASCADE
         name: datasetpublications_publicationid_fk
         references:
           columns:
           - publicationid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: publications
         type: FOREIGN KEY
@@ -493,8 +493,8 @@ database:
         references:
           columns:
           - institutionid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: institutions
         type: FOREIGN KEY
@@ -553,8 +553,8 @@ database:
         references:
           columns:
           - instrumentid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: instruments
         type: FOREIGN KEY
@@ -692,8 +692,8 @@ database:
         references:
           columns:
           - instrumentid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: instruments
         type: FOREIGN KEY
@@ -706,8 +706,8 @@ database:
         references:
           columns:
           - institutionid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: institutions
         type: FOREIGN KEY
@@ -720,8 +720,8 @@ database:
         references:
           columns:
           - institutionid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: institutions
         type: FOREIGN KEY
@@ -790,8 +790,8 @@ database:
         references:
           columns:
           - databaseid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: externaldatabases
         type: FOREIGN KEY
@@ -845,8 +845,8 @@ database:
         references:
           columns:
           - publicationid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: publications
         type: FOREIGN KEY
@@ -858,8 +858,8 @@ database:
         references:
           columns:
           - keywordid
-          on_delete: NO ACTION
-          on_update: NO ACTION
+          on_delete: null
+          on_update: null
           schema: dairy
           table: keywords
         type: FOREIGN KEY

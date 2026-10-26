@@ -42,8 +42,8 @@ class reference_dict(BaseModel):
     schema_: str | None = Field(default=None, alias="schema")
     table: str | None = None
     columns: list[str]
-    on_update: OnUpdateType = OnUpdateType.no_action
-    on_delete: OnDeleteType = OnDeleteType.no_action
+    on_update: OnUpdateType | None = None
+    on_delete: OnDeleteType | None = None
 
 
 class ConstraintType(str, Enum):

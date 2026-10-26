@@ -57,7 +57,7 @@ def build_tables(table_dicts: list[dict[str, Any]]) -> list[table_dict]:
     """Build ``table_dict`` models from validated dicts, or report all problems.
 
     Args:
-        table_dicts (list[dict]): Per-table dicts, with any ``ref:`` targets
+        table_dicts (list[dict]): Per-table dicts, with any ``$ref:`` targets
             already merged.
 
     Returns:
