@@ -9,9 +9,8 @@ A constraint separates two clearly-named ideas:
   against the referenced table.
 
 The schema of the *referring* table is implied by its membership in a
-``schema_dict``. A foreign target may omit its ``schema``/``table``; those are
-filled from the owning table during :func:`resolve_references` (an omitted
-table yields a self-referential foreign key).
+``schema_dict``. A foreign target may omit its ``schema``; it will be
+filled from the owning schema during :func:`resolve_references`.
 
 Checking runs across *all* references and collects every problem, so a single
 run reports the complete list of unresolved references rather than stopping at

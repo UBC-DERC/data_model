@@ -168,8 +168,7 @@ We can see a database structure with nested schema and `tables`. Individual file
 The structured fields exist to help non-SQL users and to let the
 tool validate references: a constraint's `columns` must exist in its own table,
 and a `references` block (allowed only on `REFERENCES`) must point at an
-existing `(schema, table)` whose `columns` exist. When `schema`/`table` are
-omitted from a `references` block they default to the owning table.
+existing `(schema, table)` whose `columns` exist. When `schema` is omitted from a `references` block it will default to the owning schema.
 
 From these sets of yaml files we can build both documentation using `mkdocs` (in this repository) and we can build the actual SQL DDL for the database (using the [`ddl_builder`](https://github.com/UBC-DERC/ddl_builder) package). This structure allows us to clearly document the development of any database and all its various components.
 

@@ -35,7 +35,8 @@ class OnDeleteType(str, Enum):
 class reference_dict(BaseModel):
     """Reference structure for the data model.
     By default the reference is assumed to be in the same schema as the owning table
-    Default ON UPDATE and ON DELETE actions are NO ACTION unless specified otherwise.
+    Default ON UPDATE and ON DELETE actions (`None`) is an implied `NO ACTION` (the
+    Postgres default when no statement follows).
     """
 
     model_config = ConfigDict(populate_by_name=True, extra="forbid")

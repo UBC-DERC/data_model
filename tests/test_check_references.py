@@ -74,26 +74,6 @@ def test_resolution_defaults_schema_to_owning_schema():
     assert ref.table == "cows"
 
 
-def test_resolution_defaults_table_to_owning_table():
-    db = _db(
-        schema_dict(
-            name="dairy",
-            tables=[
-                _table(
-                    "cows",
-                    constraints=[
-                        _fk("selffk", reference_dict(table="cows", columns=["id"]))
-                    ],
-                ),
-            ],
-        )
-    )
-    resolve_references(db)
-    ref = db.schemas[0].tables[0].constraints[0].references
-    assert ref.schema_ == "dairy"
-    assert ref.table == "cows"
-
-
 def test_resolution_leaves_explicit_values_untouched():
     db = _db(
         schema_dict(
