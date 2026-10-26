@@ -1,6 +1,6 @@
 """Testing the construction of the ddaml object, and the use of the info_dict class"""
 
-from data_model.object_classes import ddaml_info, license_dict, contact_dict
+from data_model.object_classes import contact_dict, ddaml_info, license_dict
 
 
 def test_info_bloc_creation():
