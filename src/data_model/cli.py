@@ -11,11 +11,13 @@ import sys
 from pathlib import Path
 
 import yaml
+from pydantic import ValidationError
 
 from .check_crossreferences import ReferenceCheckError
 from .create_docs import document_database
 from .load_database import load_database
 from .model_build import ModelValidationError
+from .object_classes import ddaml_dict
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -40,8 +42,8 @@ def main(argv: list[str] | None = None) -> int:
     args = _build_parser().parse_args(argv)
 
     try:
-        database = load_database(args.entry)
-    except (ModelValidationError, ReferenceCheckError) as error:
+        database: ddaml_dict = load_database(args.entry)
+    except (ModelValidationError, ReferenceCheckError, ValidationError) as error:
         print(error, file=sys.stderr)
         return 1
 

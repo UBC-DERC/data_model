@@ -18,6 +18,7 @@ from .object_classes import (
     DDL_Dict,
     column_dict,
     constraint_dict,
+    ddaml_dict,
     index_dict,
     schema_dict,
     table_dict,
@@ -218,7 +219,7 @@ def _front_matter(title: str, description: str) -> str:
 # --------------------------------------------------------------------------- #
 # Page writers
 # --------------------------------------------------------------------------- #
-def document_database(database: DDL_Dict, path: Path | str = Path("docs")) -> None:
+def document_database(database: ddaml_dict, path: Path | str = Path("docs")) -> None:
     """Renders the documentation from YAML dictionary.
 
     Args:
@@ -230,8 +231,9 @@ def document_database(database: DDL_Dict, path: Path | str = Path("docs")) -> No
     """
     if isinstance(path, str):
         path = Path(path)
+    database_proper: DDL_Dict = database.database
     # Note, this is where we hardcode the output as Path + "database"
-    return database_page(database, path / "database")
+    return database_page(database_proper, path / "database")
 
 
 def database_page(database: DDL_Dict, path: Path) -> None:
@@ -247,6 +249,8 @@ def database_page(database: DDL_Dict, path: Path) -> None:
         comment = schema.comment.strip()
         lines.append(f"* **[{name}](./{name}/index.md)**: *{comment}*")
         schema_page(schema, path / name, incoming_index)
+    if not database.schemas:
+        lines.append("This database has no schemas.")
     _write_page(path / "index.md", lines)
 
 

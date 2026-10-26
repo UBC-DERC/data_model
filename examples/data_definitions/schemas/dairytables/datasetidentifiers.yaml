@@ -8,9 +8,9 @@
   - name: identifier
     type: text
     comment: >-
-      The external identifier for the dataset object. This may be a DOI, 
-      an ARK or a different data object. Currently the choice is simply 
-      one of the entries in the `externaldatabases` table, but this may 
+      The external identifier for the dataset object. This may be a DOI,
+      an ARK or a different data object. Currently the choice is simply
+      one of the entries in the `externaldatabases` table, but this may
       be limited to a subset in the future.
   - name: externaldatabaseid
     type: uuid7
@@ -25,10 +25,15 @@
     type: PRIMARY KEY
     comment: >-
       Primary key to ensure unique entries. Joint key, since we need all the information to provide a unique key.
-    ddl: PRIMARY KEY (datasetid, identifier, externaldatabaseid)
+    columns:
+    - datasetid
+    - identifier
+    - externaldatabaseid
   - name: datasetidentifiers_dsid_fk
     type: FOREIGN KEY
     comment: A foreign key to point to the dataset id.
+    columns:
+    - datasetid
     references:
       table: datasets
       columns:
@@ -36,6 +41,8 @@
     ddl: FOREIGN KEY (datasetid) REFERENCES datasets(datasetid) ON UPDATE CASCADE ON DELETE CASCADE
   - name: datasetidentifiers_externaldbid_fk
     type: FOREIGN KEY
+    columns:
+    - externaldatabaseid
     ddl: FOREIGN KEY (externaldatabaseid) REFERENCES externaldatabases(externaldatabaseid) ON UPDATE CASCADE ON DELETE CASCADE
     comment: Foreign key reference to external databases or resources.
     references:

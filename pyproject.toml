@@ -65,6 +65,7 @@ dev = [
     "mkdocs-minify-plugin>=0.8.0",
     "mkdocs[i18n]>=1.6.1",
     "pytest-cov>=7.1.0",
+    "pre-commit>=4.7.0",
 ]
 
 [tool.pytest.ini_options]

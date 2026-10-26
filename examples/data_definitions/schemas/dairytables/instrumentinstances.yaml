@@ -19,6 +19,9 @@
     - location
   - name: instrumentid_fk
     type: FOREIGN KEY
+    columns:
+    - instrumentid
+    comment: A foreign key to point to the instrument id.
     ddl: FOREIGN KEY (instrumentid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE
     references:
       table: instruments

@@ -33,8 +33,8 @@ This table has no index
 
 **References**
 
-*  → [publications](publications.md) (`publicationid`)
-*  → [keywords](keywords.md) (`keywordid`)
+* `publicationid` → [publications](publications.md) (`publicationid`)
+* `keywordid` → [keywords](keywords.md) (`keywordid`)
 
 **Referenced By**
 
