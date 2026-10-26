@@ -24,7 +24,7 @@ Description:
 |      name      |           type           |                              ddl                              |                       reference                      |                         comment                         |
 |----------------|--------------------------|---------------------------------------------------------------|------------------------------------------------------|---------------------------------------------------------|
 |  keywordid_pk  |ConstraintType.primary_key|                PRIMARY KEY(keywordid, sourceid)               |                                                      |Primary key for the keywords table (expects to be unique)|
-|keywordsource_fk|ConstraintType.foreign_key|FOREIGN KEY (sourceid) REFERENCES externaldatabases(databaseid)|[externaldatabases](externaldatabases.md) (databaseid)|                   No comment provided.                  |
+|keywordsource_fk|ConstraintType.foreign_key|FOREIGN KEY (sourceid) REFERENCES externaldatabases(databaseid)|[externaldatabases](externaldatabases.md) (databaseid)|         A foreign key to point to the source id.        |
 
 ## Indexes
 
@@ -34,8 +34,8 @@ This table has no index
 
 **References**
 
-*  → [externaldatabases](externaldatabases.md) (`databaseid`)
+* `sourceid` → [externaldatabases](externaldatabases.md) (`databaseid`)
 
 **Referenced By**
 
-* [publicationkeywords](publicationkeywords.md) () → `keywordid`
+* [publicationkeywords](publicationkeywords.md) (`keywordid`) → `keywordid`

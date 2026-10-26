@@ -31,8 +31,8 @@ This table has no index
 
 **References**
 
-*  → [datasets](datasets.md) (`datasetid`)
-*  → [publications](publications.md) (`publicationid`)
+* `datasetid` → [datasets](datasets.md) (`datasetid`)
+* `publicationid` → [publications](publications.md) (`publicationid`)
 
 **Referenced By**
 

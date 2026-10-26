@@ -27,7 +27,7 @@ def test_cli_success_writes_both_artifacts(tmp_path):
     )
     assert code == 0
     assert out.exists()
-    assert yaml.safe_load(out.read_text())["name"] == "dairymodel"
+    assert yaml.safe_load(out.read_text())["database"]["name"] == "dairymodel"
     assert docs.exists() and any(docs.iterdir())
 
 

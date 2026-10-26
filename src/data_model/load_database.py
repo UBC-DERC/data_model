@@ -3,10 +3,10 @@ from typing import Any
 from .check_crossreferences import check_references
 from .load_files import base_dir_of, load_file, resolve_ref
 from .load_schema import load_schema
-from .object_classes import DDL_Dict
+from .object_classes import ddaml_dict
 
 
-def load_database(filename: str) -> DDL_Dict:
+def load_database(filename: str) -> ddaml_dict:
     """Recursively load and validate the database model from a YAML entry file.
 
     The model is assembled from the entry file and its ``$ref:`` targets, built
@@ -33,8 +33,8 @@ def load_database(filename: str) -> DDL_Dict:
         )
     db_slug["schemas"] = [
         load_schema(base / s["$ref"]) if "$ref" in s else s
-        for s in db_slug.get("schemas", [])
+        for s in db_slug.get("schemas") or []
     ]
-    database = DDL_Dict(**db_slug)
-    check_references(database)
+    database = ddaml_dict(**db)
+    check_references(database.database)
     return database

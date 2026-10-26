@@ -20,6 +20,12 @@ def fixtures_dir():
 
 
 @pytest.fixture
+def data_definitions():
+    """Path to the canonical example model in examples/data_definitions."""
+    return DATA_DEFINITIONS
+
+
+@pytest.fixture
 def write_yaml(tmp_path):
     """Factory that writes a Python object to a YAML file in tmp_path.
 

@@ -62,7 +62,13 @@ def test_load_database_resolves_refs_relative_to_entry_file(
     )
     entry = write_yaml(
         "proj/db.yaml",
-        [{"database": {"name": "d", "schemas": [{"$ref": "schemas/s.yaml"}]}}],
+        [
+            {
+                "ddaml_version": "2026.10.5",
+                "database": {"name": "d", "schemas": [{"$ref": "schemas/s.yaml"}]},
+                "info": {"version": "1.0.0", "title": "Dairy Database"},
+            }
+        ],
     )
 
     # Run from an unrelated directory to prove cwd-independence.
@@ -71,8 +77,10 @@ def test_load_database_resolves_refs_relative_to_entry_file(
     monkeypatch.chdir(foreign)
 
     db = dm.load_database(str(entry))
-    assert [s.name for s in db.schemas] == ["dairy"]
-    cows = db.schemas[0].tables[0]
+    assert db.ddaml_version == "2026.10.5"
+    assert db.info.title == "Dairy Database"
+    assert [s.name for s in db.database.schemas] == ["dairy"]
+    cows = db.database.schemas[0].tables[0]
     assert cows.name == "cows"
     assert {c.name for c in cows.columns} == {"name"}
 
