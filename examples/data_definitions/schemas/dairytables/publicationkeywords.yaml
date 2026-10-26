@@ -10,9 +10,6 @@
   constraints:
   - name: publication_fkey
     type: FOREIGN KEY
-    columns:
-      - publicationid
-    comment: A foreign key to point to the publication id.
     ddl: FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE
     references:
       table: publications
@@ -20,9 +17,6 @@
         - publicationid
   - name: keyword_fkey
     type: FOREIGN KEY
-    columns:
-      - keywordid
-    comment: A foreign key to point to the keyword id.
     ddl: FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE
     references:
       table: keywords
