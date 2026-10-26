@@ -20,10 +20,10 @@ Description:
 
 ## Constraints
 
-|      name      |           type           |                                         ddl                                        |                   reference                   |                   comment                   |
-|----------------|--------------------------|------------------------------------------------------------------------------------|-----------------------------------------------|---------------------------------------------|
-|publication_fkey|ConstraintType.foreign_key|FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE|[publications](publications.md) (publicationid)|A foreign key to point to the publication id.|
-|  keyword_fkey  |ConstraintType.foreign_key|      FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE      |      [keywords](keywords.md) (keywordid)      |  A foreign key to point to the keyword id.  |
+|      name      |           type           |                                         ddl                                        |                   reference                   |       comment      |
+|----------------|--------------------------|------------------------------------------------------------------------------------|-----------------------------------------------|--------------------|
+|publication_fkey|ConstraintType.foreign_key|FOREIGN KEY (publicationid) REFERENCES publications(publicationid) ON UPDATE CASCADE|[publications](publications.md) (publicationid)|No comment provided.|
+|  keyword_fkey  |ConstraintType.foreign_key|      FOREIGN KEY (keywordid) REFERENCES keywords(keywordid) ON UPDATE CASCADE      |      [keywords](keywords.md) (keywordid)      |No comment provided.|
 
 ## Indexes
 
