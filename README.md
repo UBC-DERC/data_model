@@ -184,4 +184,3 @@ Contributions to this repository are expected to follow the [Code of Conduct](CO
 ## Funding Statement
 
 This project was developed with funding from [Farm Credit Canada](https://www.fcc-fac.ca/).
- 

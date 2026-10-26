@@ -288,12 +288,14 @@ def test_database_page_writes_index_and_schemas(tmp_path):
 
 def test_document_database_respects_path(tmp_path):
     """document_database writes under the path it is given (no hardcoded 'docs/')."""
-    database = ddaml_dict(ddaml_version="2026.10.5",
-      database=DDL_Dict(
-          name="dairymodel",
-          comment="db",
-          schemas=[schema_dict(name="dairy", comment="s", tables=[_sample_table()])],
-      ),
-      info=ddaml_info(version="1.0.0", title="Dairy Database"))
+    database = ddaml_dict(
+        ddaml_version="2026.10.5",
+        database=DDL_Dict(
+            name="dairymodel",
+            comment="db",
+            schemas=[schema_dict(name="dairy", comment="s", tables=[_sample_table()])],
+        ),
+        info=ddaml_info(version="1.0.0", title="Dairy Database"),
+    )
     document_database(database, tmp_path / "out")
     assert (tmp_path / "out" / "database" / "index.md").is_file()

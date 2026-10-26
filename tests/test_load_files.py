@@ -62,9 +62,13 @@ def test_load_database_resolves_refs_relative_to_entry_file(
     )
     entry = write_yaml(
         "proj/db.yaml",
-        [{"ddaml_version": "2026.10.5",
-          "database": {"name": "d", "schemas": [{"$ref": "schemas/s.yaml"}]},
-          "info": {"version": "1.0.0", "title": "Dairy Database"}}],
+        [
+            {
+                "ddaml_version": "2026.10.5",
+                "database": {"name": "d", "schemas": [{"$ref": "schemas/s.yaml"}]},
+                "info": {"version": "1.0.0", "title": "Dairy Database"},
+            }
+        ],
     )
 
     # Run from an unrelated directory to prove cwd-independence.

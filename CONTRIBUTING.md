@@ -1,7 +1,6 @@
 # Contributing to `data_model`
 
-We want to make contributing to this project as easy and transparent as
-possible. We also want to support broader community adoption of this tool, and transparent adoption of the data standards.
+We want to make contributing to this project as easy and transparent as possible. We also want to support broader community adoption of this tool, and transparent adoption of the data standards.
 
 ## Pull Requests
 
@@ -43,5 +42,4 @@ clear and has sufficient instructions to be able to reproduce the issue.
 
 ## License
 
-By contributing to this project's code, documentation and examples you agree that your contributions will be licensed
-under the [LICENSE file](LICENSE.md) in the root directory of this source tree.
+By contributing to this project's code, documentation and examples you agree that your contributions will be licensed under the [LICENSE file](LICENSE.md) in the root directory of this source tree.

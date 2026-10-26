@@ -383,10 +383,11 @@ def test_on_update_and_on_delete_defaults():
 
 def test_database_no_schemas():
     db = DDL_Dict(
-        name= "dairymodel",
+        name="dairymodel",
     )
     resolve_references(db)
     assert len(db.schemas) == 0
+
 
 def test_on_update_and_on_delete_explicit():
     db = _db(
