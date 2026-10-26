@@ -86,7 +86,7 @@ class constraint_dict(BaseModel):
 
     @model_validator(mode="after")
     def _references_must_have_table(self):
-        if self.references is not None and not self.references.table:
+        if self.references is not None and self.references.table is None:
             raise ValueError(
                 f"constraint '{self.name}' has a references block but no table "
                 f"defined; a table must be specified."
