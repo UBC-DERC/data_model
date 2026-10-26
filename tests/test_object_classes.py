@@ -102,6 +102,16 @@ def test_check_keeps_local_columns_and_no_references():
     assert c.references is None
 
 
+def test_check_requires_columns():
+    with pytest.raises(ValidationError):
+        constraint_dict(name="chk", type="CHECK", ddl="CHECK (x > 0)")
+
+
+def test_constraint_requires_type():
+    with pytest.raises(ValidationError):
+        constraint_dict(name="c", columns=["x"])
+
+
 def test_constraint_forbids_unknown_keys():
     with pytest.raises(ValidationError):
         constraint_dict(name="c", type="PRIMARY KEY", referencedTable="cows")

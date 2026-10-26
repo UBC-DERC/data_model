@@ -8,6 +8,7 @@ and this project adheres to [Calendar Versioning](https://calver.org/) using a Y
 ## [2026-09-alpha]
 
 ### Added
+
 - **JSON Schema publication**: Auto-generated from Pydantic models and published to docs site
   at `https://ubc-derc.github.io/data_model/schema.json`.
 - **Schema documentation page** (`docs/api/schema.md`) with VS Code integration guide for
@@ -19,6 +20,7 @@ and this project adheres to [Calendar Versioning](https://calver.org/) using a Y
 - `resolve_ref()` utility function to handle `$ref` resolution with sibling key merging.
 
 ### Changed
+
 - **Migrated from `ref:` to `$ref:`** for OpenAPI/JSON Schema consistency:
   - Updated `load_database.py`, `load_schema.py`, `load_tables.py` to use `$ref` key.
   - Migrated 90+ YAML files in `examples/` and `tests/samples/`.

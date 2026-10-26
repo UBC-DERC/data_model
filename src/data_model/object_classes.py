@@ -54,13 +54,13 @@ class ConstraintType(str, Enum):
     unique_nulls_not_distinct = "UNIQUE NULLS NOT DISTINCT"
     primary_key = "PRIMARY KEY"
     foreign_key = "FOREIGN KEY"
-    none = "NONE"
+    exclude = "EXCLUDE"
 
 
 class constraint_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name: str
-    type: ConstraintType = ConstraintType.none
+    type: ConstraintType
     comment: str = "No comment provided."
     ddl: str | None = None
     columns: list[str] = []
@@ -94,8 +94,8 @@ class constraint_dict(BaseModel):
         return self
 
     @model_validator(mode="after")
-    def colums_must_be_defined_for_constraints(self):
-        if self.type != ConstraintType.none and len(self.columns) == 0:
+    def columns_must_be_defined_for_constraints(self):
+        if len(self.columns) == 0:
             raise ValueError(
                 f"constraint '{self.name}' is type {self.type!r} but has no columns "
                 f"defined; at least one column must be specified."

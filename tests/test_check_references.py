@@ -380,6 +380,7 @@ def test_on_update_and_on_delete_defaults():
     assert ref.on_update == None
     assert ref.on_delete == None
 
+
 def test_on_update_and_on_delete_no_action_retained():
     db = _db(
         schema_dict(
@@ -388,7 +389,15 @@ def test_on_update_and_on_delete_no_action_retained():
                 _table(
                     "calves",
                     constraints=[
-                        _fk("fk", reference_dict(table="cows", columns=["id"],on_update="NO ACTION", on_delete="NO ACTION"))
+                        _fk(
+                            "fk",
+                            reference_dict(
+                                table="cows",
+                                columns=["id"],
+                                on_update="NO ACTION",
+                                on_delete="NO ACTION",
+                            ),
+                        )
                     ],
                 ),
                 _table("cows"),
@@ -398,6 +407,7 @@ def test_on_update_and_on_delete_no_action_retained():
     resolve_references(db)
     ref = db.schemas[0].tables[0].constraints[0].references
     assert ref.on_update == "NO ACTION"
+
 
 def test_database_no_schemas():
     db = DDL_Dict(
