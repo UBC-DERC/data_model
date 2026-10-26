@@ -1,7 +1,23 @@
 # Contributing to `data_model`
 
-We want to make contributing to this project as easy and transparent as
-possible. We also want to support broader community adoption of this tool, and transparent adoption of the data standards.
+We want to make contributing to this project as easy and transparent as possible. We also want to support broader community adoption of this tool, and transparent adoption of the data standards.
+
+## Coding Practice
+
+This project uses `uv` as a package manager and to manage virtual environments. To use development tools including `ruff` and `ty`, you first need to install and synchronize the project. First check that you have [`uv` installed](https://docs.astral.sh/uv/getting-started/installation/).
+
+```bash
+uv sync
+```
+
+We use a `ruff` and `ty` pre-commit hook (see [`.pre-commit-config.yaml`](.pre-commit-config.yaml)) to ensure code quality and standardization. To enable this hook when you are developing code, use the following commands:
+
+```bash
+uv run pre-commit install
+uv run pre-commit run --all-files   # one-time pass over the existing code
+```
+
+The `pre-commit` hook will run both `ruff` and `ty`.
 
 ## Coding Practice
 
@@ -60,5 +76,4 @@ clear and has sufficient instructions to be able to reproduce the issue.
 
 ## License
 
-By contributing to this project's code, documentation and examples you agree that your contributions will be licensed
-under the [LICENSE file](LICENSE.md) in the root directory of this source tree.
+By contributing to this project's code, documentation and examples you agree that your contributions will be licensed under the [LICENSE file](LICENSE.md) in the root directory of this source tree.
