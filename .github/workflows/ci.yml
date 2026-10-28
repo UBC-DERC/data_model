@@ -21,7 +21,7 @@ jobs:
       - name: Checkout the repository.
         uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v7
       - name: Install uv
-        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
         with:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
@@ -54,7 +54,7 @@ jobs:
       - name: Checkout the repository.
         uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v7
       - name: Install uv
-        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
         with:
           enable-cache: true
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
@@ -71,7 +71,7 @@ jobs:
         id: build
         run: uv run mkdocs build
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@98ef48e41587a300b82de4cf298aa98b57b2faae # v5.0.0
+        uses: actions/upload-pages-artifact@5f327015a708106f6f1b7c9a633901af30fe80cb # v5.0.0
         with:
           path: site/
       - name: Deploy to GitHub Pages
