@@ -119,19 +119,19 @@ A field to support the discovery and application of licensing to any data model 
 
 | Field name | Type | Description |
 | --- | --- | --- |
-| name | str | RERQUIRED. A valid name for the constraint |
+| name | str | REQUIRED. A valid name for the constraint |
 | type | ConstraintType | REQUIRED. One of the set of constraint types. |
-| comment | str | An explanation for the comment. Defaults to "No comment  provided." |
+| comment | str | An explanation for the comment. Defaults to "No comment provided." |
 | ddl | str | This will be phased out, but in early development we were including an explicit call to the DDL. |
 | columns | list[str] | REQUIRED. A list of columns (1 - n) within the table that the constraint is referencing. |
-| references | [reference_dict](#reference) | A reference to another table and columns that are referenced by the constraint. Defaults to `None` |
+| references | [reference_dict](#reference) | A reference to another table (only valid when the constraint is a `FOREIGN KEY`) and columns that are referenced by the constraint. Defaults to `None`. The number of columns in the reference list must match the number of columns in the `columns` entry. |
 
 ### Reference
 
 | Field name | Type | Description |
 | --- | --- | --- |
-| schema_ | str | Name of a valid schema within the database. Defaults to the parent schema. |
-| table | str | Name of a valid table within the database. Defaults to the parent table. |
+| schema | str | Name of a valid schema within the database. Defaults to the parent schema. |
+| table | str | REQUIRED. Name of a valid table within the database. |
 | columns | list[str] | REQUIRED. One or more columns within the table being referenced. |
-| on_update | OnChangeType | Action `ON UPDATE` (default is `DO NOTHING`). An enum representing the valid `ON UPDATE` actions [within Postgres](https://www.postgresql.org/docs/current/ddl-constraints.html). |
+| on_update | OnChangeType | Action `ON UPDATE` (default is empty, interpreted by Postgres as `NO ACTION`). An enum representing the valid `ON UPDATE` actions [within Postgres](https://www.postgresql.org/docs/current/ddl-constraints.html). |
 | on_delete | OnChangeType | Action `ON DELETE` (default is `DO NOTHING`) |

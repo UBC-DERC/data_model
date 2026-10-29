@@ -3,6 +3,7 @@ from typing import Any
 from .check_crossreferences import check_references
 from .load_files import base_dir_of, load_file, resolve_ref
 from .load_schema import load_schema
+from .model_build import ModelValidationError
 from .object_classes import ddaml_dict
 
 
@@ -27,7 +28,7 @@ def load_database(filename: str) -> ddaml_dict:
     if db_slug is None:
         # There's no database block in the entry file, so we can't load a database model.
         # This should be an error.
-        raise ValueError(
+        raise ModelValidationError(
             f"database entry file {filename!r} has no 'database:' block; "
             "cannot load database model."
         )

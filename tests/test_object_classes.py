@@ -19,7 +19,31 @@ from data_model.object_classes import (
 )
 
 
-def test_extensions_are_validated():
+def test_extensions_are_validated_in_column():
+    """A valid extension key is accepted and becomes part of the model dump"""
+    column = column_dict(name="id", type="text", **{"x-valid": 1})
+    assert column.model_extra == {"x-valid": 1}
+    assert column.model_dump(exclude={"model_extra"}).get("x-valid") == 1
+
+
+def test_bad_extensions_are_invalidated_in_column():
+    with pytest.raises(ValidationError):
+        column_dict(name="id", type="text", **{"X-valid": 1})
+
+
+def test_extensions_are_validated_in_schema():
+    """A valid extension key is accepted and becomes part of the model dump"""
+    schema = schema_dict(name="id", **{"x-valid": 1})
+    assert schema.model_extra == {"x-valid": 1}
+    assert schema.model_dump(exclude={"model_extra"}).get("x-valid") == 1
+
+
+def test_bad_extensions_are_invalidated_in_schema():
+    with pytest.raises(ValidationError):
+        schema_dict(name="id", **{"X-valid": 1})
+
+
+def test_extensions_are_validated_in_table():
     """A valid extension key is accepted and becomes part of the model dump"""
     table = table_dict(
         name="cows",
@@ -30,7 +54,7 @@ def test_extensions_are_validated():
     assert table.model_dump(exclude={"model_extra"}).get("x-valid") == 1
 
 
-def test_bad_extensions_are_invalidated():
+def test_bad_extensions_are_invalidated_in_table():
     with pytest.raises(ValidationError):
         table_dict(
             name="cows",
@@ -164,3 +188,13 @@ def test_index_has_local_columns_and_no_reference():
     assert idx.columns == ["a", "b"]
     with pytest.raises(ValidationError):
         index_dict(name="i", ddl="...", reference=[{"table": "cows", "columns": ["a"]}])
+
+
+def test_licence_forbids_unknown_keys():
+    with pytest.raises(ValidationError):
+        schema_dict(name="s", licence="MIT", referencedTable="cows")
+
+
+def test_license_forbids_id_and_url():
+    with pytest.raises(ValidationError):
+        schema_dict(name="s", licenceId="MIT", id="123", url="https://example.com")

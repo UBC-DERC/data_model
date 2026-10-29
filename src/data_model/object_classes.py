@@ -1,6 +1,7 @@
 from enum import Enum
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from validators import email, url
 
 
 class extensible_dict(BaseModel):
@@ -37,7 +38,7 @@ class column_dict(extensible_dict):
 
 
 class OnChangeType(str, Enum):
-    """Allowed PostgreSQL ON UPDATE and ON DELETEactions."""
+    """Allowed PostgreSQL ON UPDATE and ON DELETE actions."""
 
     no_action = "NO ACTION"
     restrict = "RESTRICT"
@@ -178,6 +179,36 @@ class license_dict(BaseModel):
     licenseId: str | None = None
     url: str | None = None
 
+    @model_validator(mode="after")
+    def _validate_url(self):
+        if self.url is not None and not url(self.url):
+            raise ValueError(f"Malformed URL {self.url} in the license file.")
+        return self
+
+    @model_validator(mode="after")
+    def _validate_licenseId_or_url(self):
+        if self.licenseId is None and self.url is None:
+            raise ValueError("Either licenseId or url must be provided.")
+        return self
+
+    @model_validator(mode="after")
+    def _validate_full_name(self):
+        if not self.full_name.strip():
+            raise ValueError("full_name cannot be an empty string.")
+        return self
+
+    @model_validator(mode="after")
+    def _validate_url_empty(self):
+        if self.url is not None and not self.url.strip():
+            raise ValueError("url cannot be an empty string.")
+        return self
+
+    @model_validator(mode="after")
+    def _validate_licenseId(self):
+        if self.licenseId is not None and not self.licenseId.strip():
+            raise ValueError("licenseId cannot be an empty string.")
+        return self
+
 
 class contact_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -185,13 +216,28 @@ class contact_dict(BaseModel):
     email: str | None = None
     url: str | None = None
 
+    @model_validator(mode="after")
+    def _validate_url(self):
+        if self.url is not None and not url(self.url):
+            raise ValueError(f"Malformed URL {self.url} in the contacts.")
+        return self
+
+    @model_validator(mode="after")
+    def _validate_email(self):
+        if not email(self.email):
+            raise ValueError(f"Malformed email {self.email} in the contacts.")
+        return self
+
 
 class ddaml_info(BaseModel):
     model_config = ConfigDict(extra="forbid")
     version: str
     title: str
     summary: str = "No summary provided."
-    license: license_dict = license_dict(full_name="Default Copyright Applies")
+    license: license_dict = license_dict(
+        full_name="Default Copyright Applies",
+        licenseId="LicenseRef-Proprietary",
+    )
     contacts: list[contact_dict] = []
 
 

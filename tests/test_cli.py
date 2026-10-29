@@ -65,3 +65,18 @@ def test_cli_invalid_entry_exits_1_and_writes_nothing(tmp_path, write_yaml, caps
     assert not out.exists()
     err = capsys.readouterr().err
     assert "ghost" in err
+
+
+def test_ddaml_with_no_database_exits_1_and_writes_nothing(
+    tmp_path, write_yaml, capsys
+):
+    # A database entry file with no 'database:' block -> ModelValidationError.
+    entry = write_yaml("db.yaml", [{"bogus": "value"}])
+
+    out = tmp_path / "output.yaml"
+    code = main([str(entry), "--docs", str(tmp_path / "docs"), "--output", str(out)])
+
+    assert code == 1
+    assert not out.exists()
+    err = capsys.readouterr().err
+    assert "no 'database:' block" in err
