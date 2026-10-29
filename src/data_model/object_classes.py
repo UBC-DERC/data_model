@@ -36,18 +36,8 @@ class column_dict(extensible_dict):
     default: str | None = None
 
 
-class OnUpdateType(str, Enum):
-    """Allowed PostgreSQL ON UPDATE actions."""
-
-    no_action = "NO ACTION"
-    restrict = "RESTRICT"
-    cascade = "CASCADE"
-    set_null = "SET NULL"
-    set_default = "SET DEFAULT"
-
-
-class OnDeleteType(str, Enum):
-    """Allowed PostgreSQL ON DELETE actions."""
+class OnChangeType(str, Enum):
+    """Allowed PostgreSQL ON UPDATE and ON DELETEactions."""
 
     no_action = "NO ACTION"
     restrict = "RESTRICT"
@@ -67,8 +57,8 @@ class reference_dict(BaseModel):
     schema_: str | None = Field(default=None, alias="schema")
     table: str | None = None
     columns: list[str]
-    on_update: OnUpdateType | None = None
-    on_delete: OnDeleteType | None = None
+    on_update: OnChangeType | None = None
+    on_delete: OnChangeType | None = None
 
 
 class ConstraintType(str, Enum):

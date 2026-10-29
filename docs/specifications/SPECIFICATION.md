@@ -90,7 +90,7 @@ A field to support the discovery and application of licensing to any data model 
 | name | str | REQUIRED. The name given to the table. It MUST conform to existing naming conventions for the database target (currently only Postgres). |
 | schema | str | The schema within which the table exists. This may be inherited, or explicitly defined. |
 | type | str | The type of table (allowing extension to BASE TABLE, VIEW and other types of table structures within Postgres). |
-| comment | str | A string comment to describe the table. Used as part of the `COMMENT` clause in SQL. Default is and empty string that will not be added as a comment. |
+| comment | str | A string comment to describe the table. Used as part of the `COMMENT` clause in SQL. Default is "No comment provided". |
 | columns | [Column Object](#column) | Zero or more Column objects, in a list. |
 | constraints | [Constraint Object](#constraint) | Zero or more constraint objects in a list. |
 | indexes | [Index Object](#index) | Zero or more Index objects in a list |
@@ -112,16 +112,26 @@ A field to support the discovery and application of licensing to any data model 
 | name | str | REQUIRED. Valid name for the index. |
 | type | str | Index type. |
 | comment | str | Valid comment explaining the use of the index. Defaults to "No comment provided." |
-| ddl | str | The DDL for defining the index. |
+| ddl | str | REQUIRED. The DDL for defining the index. |
 | columns | list[str] | A list of column names to which the index is applied. |
 
 ### Constraint
 
 | Field name | Type | Description |
 | --- | --- | --- |
-| name | str | A valid name for the constraint |
-| type | ConstraintType | One of the set of constraint types. |
+| name | str | RERQUIRED. A valid name for the constraint |
+| type | ConstraintType | REQUIRED. One of the set of constraint types. |
 | comment | str | An explanation for the comment. Defaults to "No comment  provided." |
 | ddl | str | This will be phased out, but in early development we were including an explicit call to the DDL. |
-| columns | list[str] | A list of columns within the table that the constraint is referencing, defaults to `None` |
-| references | reference_dict | A reference to another table and columns that are referenced by the constraint. Defaults to `None` |
+| columns | list[str] | REQUIRED. A list of columns (1 - n) within the table that the constraint is referencing. |
+| references | [reference_dict](#reference) | A reference to another table and columns that are referenced by the constraint. Defaults to `None` |
+
+### Reference
+
+| Field name | Type | Description |
+| --- | --- | --- |
+| schema_ | str | Name of a valid schema within the database. Defaults to the parent schema. |
+| table | str | Name of a valid table within the database. Defaults to the parent table. |
+| columns | list[str] | REQUIRED. One or more columns within the table being referenced. |
+| on_update | OnChangeType | Action `ON UPDATE` (default is `DO NOTHING`). An enum representing the valid `ON UPDATE` actions [within Postgres](https://www.postgresql.org/docs/current/ddl-constraints.html). |
+| on_delete | OnChangeType | Action `ON DELETE` (default is `DO NOTHING`) |
