@@ -4,6 +4,7 @@
 | src/data\_model/check\_crossreferences.py |       43 |        1 |     98% |
 | src/data\_model/cli.py                    |       32 |        1 |     97% |
 | src/data\_model/create\_docs.py           |      113 |        6 |     95% |
+| src/data\_model/json\_schema.py           |       16 |        0 |    100% |
 | src/data\_model/load\_columns.py          |        5 |        0 |    100% |
 | src/data\_model/load\_database.py         |       17 |        0 |    100% |
 | src/data\_model/load\_files.py            |       21 |        0 |    100% |
@@ -11,4 +12,4 @@
 | src/data\_model/load\_tables.py           |       16 |        1 |     94% |
 | src/data\_model/model\_build.py           |       35 |        1 |     97% |
 | src/data\_model/object\_classes.py        |      158 |        9 |     94% |
-| **TOTAL**                                 |  **467** |   **19** | **96%** |
+| **TOTAL**                                 |  **483** |   **19** | **96%** |

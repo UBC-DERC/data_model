@@ -75,6 +75,8 @@ theme:
     - search.suggest
     - toc.follow
     - toc.integrate
+hooks:
+  - hooks/json_schema.py
 extra_css:
   - stylesheets/extra.css
 plugins:

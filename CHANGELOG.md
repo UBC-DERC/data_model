@@ -5,6 +5,73 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Calendar Versioning](https://calver.org/) using a YYYY-MM model.
 
+## [2026-11-alpha]
+
+### Added
+
+- **DDAML specification** (`docs/specifications/SPECIFICATION.md`, v2026.10.26) defining the
+  document structure, now linked from the docs navigation.
+- **`ddaml_dict` root model** wrapping the database definition with document metadata:
+  - `ddaml_version` (required): the CalVer version of the DDAML specification.
+  - `info` block (`ddaml_info`) with `title`, `version`, `summary`, `license` and `contacts`.
+  - `license_dict` (`full_name` plus `licenseId` and/or `url`) and `contact_dict`
+    (`name`, `email`, `url`), with URL and email validation via the `validators` package.
+- **`x-` extension keys** allowed on schemas, tables and columns (`extensible_dict`); any
+  other unknown key is rejected.
+- `on_update` / `on_delete` actions on foreign-key `references` blocks, using a single
+  `OnChangeType` enum (`NO ACTION`, `RESTRICT`, `CASCADE`, `SET NULL`, `SET DEFAULT`).
+- `EXCLUDE` constraint type.
+- New constraint validators: every constraint must list columns; a `references` block must
+  name a table and at least one column; foreign keys must reference the same number of
+  columns they define.
+- `data_model.json_schema` module (`build_schema()`, `write_schema()`); the schema now
+  declares `$schema` (JSON Schema 2020-12) and `$id`.
+- `.pre-commit-config.yaml` (ruff check/format and `ty`), with `pre-commit` added as a dev
+  dependency.
+- Tests for the `info` block, `x-` extensions, cross-references and the new validators.
+
+### Changed
+
+- **Breaking:** entry files must now contain a top-level `database:` block alongside
+  `ddaml_version` and `info`; `load_database()` returns a `ddaml_dict` and raises
+  `ModelValidationError` when the `database:` block is missing.
+- **Breaking:** foreign-key `references` must name the target `table` explicitly. An omitted
+  table no longer defaults to a self-reference (an omitted `schema` still defaults to the
+  owning schema).
+- Constraint `type` is now required (it can no longer be `None`).
+- Reference actions are no longer written out as an explicit `NO ACTION` by default; when
+  omitted, PostgreSQL's implicit `NO ACTION` applies.
+- Index `ddl` is now optional.
+- The CLI reports Pydantic `ValidationError`s to stderr with a non-zero exit code.
+- **JSON Schema generation moved into the docs build**: a MkDocs hook
+  (`hooks/json_schema.py`) generates `schema.json` from `ddaml_dict` (instead of `DDL_Dict`)
+  on every `mkdocs build`/`serve`, so it is published on each push to `main` and resolves
+  in local strict builds. The separate CI generation steps were removed and the download
+  link restored.
+- Package version set to `2026.10.0a1` (CalVer).
+- Examples, the golden output and generated docs updated for the new structure.
+- Docstrings cleaned up and code reformatted with `ruff format`; README and CONTRIBUTING
+  updated (including the pre-commit workflow).
+
+### Removed
+
+- The unused `tests/samples/examples/` fixtures.
+- The "All references resolve!" message printed by `check_references()`.
+- `examples/**/output.yaml` is now git-ignored.
+
+### Dependencies
+
+- Updated `pydantic` to 2.14.1, `py-markdown-table` to 2.0.0 (major), `markdown` to 3.11.2,
+  `ruff` to 0.17.2 and `ty` to 0.0.92, plus other lock-file updates.
+- Added `validators` 0.36.0 (runtime) and `pre-commit` 4.7.0 (dev).
+- Updated GitHub Actions (`setup-uv` 10.3.2, `upload-pages-artifact`, `codeql-action`
+  4.39.1) via Dependabot.
+
+### Contributors
+
+- Simon Goring
+
+
 ## [2026-09-alpha]
 
 ### Added

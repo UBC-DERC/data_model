@@ -32,8 +32,6 @@ jobs:
         run: uv run ty check --output-format=github
       - name: Tests (pytest)
         run: uv run pytest -q
-      - name: Generate JSON Schema
-        run: uv run python -c "import json; from data_model.object_classes import ddaml_dict; print(json.dumps(ddaml_dict.model_json_schema(), indent=2))" > docs/schema.json
       - name: Docs build (strict)
         run: uv run mkdocs build --strict
 
@@ -65,8 +63,6 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: uv sync --frozen
-      - name: Generate JSON Schema
-        run: uv run python -c "import json; from data_model.object_classes import ddaml_dict; print(json.dumps(ddaml_dict.model_json_schema(), indent=2))" > docs/schema.json
       - name: Build static files
         id: build
         run: uv run mkdocs build
