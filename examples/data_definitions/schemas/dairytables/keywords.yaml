@@ -24,6 +24,9 @@
     - sourceid
   - name: keywordsource_fk
     type: FOREIGN KEY
+    columns:
+    - sourceid
+    comment: A foreign key to point to the source id.
     ddl: FOREIGN KEY (sourceid) REFERENCES externaldatabases(databaseid)
     references:
       table: externaldatabases

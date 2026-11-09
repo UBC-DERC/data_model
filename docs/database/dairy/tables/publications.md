@@ -39,5 +39,5 @@ None.
 
 **Referenced By**
 
-* [datasetpublications](datasetpublications.md) () → `publicationid`
-* [publicationkeywords](publicationkeywords.md) () → `publicationid`
+* [datasetpublications](datasetpublications.md) (`publicationid`) → `publicationid`
+* [publicationkeywords](publicationkeywords.md) (`publicationid`) → `publicationid`

@@ -6,14 +6,14 @@ description: "A table for managing scientific and technical instruments used wit
 # instruments
 Description:
 
-**A table for managing scientific and technical instruments used within the research system. This table is intended to help with connecting  measurements to documentation and workflow management. The design of this table and its associated foreign key links is based on the [RDA PIDINST v1.0](https://zenodo.org/records/6396467#.YkQxzRBBwlw).**
+**A table for managing scientific and technical instruments used within the research system. This table is intended to help with connecting measurements to documentation and workflow management. The design of this table and its associated foreign key links is based on the [RDA PIDINST v1.0](https://zenodo.org/records/6396467#.YkQxzRBBwlw).**
 
 ## Columns
 
 |            name           |   type   |                                                                                                                                                              comment                                                                                                                                                              |
 |---------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |       *instrumentid*      |  uuid-7  |                                            An internal, unique string to indentify a particular instrument in the general sense. This is as opposed to specific instances of an instrument which would be identified with both the broader instrument, and the specific serial number.                                            |
-|       *description*       |   text   |                                                                        A general description for the particular instrument that can be used to easily  identify the instrument. Should include a technical description of the device and its capabilities.                                                                        |
+|       *description*       |   text   |                                                                         A general description for the particular instrument that can be used to easily identify the instrument. Should include a technical description of the device and its capabilities.                                                                        |
 |      *instrumentname*     |   text   |                                                                                                               The proper name by which the instrument is identified. The instrument may have other colloquial names.                                                                                                              |
 |*instrumentcolloquialnames*|text array|                                                                                                              Colloquial names used for the instrument. This field should be a text array to support multiple entries.                                                                                                             |
 |      *manufacturerid*     |   UUID7  |                                                                                                                                                  The manufacturer of the product.                                                                                                                                                 |
@@ -45,5 +45,5 @@ This table has no index
 
 **Referenced By**
 
-* [instrumentinstance](instrumentinstance.md) () → `instrumentid`
+* [instrumentinstance](instrumentinstance.md) (`instrumentid`) → `instrumentid`
 * [instruments](instruments.md) (`instrumentid`) → `instrumentid`

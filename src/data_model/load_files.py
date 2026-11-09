@@ -4,19 +4,19 @@ from typing import Any
 import yaml
 
 
-def load_file(filename:str|Path)->Any:
-    """_load a YAML file (or directory of YAML files) into Python data._
+def load_file(filename: str | Path) -> Any:
+    """Load a YAML file (or directory of YAML files) into Python data.
 
-    If the reference is a file, it returns its own mapping; if the reference 
+    If the reference is a file, it returns its own mapping; if the reference
     points to a directory, then it yields a list with one loaded
     entry per ``*.y*ml`` file. The return is the raw, un-validated YAML data,
     so it is typed ``Any`` (validation into pydantic models happens later).
 
     Args:
-        filename (str | Path): _A valid file or directory path._
+        filename (str | Path): A valid file or directory path.
 
     Returns:
-        Any: _The loaded YAML data (a dict for a file, a list for a directory)._
+        Any: The loaded YAML data (a dict for a file, a list for a directory).
     """
     filePath = Path(filename)
 
@@ -26,14 +26,16 @@ def load_file(filename:str|Path)->Any:
         if isinstance(output, list):
             output = output[0]
     elif filePath.is_dir():
-        output = [load_file(i) for i in sorted(filePath.glob('*.y*ml'))]
+        output = [load_file(i) for i in sorted(filePath.glob("*.y*ml"))]
     else:
-        raise FileNotFoundError(f"{filename} is neither a file or directory in the current working directory.")
+        raise FileNotFoundError(
+            f"{filename} is neither a file or directory in the current working directory."
+        )
     return output
 
 
-def resolve_ref(obj:dict[str, Any], base_dir:str|Path=".")->dict[str, Any]:
-    """_Merge a ``$ref:`` target file into ``obj``; return ``obj`` unchanged if none._
+def resolve_ref(obj: dict[str, Any], base_dir: str | Path = ".") -> dict[str, Any]:
+    """Merge a ``$ref:`` target file into ``obj``; return ``obj`` unchanged if none."
 
     The referenced file is loaded first and the object's own keys are layered
     on top (``loaded | obj``), so a locally-specified key (e.g. a ``comment``)
@@ -44,19 +46,19 @@ def resolve_ref(obj:dict[str, Any], base_dir:str|Path=".")->dict[str, Any]:
     absolute path onto ``base_dir`` yields the absolute path.
 
     Args:
-        obj (dict): _A YAML object that may contain a ``ref`` key._
-        base_dir (str | Path): _Directory the ``ref`` is resolved against._
+        obj (dict): A YAML object that may contain a ``ref`` key.
+        base_dir (str | Path): Directory the ``ref`` is resolved against.
 
     Returns:
-        dict: _The object with any ``ref`` target merged in._
+        dict:  The object with any ``ref`` target merged in.
     """
     if "$ref" in obj:
         return load_file(Path(base_dir) / obj["$ref"]) | obj
     return obj
 
 
-def base_dir_of(filename:str|Path)->Path:
-    """_Return the directory that refs inside ``filename`` resolve against._
+def base_dir_of(filename: str | Path) -> Path:
+    """Return the directory that refs inside ``filename`` resolve against.
 
     For a file this is its parent directory; for a directory (loaded via
     globbing) it is the directory itself, because the globbed files live

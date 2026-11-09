@@ -1,7 +1,8 @@
 # JSON Schema
 
 The data model YAML format is formally defined by a JSON Schema, auto-generated
-from the Pydantic models in [`object_classes.py`](object_classes.md).
+from the Pydantic models in [`object_classes.py`](object_classes.md). It is regenerated
+on every documentation build, so it always matches the current models.
 
 ## Download
 
@@ -51,6 +52,7 @@ The schema defines these primary objects:
 
 | Object | Description |
 |--------|-------------|
+| `ddaml_dict` | Full object definition, including metadata. |
 | `DDL_Dict` | Root database definition |
 | `schema_dict` | A database schema containing tables |
 | `table_dict` | A table with columns, constraints, and indexes |

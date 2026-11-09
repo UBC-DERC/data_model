@@ -8,6 +8,7 @@ a sentence that names the table, the constraint (by name, not index), the
 field, and the offending value, and reports every bad table together so a
 maintainer can fix them all in one pass.
 """
+
 from typing import Any
 
 from pydantic import ValidationError
@@ -56,15 +57,15 @@ def build_tables(table_dicts: list[dict[str, Any]]) -> list[table_dict]:
     """Build ``table_dict`` models from validated dicts, or report all problems.
 
     Args:
-        table_dicts (list[dict]): _Per-table dicts, with any ``ref:`` targets
-            already merged._
+        table_dicts (list[dict]): Per-table dicts, with any ``$ref:`` targets
+            already merged.
 
     Returns:
-        list[table_dict]: _The built models, in input order._
+        list[table_dict]: The built models, in input order.
 
     Raises:
-        ModelValidationError: _If any table fails structural validation; the
-            message lists every problem, one per line._
+        ModelValidationError: If any table fails structural validation; the
+            message lists every problem, one per line.
     """
     built: list[table_dict] = []
     problems: list[str] = []

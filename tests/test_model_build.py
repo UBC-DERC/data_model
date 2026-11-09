@@ -4,6 +4,7 @@ build_tables turns validated table dicts into table_dict models, but converts
 pydantic's numeric-path ValidationErrors into readable messages that name the
 offending table and constraint, and reports every bad table at once.
 """
+
 import pytest
 
 from data_model.model_build import ModelValidationError, build_tables
@@ -28,7 +29,11 @@ def test_extra_key_names_table_and_constraint():
         "name": "instruments",
         "columns": [{"name": "supplierid", "type": "text"}],
         "constraints": [
-            {"name": "supplier_fkey", "type": "REFERENCES", "referencedTable": "institutions"}
+            {
+                "name": "supplier_fkey",
+                "type": "REFERENCES",
+                "referencedTable": "institutions",
+            }
         ],
     }
     with pytest.raises(ModelValidationError) as exc:
@@ -44,8 +49,12 @@ def test_references_on_primary_key_is_reported_clearly():
         "name": "cows",
         "columns": [{"name": "cadid", "type": "text"}],
         "constraints": [
-            {"name": "cowpk", "type": "PRIMARY KEY", "columns": ["cadid"],
-             "references": {"table": "cows", "columns": ["cadid"]}}
+            {
+                "name": "cowpk",
+                "type": "PRIMARY KEY",
+                "columns": ["cadid"],
+                "references": {"table": "cows", "columns": ["cadid"]},
+            }
         ],
     }
     with pytest.raises(ModelValidationError) as exc:
@@ -57,11 +66,13 @@ def test_references_on_primary_key_is_reported_clearly():
 
 def test_all_bad_tables_reported_together():
     bad_a = {
-        "name": "a", "columns": [{"name": "id", "type": "text"}],
+        "name": "a",
+        "columns": [{"name": "id", "type": "text"}],
         "constraints": [{"name": "a_c", "type": "PRIMARY KEY", "bogus": 1}],
     }
     bad_b = {
-        "name": "b", "columns": [{"name": "id", "type": "text"}],
+        "name": "b",
+        "columns": [{"name": "id", "type": "text"}],
         "constraints": [{"name": "b_c", "type": "PRIMARY KEY", "junk": 1}],
     }
     with pytest.raises(ModelValidationError) as exc:

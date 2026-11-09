@@ -35,5 +35,5 @@ None.
 
 **Referenced By**
 
-* [datasetidentifiers](datasetidentifiers.md) () → `databaseid`
-* [keywords](keywords.md) () → `databaseid`
+* [datasetidentifiers](datasetidentifiers.md) (`externaldatabaseid`) → `databaseid`
+* [keywords](keywords.md) (`sourceid`) → `databaseid`

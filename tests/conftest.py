@@ -1,4 +1,5 @@
 """Shared pytest fixtures for the data_model test suite."""
+
 from pathlib import Path
 
 import pytest
@@ -16,6 +17,12 @@ DATA_DEFINITIONS = REPO_ROOT / "examples/data_definitions"
 def fixtures_dir():
     """Path to the tests/fixtures directory."""
     return FIXTURES
+
+
+@pytest.fixture
+def data_definitions():
+    """Path to the canonical example model in examples/data_definitions."""
+    return DATA_DEFINITIONS
 
 
 @pytest.fixture

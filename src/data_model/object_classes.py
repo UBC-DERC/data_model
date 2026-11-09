@@ -1,46 +1,85 @@
 from enum import Enum
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from validators import email, url
 
 
-class column_dict(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    name:str
-    type:str
-    comment:str = "No comment provided."
-    nullable:bool = True
-    default:str | None = None
+class extensible_dict(BaseModel):
+    """Supporting the use of `x-` extensions for the data model. This will
+    support links to external schema (for example)."""
+
+    model_config = ConfigDict(
+        extra="allow",
+        json_schema_extra={
+            "patternProperties": {"^x-": {}},
+            "additionalProperties": False,
+        },
+    )
+
+    @model_validator(mode="after")
+    def _validate_extensions(self):
+        for key in self.model_extra or {}:
+            if key.startswith("x-"):
+                continue
+            raise ValueError(
+                f"Invalid extension key '{key}'; all extensions must start with 'x-'"
+            )
+        return self
+
+
+class column_dict(extensible_dict):
+    """A class for columns, supporting the use of `x-` extensions for the data model."""
+
+    name: str
+    type: str
+    comment: str = "No comment provided."
+    nullable: bool = True
+    default: str | None = None
+
+
+class OnChangeType(str, Enum):
+    """Allowed PostgreSQL ON UPDATE and ON DELETE actions."""
+
+    no_action = "NO ACTION"
+    restrict = "RESTRICT"
+    cascade = "CASCADE"
+    set_null = "SET NULL"
+    set_default = "SET DEFAULT"
 
 
 class reference_dict(BaseModel):
-    # ``schema`` shadows BaseModel.schema(), so store it as ``schema_`` while
-    # keeping the YAML/serialised key as ``schema`` via an alias. schema/table
-    # are optional and are filled from the owning table's context during the
-    # resolution pass (see check_references.resolve_references).
+    """Reference structure for the data model.
+    By default the reference is assumed to be in the same schema as the owning table
+    Default ON UPDATE and ON DELETE actions (`None`) is an implied `NO ACTION` (the
+    Postgres default when no statement follows).
+    """
+
     model_config = ConfigDict(populate_by_name=True, extra="forbid")
-    schema_:str | None = Field(default=None, alias="schema")
-    table:str | None = None
-    columns:list[str]
+    schema_: str | None = Field(default=None, alias="schema")
+    table: str | None = None
+    columns: list[str]
+    on_update: OnChangeType | None = None
+    on_delete: OnChangeType | None = None
+
 
 class ConstraintType(str, Enum):
-       """Allowed PostgreSQL constraint types."""
-       check = "CHECK"
-       unique = "UNIQUE"
-       unique_nulls_not_distinct = "UNIQUE NULLS NOT DISTINCT"
-       primary_key = "PRIMARY KEY"
-       foreign_key = "FOREIGN KEY"
+    """Allowed PostgreSQL constraint types."""
+
+    check = "CHECK"
+    unique = "UNIQUE"
+    unique_nulls_not_distinct = "UNIQUE NULLS NOT DISTINCT"
+    primary_key = "PRIMARY KEY"
+    foreign_key = "FOREIGN KEY"
+    exclude = "EXCLUDE"
+
 
 class constraint_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    name:str
-    type:ConstraintType | None = None
-    comment:str = "No comment provided."
-    ddl:str | None = None
-    # ``columns`` are the constraint's own/local columns (the key columns of a
-    # PRIMARY KEY/UNIQUE, the local side of a REFERENCES, or the columns a
-    # CHECK touches). ``references`` is the optional foreign target and is only
-    # valid on REFERENCES constraints.
-    columns:list[str] = []
+    name: str
+    type: ConstraintType
+    comment: str = "No comment provided."
+    ddl: str | None = None
+    columns: list[str] = []
     references: reference_dict | None = None
 
     @model_validator(mode="after")
@@ -52,41 +91,158 @@ class constraint_dict(BaseModel):
             )
         return self
 
+    @model_validator(mode="after")
+    def _references_must_have_columns(self):
+        if self.references is not None and not self.references.columns:
+            raise ValueError(
+                f"constraint '{self.name}' has a references block but no columns "
+                f"defined; at least one column must be specified."
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _references_must_have_table(self):
+        if self.references is not None and self.references.table is None:
+            raise ValueError(
+                f"constraint '{self.name}' has a references block but no table "
+                f"defined; a table must be specified."
+            )
+        return self
+
+    @model_validator(mode="after")
+    def columns_must_be_defined_for_constraints(self):
+        if len(self.columns) == 0:
+            raise ValueError(
+                f"constraint '{self.name}' is type {self.type!r} but has no columns "
+                f"defined; at least one column must be specified."
+            )
+        return self
+
+    @model_validator(mode="after")
+    def columns_defined_must_have_same_count_as_columns_referenced(self):
+        ref_cols = self.references.columns if self.references else []
+        if self.type == ConstraintType.foreign_key and len(self.columns) != len(
+            ref_cols
+        ):
+            raise ValueError(
+                f"constraint '{self.name}' references {len(ref_cols)} columns, but ",
+                f"has {len(self.columns)!r} defined.",
+            )
+        return self
+
+
 class index_dict(BaseModel):
     # Indexes are always defined on their owning table, so they carry only
     # local ``columns`` — there is no cross-table reference to validate.
     model_config = ConfigDict(extra="forbid")
-    name:str
-    type:str | None = None
-    comment:str = "No comment provided."
-    ddl:str
-    columns:list[str] = []
+    name: str
+    type: str | None = None
+    comment: str = "No comment provided."
+    ddl: str | None = None
+    columns: list[str] = []
 
-class table_dict(BaseModel):
+
+class table_dict(extensible_dict):
     # ``schema`` is advisory only; a table's owning schema is authoritative via
     # its folder placement and membership in a schema_dict. Stored as
     # ``schema_`` (aliased to ``schema``) to avoid shadowing BaseModel.schema().
-    model_config = ConfigDict(populate_by_name=True, extra="forbid")
-    name:str
-    schema_:str | None = Field(default=None, alias="schema")
-    type:str = 'BASE TABLE'
-    comment:str | None= "No comment provided."
-    columns:list[column_dict]
-    constraints:list[constraint_dict] = []
-    indexes:list[index_dict] = []
+    model_config = ConfigDict(populate_by_name=True)
+    name: str
+    schema_: str | None = Field(default=None, alias="schema")
+    type: str = "BASE TABLE"
+    comment: str | None = "No comment provided."
+    columns: list[column_dict]
+    constraints: list[constraint_dict] = []
+    indexes: list[index_dict] = []
 
-class schema_dict(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    name:str
-    comment:str = "No comment provided."
-    tables:list[table_dict] = []
+
+class schema_dict(extensible_dict):
+    name: str
+    comment: str = "No comment provided."
+    tables: list[table_dict] = []
+
 
 class DDL_Dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    encoding:str = 'UTF8'
-    locale:str = 'en_CA'
-    name:str
-    owner:str | None = None
-    comment:str = "No comment provided."
-    extensions:list[str] = []
-    schemas:list[schema_dict]
+    encoding: str = "UTF8"
+    locale: str = "en_CA"
+    name: str
+    owner: str | None = None
+    comment: str = "No comment provided."
+    extensions: list[str] = []
+    schemas: list[schema_dict] = []
+
+
+class license_dict(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    full_name: str
+    licenseId: str | None = None
+    url: str | None = None
+
+    @model_validator(mode="after")
+    def _validate_url(self):
+        if self.url is not None and not url(self.url):
+            raise ValueError(f"Malformed URL {self.url} in the license file.")
+        return self
+
+    @model_validator(mode="after")
+    def _validate_licenseId_or_url(self):
+        if self.licenseId is None and self.url is None:
+            raise ValueError("Either licenseId or url must be provided.")
+        return self
+
+    @model_validator(mode="after")
+    def _validate_full_name(self):
+        if not self.full_name.strip():
+            raise ValueError("full_name cannot be an empty string.")
+        return self
+
+    @model_validator(mode="after")
+    def _validate_url_empty(self):
+        if self.url is not None and not self.url.strip():
+            raise ValueError("url cannot be an empty string.")
+        return self
+
+    @model_validator(mode="after")
+    def _validate_licenseId(self):
+        if self.licenseId is not None and not self.licenseId.strip():
+            raise ValueError("licenseId cannot be an empty string.")
+        return self
+
+
+class contact_dict(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    name: str
+    email: str | None = None
+    url: str | None = None
+
+    @model_validator(mode="after")
+    def _validate_url(self):
+        if self.url is not None and not url(self.url):
+            raise ValueError(f"Malformed URL {self.url} in the contacts.")
+        return self
+
+    @model_validator(mode="after")
+    def _validate_email(self):
+        if not email(self.email):
+            raise ValueError(f"Malformed email {self.email} in the contacts.")
+        return self
+
+
+class ddaml_info(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    version: str
+    title: str
+    summary: str = "No summary provided."
+    license: license_dict = license_dict(
+        full_name="Default Copyright Applies",
+        licenseId="LicenseRef-Proprietary",
+    )
+    contacts: list[contact_dict] = []
+
+
+class ddaml_dict(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    ddaml_version: str
+    database: DDL_Dict
+    info: ddaml_info

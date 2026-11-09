@@ -8,12 +8,18 @@ import yaml
 EXAMPLE = Path("examples/data_definitions/dairymodel.yaml")
 GOLDEN = Path("tests/golden/output.yaml")
 
+
 def test_output_yaml_matches_golden(tmp_path):
     output = tmp_path / "output.yaml"
     subprocess.run(
-        ["data-model", str(EXAMPLE),
-         "--docs", str(tmp_path / "docs"),
-         "--output", str(output)],
+        [
+            "data-model",
+            str(EXAMPLE),
+            "--docs",
+            str(tmp_path / "docs"),
+            "--output",
+            str(output),
+        ],
         check=True,
     )
 

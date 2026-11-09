@@ -19,10 +19,10 @@ Description:
 
 ## Constraints
 
-|         name        |           type           |                                                ddl                                                |                  reference                 |       comment      |
-|---------------------|--------------------------|---------------------------------------------------------------------------------------------------|--------------------------------------------|--------------------|
-|instrumantinstance_pk|ConstraintType.primary_key|                                PRIMARY KEY (instrumentid,location)                                |                                            |No comment provided.|
-|   instrumentid_fk   |ConstraintType.foreign_key|FOREIGN KEY (instrumentid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE|[instruments](instruments.md) (instrumentid)|No comment provided.|
+|         name        |           type           |                                                ddl                                                |                  reference                 |                   comment                  |
+|---------------------|--------------------------|---------------------------------------------------------------------------------------------------|--------------------------------------------|--------------------------------------------|
+|instrumantinstance_pk|ConstraintType.primary_key|                                PRIMARY KEY (instrumentid,location)                                |                                            |            No comment provided.            |
+|   instrumentid_fk   |ConstraintType.foreign_key|FOREIGN KEY (instrumentid) REFERENCES instruments(instrumentid) ON UPDATE CASCADE ON DELETE CASCADE|[instruments](instruments.md) (instrumentid)|A foreign key to point to the instrument id.|
 
 ## Indexes
 
@@ -32,7 +32,7 @@ This table has no index
 
 **References**
 
-*  → [instruments](instruments.md) (`instrumentid`)
+* `instrumentid` → [instruments](instruments.md) (`instrumentid`)
 
 **Referenced By**
 

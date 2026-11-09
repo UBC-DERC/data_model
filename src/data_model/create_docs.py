@@ -8,6 +8,7 @@ index). Two small helpers do the repetitive work:
   * ``_write_page`` creates the parent directory and writes a list of Markdown
     lines, replacing the repeated mkdir/open/write boilerplate.
 """
+
 from pathlib import Path
 from typing import Any, TypedDict
 
@@ -17,6 +18,7 @@ from .object_classes import (
     DDL_Dict,
     column_dict,
     constraint_dict,
+    ddaml_dict,
     index_dict,
     schema_dict,
     table_dict,
@@ -27,6 +29,7 @@ NO_COMMENT = "No comment present"
 
 class IncomingRef(TypedDict):
     """A single foreign key that points *at* a table, seen from the target."""
+
     schema: str
     table: str
     columns: list[str]
@@ -37,8 +40,10 @@ class IncomingRef(TypedDict):
 IncomingIndex = dict[tuple[str | None, str | None], list[IncomingRef]]
 
 
-def _reference_link(current_schema:str, target_schema:str|None, target_table:str|None)->str:
-    """_Build a Markdown link to a referenced table's documentation page._
+def _reference_link(
+    current_schema: str, target_schema: str | None, target_table: str | None
+) -> str:
+    """Build a Markdown link to a referenced table's documentation page.
 
     Table pages live at ``<schema>/tables/<table>.md``. A same-schema target is
     a sibling page; a cross-schema target is reached by walking up to the
@@ -51,45 +56,49 @@ def _reference_link(current_schema:str, target_schema:str|None, target_table:str
     return f"[{target_table}]({path})"
 
 
-def build_incoming_index(database:DDL_Dict)->IncomingIndex:
-    """_Map each referenced ``(schema, table)`` to the foreign keys that target it._
+def build_incoming_index(database: DDL_Dict) -> IncomingIndex:
+    """Map each referenced ``(schema, table)`` to the foreign keys that target it.
 
     Args:
-        database: _A loaded, reference-resolved database model._
+        database: A loaded, reference-resolved database model.
 
     Returns:
-        dict: _``(schema, table) -> [{schema, table, columns, target_columns}]``,
+        dict: ``(schema, table) -> [{schema, table, columns, target_columns}]``,
             one entry per incoming foreign key. Tables with no incoming
-            references are absent from the mapping._
+            references are absent from the mapping.
     """
-    index:IncomingIndex = {}
+    index: IncomingIndex = {}
     for schema in database.schemas:
         for table in schema.tables:
             for constraint in table.constraints:
                 ref = constraint.references
                 if ref is None:
                     continue
-                index.setdefault((ref.schema_, ref.table), []).append({
-                    "schema": schema.name,
-                    "table": table.name,
-                    "columns": list(constraint.columns),
-                    "target_columns": list(ref.columns),
-                })
+                index.setdefault((ref.schema_, ref.table), []).append(
+                    {
+                        "schema": schema.name,
+                        "table": table.name,
+                        "columns": list(constraint.columns),
+                        "target_columns": list(ref.columns),
+                    }
+                )
     return index
 
 
-def _render_table(rows:list[Any], keys:list[str], empty_message:str, emphasise:str|None = None)->str:
-    """_Render a full Markdown table from the set of dict elements._
+def _render_table(
+    rows: list[Any], keys: list[str], empty_message: str, emphasise: str | None = None
+) -> str:
+    """Render a full Markdown table from the set of dict elements.
 
     Args:
-        rows (_type_): _A list of dicts (columns, constraints, indexes, ...)._
-        keys (_type_): _The the columns to display, in display order._
-        empty_message (_type_): _Text to be returned verbatim when ``rows`` is empty._
-        emphasise (_type_, optional): _optional key whose value is wrapped in ``*...*``._ Defaults to None.
+        rows (list): A list of dicts (columns, constraints, indexes, ...).
+        keys (list): The the columns to display, in display order.
+        empty_message (str): Text to be returned verbatim when ``rows`` is empty.
+        emphasise (str | None, optional): The key whose value is wrapped in ``*...*``. Defaults to None.
 
     Returns:
-        _type_: _description_
-    """    
+        str: The rendered Markdown table.
+    """
 
     if not rows:
         return empty_message
@@ -116,66 +125,72 @@ def _render_table(rows:list[Any], keys:list[str], empty_message:str, emphasise:s
 
 
 def _write_page(path: Path, lines: list[str]) -> None:
-    """_Write ``lines`` (one per element) to ``path``, creating parent dirs._
+    """Write ``lines`` (one per element) to ``path``, creating parent dirs.
 
     Args:
-        path (Path): _The Path to which the file will be written._
-        lines (list): _A list of strings to be written to file._
+        path (Path): The Path to which the file will be written.
+        lines (list): A list of strings to be written to file.
     """
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n")
 
 
-def columnPrint(columns:list[column_dict])->str:
-    """_Provide determininistic column ordering for Markdown._
+def columnPrint(columns: list[column_dict]) -> str:
+    """Provide determininistic column ordering for Markdown.
 
     Args:
-        columns (_dict_): _Taken from the YAML input, a description of the columns (name, type, comment)._
+        columns (list[dict]): A list of column dictionaries (name, type, comment).
 
     Returns:
-        _str_: _The `columns` section of the markdown page for a table._
+        str: The `columns` section of the markdown page for a table.
     """
     return _render_table(columns, ["name", "type", "comment"], "", emphasise="name")
 
 
-def constraintPrint(constraints:list[constraint_dict], schema_name:str="")->str:
-    """_Print the `constraints` section of the Markdown pages._
+def constraintPrint(constraints: list[constraint_dict], schema_name: str = "") -> str:
+    """Print the `constraints` section of the Markdown pages.
 
     Foreign-key constraints gain a ``reference`` cell linking to the referenced
     table's documentation page (with the referenced columns); other constraint
     types leave that cell blank.
 
     Args:
-        constraints: _The constraint objects for a table._
-        schema_name (str): _The owning schema, used to build relative links._
+        constraints (list): The constraint objects for a table.
+        schema_name (str): The owning schema, used to build relative links.
 
     Returns:
-        _str_: _The `constraints` section, with deterministic ordering._
+        str: The `constraints` section, with deterministic ordering.
     """
     rows = []
     for c in constraints:
         reference = ""
         if c.references is not None:
-            link = _reference_link(schema_name, c.references.schema_, c.references.table)
+            link = _reference_link(
+                schema_name, c.references.schema_, c.references.table
+            )
             reference = f"{link} ({', '.join(c.references.columns)})"
-        rows.append({
-            "name": c.name,
-            "type": c.type or "",
-            "ddl": c.ddl or "",
-            "reference": reference,
-            "comment": c.comment,
-        })
+        rows.append(
+            {
+                "name": c.name,
+                "type": c.type or "",
+                "ddl": c.ddl or "",
+                "reference": reference,
+                "comment": c.comment,
+            }
+        )
     return _render_table(
-        rows, ["name", "type", "ddl", "reference", "comment"], "This table has no constraints"
+        rows,
+        ["name", "type", "ddl", "reference", "comment"],
+        "This table has no constraints",
     )
 
 
-def indexPrint(indices:list[index_dict])->str:
-    """_Print the `indexes` section of the Markdown pages._
+def indexPrint(indices: list[index_dict]) -> str:
+    """Print the `indexes` section of the Markdown pages.
     Args:
-        indices (_dict_): _The dict rendering of the YAML input_
+        indices (list[dict]): The dict rendering of the YAML input
     Returns:
-        _str_: _The `indexes` section, with deterministic ordering._
+        str: The `indexes` section, with deterministic ordering.
     """
     return _render_table(
         indices, ["name", "type", "ddl", "comment"], "This table has no index"
@@ -204,27 +219,26 @@ def _front_matter(title: str, description: str) -> str:
 # --------------------------------------------------------------------------- #
 # Page writers
 # --------------------------------------------------------------------------- #
-def document_database(database: DDL_Dict, path:Path|str=Path('docs')) -> None:
-    """_Renders the documentation from YAML dictionary._
+def document_database(database: ddaml_dict, path: Path | str = Path("docs")) -> None:
+    """Renders the documentation from YAML dictionary.
 
     Args:
-        database (dict): _A dict from the composite YAML file._
-        path (Path, optional): _Where should the markdown documentation be written?_. Defaults to 'docs'.
+        database (dict): A dict from the composite YAML file.
+        path (Path, optional): Where should the markdown documentation be written?. Defaults to 'docs'
 
     Returns:
-        _None_: _Renders the documentation (no object output)._
-    """   
+        None: Renders the documentation (no object output).
+    """
     if isinstance(path, str):
         path = Path(path)
-    # Note, this is where we hardcode the output as Path + "database" 
-    return database_page(database, path / "database")
+    database_proper: DDL_Dict = database.database
+    # Note, this is where we hardcode the output as Path + "database"
+    return database_page(database_proper, path / "database")
 
 
 def database_page(database: DDL_Dict, path: Path) -> None:
     lines = [
-        _front_matter(
-            f"{database.name} database", database.comment
-        ),
+        _front_matter(f"{database.name} database", database.comment),
         f"# {database.name}",
         f"Description:\n**{database.comment}**",
         "\n## Schemas",
@@ -235,16 +249,18 @@ def database_page(database: DDL_Dict, path: Path) -> None:
         comment = schema.comment.strip()
         lines.append(f"* **[{name}](./{name}/index.md)**: *{comment}*")
         schema_page(schema, path / name, incoming_index)
+    if not database.schemas:
+        lines.append("This database has no schemas.")
     _write_page(path / "index.md", lines)
 
 
 def schema_page(schema: schema_dict, path: Path, incoming_index: IncomingIndex) -> None:
-    """_Generate the list that renders the `schemas` page._
+    """Generate the list that renders the `schemas` page.
 
     Args:
-        schema (dict): _The dict object describing the schema._
-        path (Path): _The location to which the schema will be sent._
-    """    
+        schema (dict): The dict object describing the schema.
+        path (Path): The location to which the schema will be sent.
+    """
     name = schema.name
     lines = [
         _front_matter(f"The {name} schema", schema.comment),
@@ -265,8 +281,10 @@ def schema_page(schema: schema_dict, path: Path, incoming_index: IncomingIndex) 
     _write_page(path / "index.md", lines)
 
 
-def _relationships(table:table_dict, schema_name:str, incoming:list[IncomingRef])->str:
-    """_Build the Relationships body: outgoing References and incoming Referenced By._"""
+def _relationships(
+    table: table_dict, schema_name: str, incoming: list[IncomingRef]
+) -> str:
+    """Build the Relationships body: outgoing References and incoming Referenced By."""
     references = []
     for c in table.constraints:
         if c.references is None:
@@ -283,14 +301,19 @@ def _relationships(table:table_dict, schema_name:str, incoming:list[IncomingRef]
         tgtcols = ", ".join(f"`{col}`" for col in entry["target_columns"])
         referenced_by.append(f"* {link} ({srccols}) → {tgtcols}")
 
-    return "\n".join([
-        "**References**\n",
-        "\n".join(references) if references else "None.",
-        "\n**Referenced By**\n",
-        "\n".join(referenced_by) if referenced_by else "None.",
-    ])
+    return "\n".join(
+        [
+            "**References**\n",
+            "\n".join(references) if references else "None.",
+            "\n**Referenced By**\n",
+            "\n".join(referenced_by) if referenced_by else "None.",
+        ]
+    )
 
-def table_page(table: table_dict, path: Path, schema_name:str, incoming:list[IncomingRef]) -> None:
+
+def table_page(
+    table: table_dict, path: Path, schema_name: str, incoming: list[IncomingRef]
+) -> None:
     name = table.name
     lines = [
         _front_matter(f"{name} table", table.comment or ""),

@@ -1,16 +1,26 @@
-comment: No comment provided.
-encoding: UTF8
-extensions: []
-locale: en_CA
-name: dairymodel
-owner: null
-schemas:
-- comment: 'The main dairy schema, with all data structures used for the farm.
+database:
+  comment: No comment provided.
+  encoding: UTF8
+  extensions: []
+  locale: en_CA
+  name: simplemodel
+  owner: null
+  schemas:
+  - comment: 'The public (default) schema.
 
-    '
-  name: dairy
-  tables: []
-- comment: The schema used for application specific tables, views and materialized
-    views.
-  name: apps
-  tables: []
+      '
+    name: public
+    tables: []
+ddaml_version: 2026.10.5
+info:
+  contacts:
+  - email: simple@example.com
+    name: Simple Example Team
+    url: null
+  license:
+    full_name: CC0-1.0
+    licenseId: null
+    url: https://creativecommons.org/publicdomain/zero/1.0/
+  summary: A data model for a very simple explanation
+  title: Simple Example
+  version: 1.0.0

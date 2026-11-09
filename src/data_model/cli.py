@@ -5,16 +5,19 @@ artifact and the documentation. Validation failures are reported verbosely (all
 problems at once) to stderr and cause a non-zero exit code with no output
 written, so the tool can gate a deployment pipeline.
 """
+
 import argparse
 import sys
 from pathlib import Path
 
 import yaml
+from pydantic import ValidationError
 
 from .check_crossreferences import ReferenceCheckError
 from .create_docs import document_database
 from .load_database import load_database
 from .model_build import ModelValidationError
+from .object_classes import ddaml_dict
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -23,8 +26,14 @@ def _build_parser() -> argparse.ArgumentParser:
         description="Validate a YAML data model and write documentation and a composite YAML file.",
     )
     parser.add_argument("entry", help="Path to the database entry YAML file.")
-    parser.add_argument("--docs", required=False, help="Output directory for documentation. No documentation will be built if unused.")
-    parser.add_argument("-o", "--output", required=True, help="Path for the composite output YAML.")
+    parser.add_argument(
+        "--docs",
+        required=False,
+        help="Output directory for documentation. No documentation will be built if unused.",
+    )
+    parser.add_argument(
+        "-o", "--output", required=True, help="Path for the composite output YAML."
+    )
     return parser
 
 
@@ -33,15 +42,15 @@ def main(argv: list[str] | None = None) -> int:
     args = _build_parser().parse_args(argv)
 
     try:
-        database = load_database(args.entry)
-    except (ModelValidationError, ReferenceCheckError) as error:
+        database: ddaml_dict = load_database(args.entry)
+    except (ModelValidationError, ReferenceCheckError, ValidationError) as error:
         print(error, file=sys.stderr)
         return 1
 
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "w") as handle:
-        yaml.safe_dump(database.model_dump(by_alias=True, mode = 'json'), handle)
+        yaml.safe_dump(database.model_dump(by_alias=True, mode="json"), handle)
     if args.docs:
         document_database(database, args.docs)
         print(f"Wrote {args.output} and documentation to {args.docs}")
