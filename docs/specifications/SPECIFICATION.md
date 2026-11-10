@@ -6,7 +6,7 @@ This document serves to define the specifications for the DDAML (Database Descri
 
 This format will attempt to mirror other existing schema, and is strongly influenced by [OpenAPI](https://spec.openapis.org/oas/latest.html).
 
-## Version 2026.10.26
+## Version 2026.10.5
 
 The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “NOT RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in [RFC2119](https://www.rfc-editor.org/info/rfc2119/).
 
@@ -60,19 +60,19 @@ A field to support the discovery and application of licensing to any data model 
 | Field name | Type | Description |
 | --- | --- | --- |
 | full_name | str | REQUIRED. The license name used for the data model. |
-| licenseId | str | An [SPDX-Licenses](https://spdx.org/licenses/) expression for the API. The identifier field is mutually exclusive of the url field. |
+| licenseId | str | An [SPDX-Licenses](https://spdx.org/licenses/) expression. The identifier field is mutually exclusive of the url field. |
 | url | str | A URI for the license used for the data model. This MUST be in the form of a URI. The url field is mutually exclusive of the identifier field. |
 
 ### Database
 
 | Field name | Type | Description |
 | --- | --- | --- |
-| encoding | str | 'UTF8' |
-| locale | str | 'en_CA' |
+| encoding | str | Character set encoding for the database. One of the valid Postgres [supported character sets](https://www.postgresql.org/docs/current/multibyte.html) |
+| locale | str | Currently locale is used to encode for all locales (see options for [locale in Postgres](https://www.postgresql.org/docs/current/locale.html)). |
 | name | str | REQUIRED. The name for the database on the server. To be used in `CREATE DATABASE`. |
-| owner | str | None = None |
-| comment | str | "No comment provided." |
-| extensions | list[str] | [] |
+| owner | str | By default this is empty and the user is assumed to be `postgres`. |
+| comment | str | A comment at the database level. |
+| extensions | list[str] | A valid set of postgres extensions that can be installed from the commandline. |
 | schemas | [Schema Objects](#schema) | An optional field. We can generate a database with no schema. Postgresql will still create a `public` schema. |
 
 ### Schema
@@ -81,7 +81,7 @@ A field to support the discovery and application of licensing to any data model 
 | --- | --- | --- |
 | name | str | REQUIRED. A valid schema name. |
 | comment | str | A comment to apply to the schema. The default value is "No comment provided." |
-| tables | [Table objects](#table) | [] |
+| tables | [Table objects](#table) | A valid structured [Table object](#table) |
 
 ### Table
 
@@ -112,7 +112,7 @@ A field to support the discovery and application of licensing to any data model 
 | name | str | REQUIRED. Valid name for the index. |
 | type | str | Index type. |
 | comment | str | Valid comment explaining the use of the index. Defaults to "No comment provided." |
-| ddl | str | REQUIRED. The DDL for defining the index. |
+| ddl | str | The DDL for defining the index. Optional, for information only. An earlier version of the DDL Builder used this to build the index literally. In the case of conflict between DDL and the structured data, the structured data will be used. |
 | columns | list[str] | A list of column names to which the index is applied. |
 
 ### Constraint
@@ -120,9 +120,9 @@ A field to support the discovery and application of licensing to any data model 
 | Field name | Type | Description |
 | --- | --- | --- |
 | name | str | REQUIRED. A valid name for the constraint |
-| type | ConstraintType | REQUIRED. One of the set of constraint types. |
+| type | ConstraintType | REQUIRED. One of the set of constraint types. One of: "CHECK", "UNIQUE", "UNIQUE NULLS NOT DISTINCT", "PRIMARY KEY", "FOREIGN KEY", "EXCLUDE" |
 | comment | str | An explanation for the comment. Defaults to "No comment provided." |
-| ddl | str | This will be phased out, but in early development we were including an explicit call to the DDL. |
+| ddl | str | This will be phased out, but in early development we were including an explicit call to the DDL. In the case of conflict between DDL and the structured [reference_dict](#reference), the reference will be used (not the DDL). |
 | columns | list[str] | REQUIRED. A list of columns (1 - n) within the table that the constraint is referencing. |
 | references | [reference_dict](#reference) | A reference to another table (only valid when the constraint is a `FOREIGN KEY`) and columns that are referenced by the constraint. Defaults to `None`. The number of columns in the reference list must match the number of columns in the `columns` entry. |
 
@@ -133,5 +133,5 @@ A field to support the discovery and application of licensing to any data model 
 | schema | str | Name of a valid schema within the database. Defaults to the parent schema. |
 | table | str | REQUIRED. Name of a valid table within the database. |
 | columns | list[str] | REQUIRED. One or more columns within the table being referenced. |
-| on_update | OnChangeType | Action `ON UPDATE` (default is empty, interpreted by Postgres as `NO ACTION`). An enum representing the valid `ON UPDATE` actions [within Postgres](https://www.postgresql.org/docs/current/ddl-constraints.html). |
-| on_delete | OnChangeType | Action `ON DELETE` (default is `DO NOTHING`) |
+| on_update | OnChangeType | Action `ON UPDATE` (default is empty, interpreted by Postgres as `NO ACTION`). An enum representing the valid `ON UPDATE` actions [within Postgres](https://www.postgresql.org/docs/current/ddl-constraints.html). One of: "NO ACTION", "RESTRICT", "CASCADE", "SET NULL", "SET DEFAULT" |
+| on_delete | OnChangeType | Action `ON DELETE` (default is empty, interpreted by Postgres as `NO ACTION`). One of: "NO ACTION", "RESTRICT", "CASCADE", "SET NULL", "SET DEFAULT" |

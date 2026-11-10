@@ -1,5 +1,6 @@
 """Tests for the data-model command-line entry point."""
 
+import pytest
 import yaml
 
 from data_model.cli import main
@@ -80,3 +81,15 @@ def test_ddaml_with_no_database_exits_1_and_writes_nothing(
     assert not out.exists()
     err = capsys.readouterr().err
     assert "no 'database:' block" in err
+
+def test_cli_missing_output_exits_2(tmp_path, capsys):
+    entry = tmp_path / "db.yaml"
+    entry.write_text("database:\n  name: d")
+
+    with pytest.raises(SystemExit) as exc:
+        main([str(entry)])
+
+    assert exc.value.code == 2
+    err = capsys.readouterr().err
+    assert "the following arguments are required: -o/--output" in err
+    assert not any(tmp_path.iterdir()) or list(tmp_path.iterdir()) == [entry]
