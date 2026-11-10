@@ -1,7 +1,10 @@
 from enum import Enum
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from validators import email, url
+
+SUPPORTED_DDAML_VERSIONS: tuple[str, ...] = ("2026.10.5",)
+CURRENT_DDAML_VERSION = SUPPORTED_DDAML_VERSIONS[-1]
 
 
 class extensible_dict(BaseModel):
@@ -180,6 +183,12 @@ class license_dict(BaseModel):
     url: str | None = None
 
     @model_validator(mode="after")
+    def _one_thing_or_another(self):
+        if self.licenseId is not None and self.url is not None:
+            raise ValueError("Only one of licenseId or url may be provided; not both.")
+        return self
+
+    @model_validator(mode="after")
     def _validate_url(self):
         if self.url is not None and not url(self.url):
             raise ValueError(f"Malformed URL {self.url} in the license file.")
@@ -243,6 +252,18 @@ class ddaml_info(BaseModel):
 
 class ddaml_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    ddaml_version: str
+    ddaml_version: str = Field(
+        json_schema_extra={"enum": list(SUPPORTED_DDAML_VERSIONS)}
+    )
     database: DDL_Dict
     info: ddaml_info
+
+    @field_validator("ddaml_version")
+    @classmethod
+    def _supported_version(cls, value: str) -> str:
+        if value not in SUPPORTED_DDAML_VERSIONS:
+            raise ValueError(
+                f"ddaml_version {value!r} is not supported; "
+                f"supported versions: {', '.join(SUPPORTED_DDAML_VERSIONS)}."
+            )
+        return value

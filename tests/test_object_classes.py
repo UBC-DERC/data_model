@@ -13,6 +13,7 @@ from data_model.object_classes import (
     column_dict,
     constraint_dict,
     index_dict,
+    license_dict,
     reference_dict,
     schema_dict,
     table_dict,
@@ -192,9 +193,9 @@ def test_index_has_local_columns_and_no_reference():
 
 def test_licence_forbids_unknown_keys():
     with pytest.raises(ValidationError):
-        schema_dict(name="s", licence="MIT", referencedTable="cows")
+        license_dict(name="s", licence="MIT", referencedTable="cows")
 
 
 def test_license_forbids_id_and_url():
     with pytest.raises(ValidationError):
-        schema_dict(name="s", licenceId="MIT", id="123", url="https://example.com")
+        license_dict(name="s", licenceId="MIT", id="123", url="https://example.com")
