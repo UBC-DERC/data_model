@@ -112,7 +112,7 @@ A field to support the discovery and application of licensing to any data model 
 | name | str | REQUIRED. Valid name for the index. |
 | type | str | Index type. |
 | comment | str | Valid comment explaining the use of the index. Defaults to "No comment provided." |
-| ddl | str | REQUIRED. The DDL for defining the index. |
+| ddl | str | The DDL for defining the index. Optional, for information only. An earlier version of the DDL Builder used this to build the index literally. |
 | columns | list[str] | A list of column names to which the index is applied. |
 
 ### Constraint
@@ -134,4 +134,4 @@ A field to support the discovery and application of licensing to any data model 
 | table | str | REQUIRED. Name of a valid table within the database. |
 | columns | list[str] | REQUIRED. One or more columns within the table being referenced. |
 | on_update | OnChangeType | Action `ON UPDATE` (default is empty, interpreted by Postgres as `NO ACTION`). An enum representing the valid `ON UPDATE` actions [within Postgres](https://www.postgresql.org/docs/current/ddl-constraints.html). |
-| on_delete | OnChangeType | Action `ON DELETE` (default is `DO NOTHING`) |
+| on_delete | OnChangeType | Action `ON DELETE` (default is empty, interpreted by Postgres as `NO ACTION`) |
