@@ -180,6 +180,14 @@ class license_dict(BaseModel):
     url: str | None = None
 
     @model_validator(mode="after")
+    def _one_thing_or_another(self):
+        if self.licenseId is not None and self.url is not None:
+            raise ValueError(
+                "Only one of licenseId or url may be provided; not both."
+            )
+        return self
+
+    @model_validator(mode="after")
     def _validate_url(self):
         if self.url is not None and not url(self.url):
             raise ValueError(f"Malformed URL {self.url} in the license file.")
