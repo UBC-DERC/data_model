@@ -233,7 +233,7 @@ class contact_dict(BaseModel):
 
     @model_validator(mode="after")
     def _validate_email(self):
-        if not email(self.email):
+        if self.email is not None and not email(self.email):
             raise ValueError(f"Malformed email {self.email} in the contacts.")
         return self
 

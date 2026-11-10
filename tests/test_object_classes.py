@@ -198,4 +198,4 @@ def test_licence_forbids_unknown_keys():
 
 def test_license_forbids_id_and_url():
     with pytest.raises(ValidationError):
-        license_dict(name="s", licenceId="MIT", id="123", url="https://example.com")
+        license_dict(name="s", licenceId="MIT", url="https://example.com")
