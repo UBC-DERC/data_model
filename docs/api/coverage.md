@@ -11,5 +11,5 @@
 | src/data\_model/load\_schema.py           |       15 |        0 |    100% |
 | src/data\_model/load\_tables.py           |       16 |        1 |     94% |
 | src/data\_model/model\_build.py           |       35 |        1 |     97% |
-| src/data\_model/object\_classes.py        |      163 |       10 |     94% |
-| **TOTAL**                                 |  **488** |   **20** | **96%** |
+| src/data\_model/object\_classes.py        |      171 |       11 |     94% |
+| **TOTAL**                                 |  **496** |   **21** | **96%** |
