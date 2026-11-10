@@ -6,6 +6,7 @@ from validators import email, url
 SUPPORTED_DDAML_VERSIONS: tuple[str, ...] = ("2026.10.5",)
 CURRENT_DDAML_VERSION = SUPPORTED_DDAML_VERSIONS[-1]
 
+
 class extensible_dict(BaseModel):
     """Supporting the use of `x-` extensions for the data model. This will
     support links to external schema (for example)."""
@@ -184,9 +185,7 @@ class license_dict(BaseModel):
     @model_validator(mode="after")
     def _one_thing_or_another(self):
         if self.licenseId is not None and self.url is not None:
-            raise ValueError(
-                "Only one of licenseId or url may be provided; not both."
-            )
+            raise ValueError("Only one of licenseId or url may be provided; not both.")
         return self
 
     @model_validator(mode="after")

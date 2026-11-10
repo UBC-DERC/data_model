@@ -6,7 +6,7 @@ This document serves to define the specifications for the DDAML (Database Descri
 
 This format will attempt to mirror other existing schema, and is strongly influenced by [OpenAPI](https://spec.openapis.org/oas/latest.html).
 
-## Version 2026.10.26
+## Version 2026.10.5
 
 The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “NOT RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in [RFC2119](https://www.rfc-editor.org/info/rfc2119/).
 
