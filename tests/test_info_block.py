@@ -50,6 +50,7 @@ def test_info_bloc_creation_licenseUrl():
     assert info.license == license
     assert info.contacts == [contact1]
 
+
 def test_contact_dict_creation():
     contact = contact_dict(
         name="Alpha Beta",
@@ -59,6 +60,7 @@ def test_contact_dict_creation():
     assert contact.name == "Alpha Beta"
     assert contact.email == "jonobono@example.com"
     assert contact.url == "https://example.com/robotcity"
+
 
 def test_contact_dict_creation_missing_email():
     contact = contact_dict(

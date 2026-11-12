@@ -82,6 +82,7 @@ def test_ddlml_with_no_database_exits_1_and_writes_nothing(
     err = capsys.readouterr().err
     assert "no 'database:' block" in err
 
+
 def test_cli_missing_output_exits_2(tmp_path, capsys):
     entry = tmp_path / "db.yaml"
     entry.write_text("database:\n  name: d")
