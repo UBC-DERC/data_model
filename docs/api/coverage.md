@@ -11,5 +11,5 @@
 | src/ddlml/load\_schema.py           |       15 |        0 |    100% |
 | src/ddlml/load\_tables.py           |       16 |        1 |     94% |
 | src/ddlml/model\_build.py           |       35 |        1 |     97% |
-| src/ddlml/object\_classes.py        |      171 |       10 |     94% |
-| **TOTAL**                           |  **502** |   **23** | **95%** |
+| src/ddlml/object\_classes.py        |      171 |        9 |     95% |
+| **TOTAL**                           |  **502** |   **22** | **96%** |

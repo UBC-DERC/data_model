@@ -193,9 +193,9 @@ def test_index_has_local_columns_and_no_reference():
 
 def test_licence_forbids_unknown_keys():
     with pytest.raises(ValidationError):
-        license_dict(name="s", licence="MIT", referencedTable="cows")
+        license_dict(name="s", identifier="MIT", referencedTable="cows")
 
 
 def test_license_forbids_id_and_url():
     with pytest.raises(ValidationError):
-        license_dict(name="s", licenceId="MIT", url="https://example.com")
+        license_dict(name="s", identifier="MIT", url="https://example.com")

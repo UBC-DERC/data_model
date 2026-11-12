@@ -950,8 +950,8 @@ info:
     name: Dairy Model Team
     url: null
   license:
-    full_name: CC0-1.0
-    licenseId: null
+    identifier: null
+    name: CC0-1.0
     url: https://creativecommons.org/publicdomain/zero/1.0/
   summary: A data model for dairy farm management
   title: Dairy Model

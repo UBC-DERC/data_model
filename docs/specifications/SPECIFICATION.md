@@ -20,7 +20,7 @@ The models and systems established as part of DDLML allow system developers to c
 
 Versioning will use a [CalVer](https://calver.org/) system, using a YYYY.M.D.MICRO format without padding. Breaking changes will be documented in the CHANGELOG, and end-of-support will be documented in the specifications and in the README.
 
-## Objects
+## Objects abd Fields
 
 ### Fixed Fields
 
@@ -45,7 +45,7 @@ These fields are similar to the fields defined in the [OpenAPI v3.2.1 Specificat
 
 ### Contacts
 
-Support for contact information. Drawn from the OpenAPI standard.
+Support for contact information. Drawn from the OpenAPI standard [Contact Object](https://swagger.io/specification/v3.2/#contact-object).
 
 | Field name | Type | Description |
 | --- | --- | --- |
@@ -55,12 +55,12 @@ Support for contact information. Drawn from the OpenAPI standard.
 
 ### License
 
-A field to support the discovery and application of licensing to any data model created using a DDLML form/format.
+A field to support the discovery and application of licensing to any data model created using a DDLML form/format, drawn from the OpenAPI [License Object](https://swagger.io/specification/v3.2/#license-object)
 
 | Field name | Type | Description |
 | --- | --- | --- |
-| full_name | str | REQUIRED. The license name used for the data model. |
-| licenseId | str | An [SPDX-Licenses](https://spdx.org/licenses/) expression. The identifier field is mutually exclusive of the url field. |
+| name | str | REQUIRED. The license name used for the data model. |
+| identifier | str | An [SPDX-Licenses](https://spdx.org/licenses/) expression. The identifier field is mutually exclusive of the url field. |
 | url | str | A URI for the license used for the data model. This MUST be in the form of a URI. The url field is mutually exclusive of the identifier field. |
 
 ### Database
@@ -84,7 +84,6 @@ The schema is a conceptual grouping of tables, either around a particular data s
 | name | str | REQUIRED. A valid schema name. |
 | comment | str | A comment to apply to the schema. The default value is "No comment provided." |
 | tables | [Table objects](#table) | A valid structured [Table object](#table) |
-| `x-` extensions | object | Schemas may include additional objects named with the `x-` preface. For example `x-references`. These objects are exported to the final object, but are generally used to support metadata for the objects, and are not explicitly used for data management or DDL construction. |
 
 ### Table
 
@@ -97,7 +96,6 @@ The schema is a conceptual grouping of tables, either around a particular data s
 | columns | [Column Object](#column) | Zero or more Column objects, in a list. |
 | constraints | [Constraint Object](#constraint) | Zero or more constraint objects in a list. |
 | indexes | [Index Object](#index) | Zero or more Index objects in a list |
-| `x-` extensions | object | Schemas may include additional objects named with the `x-` preface. For example `x-references`. These objects are exported to the final object, but are generally used to support metadata for the objects, and are not explicitly used for data management or DDL construction. |
 
 ### Column
 
@@ -108,7 +106,6 @@ The schema is a conceptual grouping of tables, either around a particular data s
 | comment | str | As opposed to the [Table Object](#table) comments, the column comments default to "No comment provided." |
 | nullable | bool | Is the field nullable? Defaults to `True` |
 | default | str | Defines a default value, the field is submitted as a string, but will be transformed based on the `type` defined above. |
-| `x-` extensions | object | Schemas may include additional objects named with the `x-` preface. For example `x-references`. These objects are exported to the final object, but are generally used to support metadata for the objects, and are not explicitly used for data management or DDL construction. |
 
 ### Index
 
@@ -140,3 +137,12 @@ The schema is a conceptual grouping of tables, either around a particular data s
 | columns | list[str] | REQUIRED. One or more columns within the table being referenced. |
 | on_update | OnChangeType | Action `ON UPDATE` (default is empty, interpreted by Postgres as `NO ACTION`). An enum representing the valid `ON UPDATE` actions [within Postgres](https://www.postgresql.org/docs/current/ddl-constraints.html). One of: "NO ACTION", "RESTRICT", "CASCADE", "SET NULL", "SET DEFAULT" |
 | on_delete | OnChangeType | Action `ON DELETE` (default is empty, interpreted by Postgres as `NO ACTION`). One of: "NO ACTION", "RESTRICT", "CASCADE", "SET NULL", "SET DEFAULT" |
+
+## Specification Extensions
+
+In the case where additional metadata helps explain an object, or works to enrich the object for future work, then the `^x-` extensions are intended to support this information collection and management within the DDLML specification.
+
+| Field Pattern | Type | Description |
+| `^x-` | Any | An extension for [Tables](#table), [Columns](#column) and [Schema](#schema) only. These extensions may include additional objects named with the `x-` preface. For example `x-references`. These objects are exported to the final object, but are generally used to support metadata for the objects, and are not explicitly used for data management or DDL construction. |
+
+There is currently no mechanism to validate these extensions, but they are passed through to the validated output.

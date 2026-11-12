@@ -5,8 +5,8 @@ from ddlml.object_classes import contact_dict, ddlml_info, license_dict
 
 def test_info_bloc_creation_licenseId():
     license = license_dict(
-        full_name="MIT License",
-        licenseId="MIT",
+        name="MIT License",
+        identifier="MIT",
     )
     contact1 = contact_dict(
         name="John Doe",
@@ -29,7 +29,7 @@ def test_info_bloc_creation_licenseId():
 
 def test_info_bloc_creation_licenseUrl():
     license = license_dict(
-        full_name="MIT License",
+        name="MIT License",
         url="https://opensource.org/licenses/MIT",
     )
     contact1 = contact_dict(
