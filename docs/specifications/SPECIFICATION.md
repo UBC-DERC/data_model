@@ -1,8 +1,8 @@
-# DDAML Specification
+# DDLML Specification
 
 Date: October 26, 2026
 
-This document serves to define the specifications for the DDAML (Database Description Ain't Markup Language) format that will be used to generate valid (Postgres) data description language (DDL) structure through the [`data_model`](https://github.com/UBC-DERC/data_model) and the [`ddl_builder`](https://github.com/UBC-DERC/ddl_builder) Python packages. The goal is to develop a human readable document format that can be processed by a Python script and transformed into usable SQL to work within a system in which atomic features of databases are required, but schema or data model specifications may change over time.
+This document serves to define the specifications for the DDLML (Database Description Language Markup Language) format that will be used to generate valid (Postgres) data description language (DDL) structure through the [`data_model`](https://github.com/UBC-DERC/data_model) and the [`ddl_builder`](https://github.com/UBC-DERC/ddl_builder) Python packages. The goal is to develop a human readable document format that can be processed by a Python script and transformed into usable SQL to work within a system in which atomic features of databases are required, but schema or data model specifications may change over time.
 
 This format will attempt to mirror other existing schema, and is strongly influenced by [OpenAPI](https://spec.openapis.org/oas/latest.html).
 
@@ -14,7 +14,7 @@ The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL 
 
 This documentation is intended to support a data model that allows users to read, build documentation, and iterate over data models for (Postgres) databases over time as part of a workflow that allows lay partners and technical experts to work together to develop and define appropriate data models for complex systems. The tool was originally developed as part of work at the University of British Columbia's Dairy Education and Research Center, where multiple existing systems, proprietary data models, and a history of academic research resulted in a large number of heterogenous datasets that needed to be aligned to support longitudinal data analysis.
 
-The models and systems established as part of DDAML allow system developers to consult with domain experts, technicians, researchers and other invested groups, without the need for deep understanding of underlying database principles. It allows for integrated development of indices, constraints and references, and can support the implementation of best-practices early on in the database design process.
+The models and systems established as part of DDLML allow system developers to consult with domain experts, technicians, researchers and other invested groups, without the need for deep understanding of underlying database principles. It allows for integrated development of indices, constraints and references, and can support the implementation of best-practices early on in the database design process.
 
 ### Versioning System
 
@@ -26,8 +26,8 @@ Versioning will use a [CalVer](https://calver.org/) system, using a YYYY.M.D.MIC
 
 | Field name | Type | Description |
 | --- | --- | --- |
-| ddaml_version | str | REQUIRED. This string MUST be the CalVer version number of the ddaml specification. This field allows other tooling to understand the structure and specification of the ddaml file. |
-| info | [Info object](#info) | REQUIRED. This string is used to provide additional metadata about the purpose of the ddaml document and data model. |
+| ddlml_version | str | REQUIRED. This string MUST be the CalVer version number of the ddlml specification. This field allows other tooling to understand the structure and specification of the ddlml file. The version number must be one of the supported versions. |
+| info | [Info object](#info) | REQUIRED. This object is used to provide additional metadata about the purpose of the ddlml document and data model. |
 | database | [Database object](#database) | REQUIRED. The database definition. |
 
 ### Info
@@ -41,7 +41,7 @@ These fields are similar to the fields defined in the [OpenAPI v3.2.1 Specificat
 | description | str | A description of the data model. [CommonMark](https://commonmark.org/) syntax MAY be used for rich text representation. |
 | contacts | [Contact Object](#contacts) | The contact information for the metadata and data model maintainer. |
 | license | [License Object](#license) | The license information for the data model and structured repository associated with it. |
-| version | str | REQUIRED. The version of the DDAML document (which is distinct from the DDAML Specification version). |
+| version | str | REQUIRED. The version of the DDLML document (which is distinct from the DDLML Specification version). |
 
 ### Contacts
 
@@ -55,7 +55,7 @@ Support for contact information. Drawn from the OpenAPI standard.
 
 ### License
 
-A field to support the discovery and application of licensing to any data model created using a DDAML form/format.
+A field to support the discovery and application of licensing to any data model created using a DDLML form/format.
 
 | Field name | Type | Description |
 | --- | --- | --- |
@@ -126,7 +126,7 @@ The schema is a conceptual grouping of tables, either around a particular data s
 | --- | --- | --- |
 | name | str | REQUIRED. A valid name for the constraint |
 | type | ConstraintType | REQUIRED. One of the set of constraint types. One of: "CHECK", "UNIQUE", "UNIQUE NULLS NOT DISTINCT", "PRIMARY KEY", "FOREIGN KEY", "EXCLUDE" |
-| comment | str | An explanation for the comment. Defaults to "No comment provided." |
+| comment | str | An explanation for the constraint. Defaults to "No comment provided." |
 | ddl | str | This will be phased out, but in early development we were including an explicit call to the DDL. In the case of conflict between DDL and the structured [reference_dict](#reference), the reference will be used (not the DDL). |
 | columns | list[str] | REQUIRED. A list of columns (1 - n) within the table that the constraint is referencing. |
 | references | [reference_dict](#reference) | A reference to another table (only valid when the constraint is a `FOREIGN KEY`) and columns that are referenced by the constraint. Defaults to `None`. The number of columns in the reference list must match the number of columns in the `columns` entry. |
