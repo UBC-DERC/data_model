@@ -289,7 +289,7 @@ def test_database_page_writes_index_and_schemas(tmp_path):
 def test_document_database_respects_path(tmp_path):
     """document_database writes under the path it is given (no hardcoded 'docs/')."""
     database = ddlml_dict(
-        ddlml_version="2026.10.5",
+        ddlml_version="2026.11.12",
         database=DDL_Dict(
             name="dairymodel",
             comment="db",

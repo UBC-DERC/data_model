@@ -64,7 +64,7 @@ def test_load_database_resolves_refs_relative_to_entry_file(
         "proj/db.yaml",
         [
             {
-                "ddlml_version": "2026.10.5",
+                "ddlml_version": "2026.11.12",
                 "database": {"name": "d", "schemas": [{"$ref": "schemas/s.yaml"}]},
                 "info": {"version": "1.0.0", "title": "Dairy Database"},
             }
@@ -77,7 +77,7 @@ def test_load_database_resolves_refs_relative_to_entry_file(
     monkeypatch.chdir(foreign)
 
     db = dm.load_database(str(entry))
-    assert db.ddlml_version == "2026.10.5"
+    assert db.ddlml_version == "2026.11.12"
     assert db.info.title == "Dairy Database"
     assert [s.name for s in db.database.schemas] == ["dairy"]
     cows = db.database.schemas[0].tables[0]

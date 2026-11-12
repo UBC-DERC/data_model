@@ -943,7 +943,7 @@ database:
       '
     name: apps
     tables: []
-ddlml_version: 2026.10.5
+ddlml_version: 2026.11.12
 info:
   contacts:
   - email: dairy@example.com
