@@ -1,6 +1,6 @@
 # DESIGN — DERC Dairy Database Data Model (D³)
 
-> Planning and design document for the `data_model` repository.
+> Planning and design document for the `ddlml` repository.
 > This document describes the goals of the project, the architecture as it
 > exists today, the conventions that govern it, and the roadmap of work still
 > to be done. Sections are marked **[Implemented]**, **[Partial]**, or
@@ -78,7 +78,7 @@ technical requirements.
 
 ```mermaid
 flowchart TD
-    consult[User & Expert Consultation] --> model[data_model<br/>YAML definitions]
+    consult[User & Expert Consultation] --> model[ddlml<br/>YAML definitions]
     model --> validate[Validation<br/>validate_object]
     model --> docs[Documentation<br/>mkdocs site]
     model --> ddl[ddl_builder<br/>SQL DDL]
@@ -86,7 +86,7 @@ flowchart TD
     docs --> site[GitHub Pages]
 ```
 
-- **This repo (`data_model`)** produces a validated, serialized model and a
+- **This repo (`ddlml`)** produces a validated, serialized model and a
   documentation site.
 - **[`ddl_builder`](https://github.com/UBC-DERC/ddl_builder)** (separate package) consumes the model and emits PostgreSQL DDL, including database-level configuration (extensions, locale) declared here.
 
@@ -147,7 +147,7 @@ Defined centrally in `validation.yaml`:
 
 ## 5. Software Architecture
 
-The Python package `data_model` (in `src/data_model/`, `src`-layout) is a thin
+The Python package `ddlml` (in `src/ddlml/`, `src`-layout) is a thin
 **load → validate → render** pipeline.
 
 ```
@@ -172,7 +172,7 @@ load_database ─▶ load_schema ─▶ load_tables ─▶ load_columns
 | `main.py` (root) | Orchestration: load → document → dump `output.yaml` | [Implemented] |
 
 ### 5.1 Public API
-Exported from `data_model`: `load_file`, `load_database`, `load_schema`,
+Exported from `ddlml`: `load_file`, `load_database`, `load_schema`,
 `load_tables`, `validate_object`, `document_database`.
 
 ### 5.2 Validation strategy **[Partial]**
@@ -195,7 +195,7 @@ Constraints, Indexes, Relationships sections). Tables are rendered with
 - **Authored pages [Implemented]:** Introduction (`index.md`), Governance
   (`admin/governance.md`), Executive Summary (`summary/executive_summary.md`).
 - **Generated pages [Implemented]:** `docs/database/**` produced by `createDocs`.
-- **Hosting:** GitHub Pages at `https://ubc-derc.github.io/data_model/`.
+- **Hosting:** GitHub Pages at `https://ubc-derc.github.io/ddlml/`.
 
 > **[Planned]** `resources.md` (Resources & Concepts) is linked from the index
 > but not yet written.
@@ -266,7 +266,7 @@ pieces:
 **Milestone C — Process & delivery**
 - Single CI workflow: lint + test on PRs, docs deploy on `main`.
 - Write the contribution guide and release-note conventions.
-- Formalize the `data_model` → `ddl_builder` interface (versioned `output.yaml`).
+- Formalize the `ddlml` → `ddl_builder` interface (versioned `output.yaml`).
 
 ---
 
