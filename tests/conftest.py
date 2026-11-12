@@ -1,4 +1,4 @@
-"""Shared pytest fixtures for the data_model test suite."""
+"""Shared pytest fixtures for the ddlml test suite."""
 
 from pathlib import Path
 

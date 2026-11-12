@@ -1,4 +1,4 @@
-"""Tests for data_model.check_references.
+"""Tests for ddlml.check_references.
 
 Reference checking runs across the whole assembled model. It first resolves
 each foreign target's omitted schema/table from the owning table's context,
@@ -9,13 +9,13 @@ owning table, and foreign targets whose table or columns do not exist.
 import pytest
 from pydantic import ValidationError
 
-from data_model.check_crossreferences import (
+from ddlml.check_crossreferences import (
     ReferenceCheckError,
     check_references,
     find_missing_references,
     resolve_references,
 )
-from data_model.object_classes import (
+from ddlml.object_classes import (
     DDL_Dict,
     column_dict,
     constraint_dict,
@@ -334,7 +334,7 @@ def test_check_references_returns_db_when_clean():
 
 
 def test_real_example_model_loads_and_checks(data_definitions):
-    import data_model as dm
+    import ddlml as dm
 
     db = dm.load_database(filename=str(data_definitions / "dairymodel.yaml"))
     assert [s.name for s in db.database.schemas] == ["dairy", "apps"]

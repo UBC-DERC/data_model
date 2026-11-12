@@ -1,8 +1,8 @@
-[![ci](https://github.com/UBC-DERC/data_model/actions/workflows/ci.yml/badge.svg)](https://github.com/UBC-DERC/data_model/actions/workflows/ci.yml) [![codeQL](https://github.com/UBC-DERC/data_model/actions/workflows/codeql.yml/badge.svg)](https://github.com/UBC-DERC/data_model/actions/workflows/codeql.yml)
+[![ci](https://github.com/UBC-DERC/ddlml/actions/workflows/ci.yml/badge.svg)](https://github.com/UBC-DERC/ddlml/actions/workflows/ci.yml) [![codeQL](https://github.com/UBC-DERC/ddlml/actions/workflows/codeql.yml/badge.svg)](https://github.com/UBC-DERC/ddlml/actions/workflows/codeql.yml)
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-alpha-orange.svg)]()
 
-[![](https://img.shields.io/badge/MIT-green?style=for-the-badge)](https://github.com/UBC-DERC/data_model/blob/main/LICENSE.md)
+[![](https://img.shields.io/badge/MIT-green?style=for-the-badge)](https://github.com/UBC-DERC/ddlml/blob/main/LICENSE.md)
 
 [![CalVer - 2026.10.0a1](https://img.shields.io/badge/calver-2026.10.0a1-22bfda.svg)](https://calver.org/)
 
@@ -17,17 +17,17 @@ This repository contains an example `yaml` data representation in the `examples`
 ```mermaid
 flowchart LR
   uc@{ label: "User Consultation" }
-  dm@{ label: "Data Model\n(yaml)" }
-  val@{ label: "Validation\n(data_model)" }
+  dm@{ label: "Data Model\n(ddlml)" }
+  val@{ label: "Validation\n(ddlml)" }
   ddl@{ label: "Database DDL\n(ddl_model)" }
 uc -- implementation --> dm
 dm -- continuous integration --> val
 dm -- database creation --> ddl
 ddl -- ongoing consultation --> uc
 
-click uc "https://ubc-derc.github.io/data_model/admin/governance/" "Data Governance"
-click dm "https://ubc-derc.github.io/data_model/database/" "UBC DERC Database Documentation"
-click val "https://github.com/UBC-DERC/data_model" "data_model validator"
+click uc "https://ubc-derc.github.io/ddlml/admin/governance/" "Data Governance"
+click dm "https://ubc-derc.github.io/ddlml/database/" "UBC DERC Database Documentation"
+click val "https://github.com/UBC-DERC/ddlml" "ddlml validator"
 click ddl "https://github.com/UBC-DERC/ddl_builder" "DDL_Builder Repository"
 ```
 
@@ -38,8 +38,8 @@ Design should always begin with user consultation. This consultative process can
 To install from this GitHub repository, either install using a graphical tool such as GitKraken or GitHub Desktop, or install from the console using:
 
 ```bash
-git clone https://github.com/UBC-DERC/data_model.git
-cd data_model
+git clone https://github.com/UBC-DERC/ddlml.git
+cd ddlml
 uv sync
 ```
 
@@ -47,17 +47,17 @@ This assumes you have the [`uv`](https://docs.astral.sh/uv/getting-started/insta
 
 ## How to Use this Repository
 
-Once installed, the `data-model` command validates a model and writes both the
+Once installed, the `ddlml` command validates a model and writes both the
 composite YAML artifact and the MkDocs documentation:
 
 ```bash
-uv run data-model <path/to/entry.yaml> --docs <docs-output-dir> --output <composite.yaml>
+uv run ddlml <path/to/entry.yaml> --docs <docs-output-dir> --output <composite.yaml>
 ```
 
 For the example model bundled in this repository:
 
 ```bash
-data-model examples/data_definitions/dairymodel.yaml --docs docs --output output.yaml
+ddlml examples/data_definitions/dairymodel.yaml --docs docs --output output.yaml
 ```
 
 The `examples/data_definitions/` folder is **example input** — point the tool at the entry file of any directory of definitions.
@@ -73,13 +73,13 @@ The composite `--output` YAML is the fully-resolved model (all `$ref:` targets m
 
 ## Editing/Modifying or Working with the Data Model
 
-The YAML file(s) used to define the database can be structured so that they are all in one file (see: [output.yaml](https://github.com/UBC-DERC/data_model/blob/main/examples/data_definitions/output.yaml)), or, you can make use of the `$ref` tag to refer to other files (see: [data_definitions](https://github.com/UBC-DERC/data_model/blob/main/examples/data_definitions/dairymodel.yaml)). In this way, managing a complex data model with repeated elements can be simplified, by defining a field only once, and all documentation will be updated with any change.
+The YAML file(s) used to define the database can be structured so that they are all in one file (see: [output.yaml](https://github.com/UBC-DERC/ddlml/blob/main/examples/data_definitions/output.yaml)), or, you can make use of the `$ref` tag to refer to other files (see: [data_definitions](https://github.com/UBC-DERC/ddlml/blob/main/examples/data_definitions/dairymodel.yaml)). In this way, managing a complex data model with repeated elements can be simplified, by defining a field only once, and all documentation will be updated with any change.
 
 This conceptual model borrows from the [OpenAPI `$ref` implementation](https://swagger.io/docs/specification/v3_0/using-ref/).
 
 ### File and Folder Structure
 
-Within this repository we will create a named folder, here [`data_definitions`](https://github.com/UBC-DERC/data_model/blob/main/examples/data_definitions). Within the folder are all the `yaml` files that make up the data model. These files contain the critical information for database, schema, table and column definitions. We create these files to support the work of experts in defining the critical fields and concepts used in the database.
+Within this repository we will create a named folder, here [`data_definitions`](https://github.com/UBC-DERC/ddlml/blob/main/examples/data_definitions). Within the folder are all the `yaml` files that make up the data model. These files contain the critical information for database, schema, table and column definitions. We create these files to support the work of experts in defining the critical fields and concepts used in the database.
 
 The database itself is defined by a folder structure, modeled after PostgreSQL database structure: `database` -> `schema` -> `table` -> `column` although this folder structure is not enforced. Each folder contains individually named files for each of the elements within that hierarchy. Individual files can stand alone, or we can use the `$ref` tag to point to other files.
 
@@ -87,7 +87,7 @@ The database itself is defined by a folder structure, modeled after PostgreSQL d
 
 ### Simple Database and Documentation
 
-In `examples/simple_example` we define a database file as [`database.yaml`](https://github.com/UBC-DERC/data_model/blob/main/examples/simple_example/database.yaml) with the text:
+In `examples/simple_example` we define a database file as [`database.yaml`](https://github.com/UBC-DERC/ddlml/blob/main/examples/simple_example/database.yaml) with the text:
 
 ```yaml
 - name: dairymodel
@@ -103,14 +103,14 @@ In `examples/simple_example` we define a database file as [`database.yaml`](http
 If we run:
 
 ```bash
-data-model examples/simple_example/database.yaml --docs docs --output examples/simple_example/output.yaml
+ddlml examples/simple_example/database.yaml --docs docs --output examples/simple_example/output.yaml
 ```
 
-We will expect to see that we have a file called [`output.yaml`](https://github.com/UBC-DERC/data_model/blob/main/examples/simple_example/output.yaml), and a directory in `docs/database` that contains an `index.md` file and two folders, one for each named schema.
+We will expect to see that we have a file called [`output.yaml`](https://github.com/UBC-DERC/ddlml/blob/main/examples/simple_example/output.yaml), and a directory in `docs/database` that contains an `index.md` file and two folders, one for each named schema.
 
 ### Database with References
 
-We can use references to sub-folders with the `$ref` tag, to point to folder content for more complex examples, as in our example within [`examples/data_definitions`](https://github.com/UBC-DERC/data_model/blob/main/examples/data_definitions/)
+We can use references to sub-folders with the `$ref` tag, to point to folder content for more complex examples, as in our example within [`examples/data_definitions`](https://github.com/UBC-DERC/ddlml/blob/main/examples/data_definitions/)
 
 ```yaml
 - name: dairymodel
@@ -176,7 +176,7 @@ This project was developed by:
 
 * [![ORCID](https://img.shields.io/badge/ORCID-0000--0002--2700--4605-green.svg)](https://orcid.org/0000-0002-2700-4605): Simon Goring
 
-Contributions to this repository are expected to follow the [Code of Conduct](https://github.com/UBC-DERC/data_model/blob/main/CODE_OF_CONDUCT.md).
+Contributions to this repository are expected to follow the [Code of Conduct](https://github.com/UBC-DERC/ddlml/blob/main/CODE_OF_CONDUCT.md).
 
 ## Funding Statement
 

@@ -1,16 +1,16 @@
 # API Reference
 
-This section documents the `data_model` Python package, generated directly from
+This section documents the `ddlml` Python package, generated directly from
 the source docstrings. The package implements a **load → validate → render**
 pipeline that reads the YAML definition ofa database (see the example in `examples/data_definitions/`), validates them
-structurally (using Pydantic models) and validates constraint reference to produce a single YAML object representing the database, its indices, tables, constraints and columns. The `data_model` also serves to render
+structurally (using Pydantic models) and validates constraint reference to produce a single YAML object representing the database, its indices, tables, constraints and columns. The `ddlml` also serves to render
 Markdown documentation for the generated database, including cross-references.
 
 ## Public API
 
-The following objects are exported from the top-level `data_model` package:
+The following objects are exported from the top-level `ddlml` package:
 
-::: data_model
+::: ddlml
     options:
       show_source: false
       members:

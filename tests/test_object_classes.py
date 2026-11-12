@@ -1,4 +1,4 @@
-"""Tests for the pydantic models in data_model.object_classes.
+"""Tests for the pydantic models in ddlml.object_classes.
 
 Covers reference_dict (the foreign target of a constraint), and constraint_dict
 which separates a constraint's own/local columns from an optional foreign
@@ -8,7 +8,7 @@ target that only REFERENCES constraints may carry.
 import pytest
 from pydantic import ValidationError
 
-from data_model.object_classes import (
+from ddlml.object_classes import (
     DDL_Dict,
     column_dict,
     constraint_dict,

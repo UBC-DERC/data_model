@@ -1,3 +1,3 @@
 # `create_docs`
 
-::: data_model.create_docs
+::: ddlml.create_docs
