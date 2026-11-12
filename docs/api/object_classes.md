@@ -1,3 +1,3 @@
 # `object_classes`
 
-::: data_model.object_classes
+::: ddlml.object_classes

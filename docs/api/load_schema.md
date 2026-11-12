@@ -1,3 +1,3 @@
 # `load_schema`
 
-::: data_model.load_schema
+::: ddlml.load_schema

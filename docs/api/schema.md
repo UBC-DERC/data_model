@@ -15,7 +15,7 @@ on every documentation build, so it always matches the current models.
 Add this to the top of your YAML files to enable validation and autocompletion:
 
 ```yaml
-# yaml-language-server: $schema=https://ubc-derc.github.io/data_model/schema.json
+# yaml-language-server: $schema=https://ubc-derc.github.io/ddlml/schema.json
 ```
 
 Or configure VS Code's `settings.json`:
@@ -23,7 +23,7 @@ Or configure VS Code's `settings.json`:
 ```json
 {
   "yaml.schemas": {
-    "https://ubc-derc.github.io/data_model/schema.json": ["**/data_definitions/**/*.yaml"]
+    "https://ubc-derc.github.io/ddlml/schema.json": ["**/data_definitions/**/*.yaml"]
   }
 }
 ```

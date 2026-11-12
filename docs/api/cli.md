@@ -1,3 +1,3 @@
 # `cli`
 
-::: data_model.cli
+::: ddlml.cli

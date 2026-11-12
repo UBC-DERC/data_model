@@ -1,3 +1,3 @@
 # `load_columns`
 
-::: data_model.load_columns
+::: ddlml.load_columns
