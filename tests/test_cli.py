@@ -95,3 +95,26 @@ def test_cli_missing_output_exits_2(tmp_path, capsys):
     err = capsys.readouterr().err
     assert "the following arguments are required: -o/--output" in err
     assert not any(tmp_path.iterdir()) or list(tmp_path.iterdir()) == [entry]
+
+def test_cli_missing_entry_exits_1_without_traceback(tmp_path, capsys):
+    out = tmp_path / "output.yaml"
+    code = main([str(tmp_path / "nope.yaml"), "--output", str(out)])
+
+    assert code == 1
+    assert not out.exists()
+    err = capsys.readouterr().err
+    assert "nope.yaml" in err
+    assert "Traceback" not in err
+
+
+def test_cli_missing_ref_target_exits_1(tmp_path, write_yaml, capsys):
+    entry = write_yaml(
+        "db.yaml",
+        [{"database": {"name": "d", "schemas": [{"$ref": "schemas/missing.yaml"}]}}],
+    )
+    out = tmp_path / "output.yaml"
+    code = main([str(entry), "--output", str(out)])
+
+    assert code == 1
+    assert not out.exists()
+    assert "missing.yaml" in capsys.readouterr().err

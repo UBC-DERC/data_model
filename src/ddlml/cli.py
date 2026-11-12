@@ -46,6 +46,12 @@ def main(argv: list[str] | None = None) -> int:
     except (ModelValidationError, ReferenceCheckError, ValidationError) as error:
         print(error, file=sys.stderr)
         return 1
+    except FileNotFoundError as error:
+        print(f"ddlml: {error}", file=sys.stderr)
+        return 1
+    except yaml.YAMLError as error:
+        print(f"ddlml: could not parse YAML: {error}", file=sys.stderr)
+        return 1
 
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
