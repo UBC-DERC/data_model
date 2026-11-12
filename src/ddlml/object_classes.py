@@ -3,7 +3,7 @@ from enum import Enum
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from validators import email, url
 
-SUPPORTED_DDLML_VERSIONS: tuple[str, ...] = ("2026.10.5",)
+SUPPORTED_DDLML_VERSIONS: tuple[str, ...] = ("2026.11.12",)
 CURRENT_DDLML_VERSION = SUPPORTED_DDLML_VERSIONS[-1]
 
 
