@@ -28,7 +28,7 @@ Versioning will use a [CalVer](https://calver.org/) system, using a YYYY.M.D.MIC
 | --- | --- | --- |
 | ddaml_version | str | REQUIRED. This string MUST be the CalVer version number of the ddaml specification. This field allows other tooling to understand the structure and specification of the ddaml file. |
 | info | [Info object](#info) | REQUIRED. This string is used to provide additional metadata about the purpose of the ddaml document and data model. |
-| database | [Database object](#database) | REQUIRED. The database definition |
+| database | [Database object](#database) | REQUIRED. The database definition. |
 
 ### Info
 
@@ -77,11 +77,14 @@ A field to support the discovery and application of licensing to any data model 
 
 ### Schema
 
+The schema is a conceptual grouping of tables, either around a particular data source, permission set or conceptual model.
+
 | Field name | Type | Description |
 | --- | --- | --- |
 | name | str | REQUIRED. A valid schema name. |
 | comment | str | A comment to apply to the schema. The default value is "No comment provided." |
 | tables | [Table objects](#table) | A valid structured [Table object](#table) |
+| `x-` extensions | object | Schemas may include additional objects named with the `x-` preface. For example `x-references`. These objects are exported to the final object, but are generally used to support metadata for the objects, and are not explicitly used for data management or DDL construction. |
 
 ### Table
 
@@ -94,6 +97,7 @@ A field to support the discovery and application of licensing to any data model 
 | columns | [Column Object](#column) | Zero or more Column objects, in a list. |
 | constraints | [Constraint Object](#constraint) | Zero or more constraint objects in a list. |
 | indexes | [Index Object](#index) | Zero or more Index objects in a list |
+| `x-` extensions | object | Schemas may include additional objects named with the `x-` preface. For example `x-references`. These objects are exported to the final object, but are generally used to support metadata for the objects, and are not explicitly used for data management or DDL construction. |
 
 ### Column
 
@@ -104,6 +108,7 @@ A field to support the discovery and application of licensing to any data model 
 | comment | str | As opposed to the [Table Object](#table) comments, the column comments default to "No comment provided." |
 | nullable | bool | Is the field nullable? Defaults to `True` |
 | default | str | Defines a default value, the field is submitted as a string, but will be transformed based on the `type` defined above. |
+| `x-` extensions | object | Schemas may include additional objects named with the `x-` preface. For example `x-references`. These objects are exported to the final object, but are generally used to support metadata for the objects, and are not explicitly used for data management or DDL construction. |
 
 ### Index
 

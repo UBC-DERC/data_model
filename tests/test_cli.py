@@ -30,6 +30,7 @@ def test_cli_success_writes_both_artifacts(tmp_path):
     assert out.exists()
     assert yaml.safe_load(out.read_text())["database"]["name"] == "dairymodel"
     assert docs.exists() and any(docs.iterdir())
+    #assert yaml.safe_load(out.read_text())["database"]["schemas"][0]["x-example"] == "example"
 
 
 def test_cli_invalid_entry_exits_1_and_writes_nothing(tmp_path, write_yaml, capsys):
