@@ -1,7 +1,7 @@
 import json
 
-from data_model.json_schema import SCHEMA_URL, build_schema, write_schema
-from data_model.object_classes import ddaml_dict
+from ddlml.json_schema import SCHEMA_URL, build_schema, write_schema
+from ddlml.object_classes import ddlml_dict
 
 
 def test_schema_has_dialect_and_id():
@@ -12,9 +12,9 @@ def test_schema_has_dialect_and_id():
 
 def test_schema_matches_root_model():
     schema = build_schema()
-    assert schema["title"] == "ddaml_dict"
-    assert set(schema["required"]) == {"ddaml_version", "database", "info"}
-    assert schema["properties"] == ddaml_dict.model_json_schema()["properties"]
+    assert schema["title"] == "ddlml_dict"
+    assert set(schema["required"]) == {"ddlml_version", "database", "info"}
+    assert schema["properties"] == ddlml_dict.model_json_schema()["properties"]
 
 
 def test_write_schema_round_trips(tmp_path):

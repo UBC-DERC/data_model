@@ -1,12 +1,12 @@
 site_name: DERC Data Modelling
-repo_url: https://github.com/UBC-DERC/data_model/
+repo_url: https://github.com/UBC-DERC/ddlml/
 site_description: |
   Documentation and guidance for the DERC Dairy Database, including technical build information,
   data model sources and inspirations, and guidance on modifying the model, proposing new data structures
   and using the system to build new databases.
 site_author: Simon Goring
 copyright: '2026'
-site_url: https://ubc-derc.github.io/data_model/
+site_url: https://ubc-derc.github.io/ddlml/
 nav:
   - Introduction: 'index.md'
   - Executive Summary: 'summary/executive_summary.md'
@@ -27,7 +27,7 @@ nav:
     - Full Model Building: 'api/model_build.md'
     - Table/Column Reference Checking: 'api/check_crossreferences.md'
     - Markdown Document Creation: 'api/create_docs.md'
-    - data_model Test Coverage: 'api/coverage.md'
+    - ddlml Test Coverage: 'api/coverage.md'
   - External Resources: 'resources.md'
 theme:
   name: material
@@ -121,4 +121,4 @@ markdown_extensions:
       normalize_issue_symbols: true
       repo_url_shorthand: true
       user: UBC-DERC
-      repo: data_model
+      repo: ddlml

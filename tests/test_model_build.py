@@ -1,4 +1,4 @@
-"""Tests for data_model.model_build.build_tables.
+"""Tests for ddlml.model_build.build_tables.
 
 build_tables turns validated table dicts into table_dict models, but converts
 pydantic's numeric-path ValidationErrors into readable messages that name the
@@ -7,8 +7,8 @@ offending table and constraint, and reports every bad table at once.
 
 import pytest
 
-from data_model.model_build import ModelValidationError, build_tables
-from data_model.object_classes import table_dict
+from ddlml.model_build import ModelValidationError, build_tables
+from ddlml.object_classes import table_dict
 
 GOOD_TABLE = {
     "name": "cows",

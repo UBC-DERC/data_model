@@ -2,8 +2,10 @@
 .vscode/
 
 src/data_model.egg-info/
+src/ddlml.egg-info/
 
 src/data_model/__pycache__/
+src/ddlml/__pycache__/*
 
 site/
 

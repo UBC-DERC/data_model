@@ -18,7 +18,7 @@ from .object_classes import (
     DDL_Dict,
     column_dict,
     constraint_dict,
-    ddaml_dict,
+    ddlml_dict,
     index_dict,
     schema_dict,
     table_dict,
@@ -219,7 +219,7 @@ def _front_matter(title: str, description: str) -> str:
 # --------------------------------------------------------------------------- #
 # Page writers
 # --------------------------------------------------------------------------- #
-def document_database(database: ddaml_dict, path: Path | str = Path("docs")) -> None:
+def document_database(database: ddlml_dict, path: Path | str = Path("docs")) -> None:
     """Renders the documentation from YAML dictionary.
 
     Args:

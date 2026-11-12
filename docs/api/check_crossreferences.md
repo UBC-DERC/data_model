@@ -1,3 +1,3 @@
 # `check_crossreferences`
 
-::: data_model.check_crossreferences
+::: ddlml.check_crossreferences

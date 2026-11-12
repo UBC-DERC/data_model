@@ -8,7 +8,7 @@ strict builds.
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.structure.files import File, Files
 
-from data_model.json_schema import schema_json
+from ddlml.json_schema import schema_json
 
 
 def on_files(files: Files, config: MkDocsConfig) -> Files:

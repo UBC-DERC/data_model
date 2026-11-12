@@ -1,4 +1,4 @@
-"""Tests for data_model.create_docs (Markdown generation).
+"""Tests for ddlml.create_docs (Markdown generation).
 
 The renderers consume the pydantic model objects produced by the loader
 (``table_dict``/``schema_dict``/``DDL_Dict`` etc.), reading attributes such as
@@ -7,8 +7,8 @@ current behaviour: constraints/indexes render their ``ddl``, and the page
 writers honour the ``path`` they are given.
 """
 
-from data_model import document_database
-from data_model.create_docs import (
+from ddlml import document_database
+from ddlml.create_docs import (
     _reference_link,
     build_incoming_index,
     columnPrint,
@@ -18,12 +18,12 @@ from data_model.create_docs import (
     schema_page,
     table_page,
 )
-from data_model.object_classes import (
+from ddlml.object_classes import (
     DDL_Dict,
     column_dict,
     constraint_dict,
-    ddaml_dict,
-    ddaml_info,
+    ddlml_dict,
+    ddlml_info,
     index_dict,
     reference_dict,
     schema_dict,
@@ -288,14 +288,14 @@ def test_database_page_writes_index_and_schemas(tmp_path):
 
 def test_document_database_respects_path(tmp_path):
     """document_database writes under the path it is given (no hardcoded 'docs/')."""
-    database = ddaml_dict(
-        ddaml_version="2026.10.5",
+    database = ddlml_dict(
+        ddlml_version="2026.10.5",
         database=DDL_Dict(
             name="dairymodel",
             comment="db",
             schemas=[schema_dict(name="dairy", comment="s", tables=[_sample_table()])],
         ),
-        info=ddaml_info(version="1.0.0", title="Dairy Database"),
+        info=ddlml_info(version="1.0.0", title="Dairy Database"),
     )
     document_database(database, tmp_path / "out")
     assert (tmp_path / "out" / "database" / "index.md").is_file()

@@ -1,28 +1,33 @@
-"""Generate the JSON Schema for DDAML documents from the Pydantic models.
+"""Generate the JSON Schema for ddlml documents from the Pydantic models.
 
-The schema is derived from :class:`~data_model.object_classes.ddaml_dict`, so it
+The schema is derived from the :class:`~data_model.object_classes.ddlml_dict`, so it
 always matches the models used for validation. It is published alongside the
 documentation at :data:`SCHEMA_URL` (see ``hooks/json_schema.py``, which runs
 this on every ``mkdocs build``/``serve``).
+
+The goal is to have an available JSON schema for ddlml documents, so that they can be validated in editors and IDEs.
+
+TODO: Note that the schema only works with complete ddlml documents, so it's not entirely user friendly
+yet when building documents with ``$ref`` tags.
 """
 
 import json
 from pathlib import Path
 from typing import Any
 
-from .object_classes import ddaml_dict
+from .object_classes import ddlml_dict
 
-SCHEMA_URL = "https://ubc-derc.github.io/data_model/schema.json"
+SCHEMA_URL = "https://ubc-derc.github.io/ddlml/schema.json"
 JSON_SCHEMA_DIALECT = "https://json-schema.org/draft/2020-12/schema"
 
 
 def build_schema() -> dict[str, Any]:
-    """Build the JSON Schema for a DDAML document.
+    """Build the JSON Schema for a ddlml document.
 
     Returns:
         dict: The JSON Schema, with ``$schema`` and ``$id`` set.
     """
-    schema = ddaml_dict.model_json_schema()
+    schema = ddlml_dict.model_json_schema()
     return {"$schema": JSON_SCHEMA_DIALECT, "$id": SCHEMA_URL, **schema}
 
 

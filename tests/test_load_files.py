@@ -1,4 +1,4 @@
-"""Tests for data_model.load_files.load_file.
+"""Tests for ddlml.load_files.load_file.
 
 load_file is the foundation of the whole loading pipeline, so these tests
 pin down its dispatch behaviour and document two known fragilities:
@@ -9,9 +9,9 @@ pin down its dispatch behaviour and document two known fragilities:
 
 import pytest
 
-import data_model as dm
-from data_model import load_file
-from data_model.load_files import resolve_ref
+import ddlml as dm
+from ddlml import load_file
+from ddlml.load_files import resolve_ref
 
 
 def test_resolve_ref_merges_target(write_yaml):
@@ -64,7 +64,7 @@ def test_load_database_resolves_refs_relative_to_entry_file(
         "proj/db.yaml",
         [
             {
-                "ddaml_version": "2026.10.5",
+                "ddlml_version": "2026.10.5",
                 "database": {"name": "d", "schemas": [{"$ref": "schemas/s.yaml"}]},
                 "info": {"version": "1.0.0", "title": "Dairy Database"},
             }
@@ -77,7 +77,7 @@ def test_load_database_resolves_refs_relative_to_entry_file(
     monkeypatch.chdir(foreign)
 
     db = dm.load_database(str(entry))
-    assert db.ddaml_version == "2026.10.5"
+    assert db.ddlml_version == "2026.10.5"
     assert db.info.title == "Dairy Database"
     assert [s.name for s in db.database.schemas] == ["dairy"]
     cows = db.database.schemas[0].tables[0]
