@@ -13,7 +13,7 @@ def test_output_yaml_matches_golden(tmp_path):
     output = tmp_path / "output.yaml"
     subprocess.run(
         [
-            "data-model",
+            "ddlml",
             str(EXAMPLE),
             "--docs",
             str(tmp_path / "docs"),

@@ -3,8 +3,8 @@ from enum import Enum
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from validators import email, url
 
-SUPPORTED_DDAML_VERSIONS: tuple[str, ...] = ("2026.10.5",)
-CURRENT_DDAML_VERSION = SUPPORTED_DDAML_VERSIONS[-1]
+SUPPORTED_DDLML_VERSIONS: tuple[str, ...] = ("2026.10.5",)
+CURRENT_DDLML_VERSION = SUPPORTED_DDLML_VERSIONS[-1]
 
 
 class extensible_dict(BaseModel):
@@ -238,7 +238,7 @@ class contact_dict(BaseModel):
         return self
 
 
-class ddaml_info(BaseModel):
+class ddlml_info(BaseModel):
     model_config = ConfigDict(extra="forbid")
     version: str
     title: str
@@ -250,20 +250,20 @@ class ddaml_info(BaseModel):
     contacts: list[contact_dict] = []
 
 
-class ddaml_dict(BaseModel):
+class ddlml_dict(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    ddaml_version: str = Field(
-        json_schema_extra={"enum": list(SUPPORTED_DDAML_VERSIONS)}
+    ddlml_version: str = Field(
+        json_schema_extra={"enum": list(SUPPORTED_DDLML_VERSIONS)}
     )
     database: DDL_Dict
-    info: ddaml_info
+    info: ddlml_info
 
-    @field_validator("ddaml_version")
+    @field_validator("ddlml_version")
     @classmethod
     def _supported_version(cls, value: str) -> str:
-        if value not in SUPPORTED_DDAML_VERSIONS:
+        if value not in SUPPORTED_DDLML_VERSIONS:
             raise ValueError(
-                f"ddaml_version {value!r} is not supported; "
-                f"supported versions: {', '.join(SUPPORTED_DDAML_VERSIONS)}."
+                f"ddlml_version {value!r} is not supported; "
+                f"supported versions: {', '.join(SUPPORTED_DDLML_VERSIONS)}."
             )
         return value

@@ -3,7 +3,7 @@
 import pytest
 import yaml
 
-from data_model.cli import main
+from ddlml.cli import main
 
 
 def test_cli_success_writes_both_artifacts(tmp_path):
@@ -68,7 +68,7 @@ def test_cli_invalid_entry_exits_1_and_writes_nothing(tmp_path, write_yaml, caps
     assert "ghost" in err
 
 
-def test_ddaml_with_no_database_exits_1_and_writes_nothing(
+def test_ddlml_with_no_database_exits_1_and_writes_nothing(
     tmp_path, write_yaml, capsys
 ):
     # A database entry file with no 'database:' block -> ModelValidationError.

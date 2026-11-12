@@ -1,5 +1,5 @@
 [project]
-name = "data-model"
+name = "ddlml"
 version = "2026.10.0a1"
 description = "Manage YAML representations of PostgreSQL database definitions, including tables, schema, indices and constraints."
 readme = {file="README.md", content-type = "text/markdown"}
@@ -18,7 +18,7 @@ dependencies = [
 ]
 license = "MIT"
 license-files = ["LICENSE.md"]
-keywords = ["data model", "database", "postgres", "data governance", "documentation"]
+keywords = ["data model", "database", "postgres", "data governance", "documentation", "data description language"]
 classifiers=[
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
@@ -31,12 +31,12 @@ classifiers=[
     "Topic :: Software Development :: Documentation"]
 
 [project.urls]
-repository="https://github.com/UBC-DERC/data_model"
-homepage="https://UBC-DERC.github.io/data_model"
-issues="https://github.com/UBC-DERC/data_model/issues"
+repository="https://github.com/UBC-DERC/ddlml"
+homepage="https://UBC-DERC.github.io/ddlml"
+issues="https://github.com/UBC-DERC/ddlml/issues"
 
 [project.scripts]
-data-model = "data_model:main"
+ddlml = "ddlml:main"
 
 [build-system]
 requires = ["uv_build>=0.11.8,<0.13.0"]
@@ -72,7 +72,7 @@ dev = [
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-addopts = "--cov=data_model --cov-report markdown:docs/api/coverage.md --cov-fail-under=70"
+addopts = "--cov=ddlml --cov-report markdown:docs/api/coverage.md --cov-fail-under=70"
 
 [tool.ruff]
 exclude = [

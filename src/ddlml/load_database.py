@@ -4,13 +4,13 @@ from .check_crossreferences import check_references
 from .load_files import base_dir_of, load_file, resolve_ref
 from .load_schema import load_schema
 from .model_build import ModelValidationError
-from .object_classes import ddaml_dict
+from .object_classes import ddlml_dict
 
 
-def load_database(filename: str) -> ddaml_dict:
+def load_database(filename: str) -> ddlml_dict:
     """Recursively load and validate the database model from a YAML entry file.
 
-    The model is assembled from the entry file and its ``$ref:`` targets, built
+    The model is assembled from the entry file and any ``$ref:`` targets, built
     into Pydantic models (structural validation). The loading module loads all objects
     and then checks for unresolved references across all schemas and tables at the
     end, to simplify the loading flow.
@@ -19,7 +19,7 @@ def load_database(filename: str) -> ddaml_dict:
         filename (str): Path to the database entry YAML file.
 
     Returns:
-        ddaml_dict: The validated, reference-checked database model and metadata.
+        ddlml_dict: The validated, reference-checked database model and metadata.
     """
     base = base_dir_of(filename)
     file = load_file(filename)
@@ -36,6 +36,6 @@ def load_database(filename: str) -> ddaml_dict:
         load_schema(base / s["$ref"]) if "$ref" in s else s
         for s in db_slug.get("schemas") or []
     ]
-    database = ddaml_dict(**db)
+    database = ddlml_dict(**db)
     check_references(database.database)
     return database

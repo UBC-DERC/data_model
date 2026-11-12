@@ -11,7 +11,7 @@ database:
       '
     name: public
     tables: []
-ddaml_version: 2026.10.5
+ddlml_version: 2026.10.5
 info:
   contacts:
   - email: simple@example.com

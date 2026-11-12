@@ -1,6 +1,6 @@
-"""Testing the construction of the ddaml object, and the use of the info_dict class"""
+"""Testing the construction of the ddlml object, and the use of the info_dict class"""
 
-from data_model.object_classes import contact_dict, ddaml_info, license_dict
+from ddlml.object_classes import contact_dict, ddlml_info, license_dict
 
 
 def test_info_bloc_creation_licenseId():
@@ -13,7 +13,7 @@ def test_info_bloc_creation_licenseId():
         email="john.doe@example.com",
         url="https://example.com/john.doe",
     )
-    info = ddaml_info(
+    info = ddlml_info(
         version="1.0.0",
         title="Dairy Model",
         summary="A simple dairy model",
@@ -37,7 +37,7 @@ def test_info_bloc_creation_licenseUrl():
         email="john.doe@example.com",
         url="https://example.com/john.doe",
     )
-    info = ddaml_info(
+    info = ddlml_info(
         version="1.0.0",
         title="Dairy Model",
         summary="A simple dairy model",
